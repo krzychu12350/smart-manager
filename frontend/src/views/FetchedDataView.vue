@@ -1,7 +1,7 @@
 <template>
   <div class="about">
     <h1>This is data fetched from the Laravel API</h1>
-    {{ person.id }} {{ person.name }} {{ person.surname }}
+    <!--{{ person.id }} {{ person.name }} {{ person.surname }}-->
   </div>
 </template>
 <script lang="ts">

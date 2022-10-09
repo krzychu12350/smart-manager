@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import FetchedDataView from "../views/FetchedDataView.vue";
+import LoginView from "../views/LoginView.vue";
+import RegisterView from "../views/RegisterView.vue";
+import EmployeesManagementView from "../views/EmployeesManagementView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -20,6 +23,21 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/test-fetching",
     component: FetchedDataView,
+  },
+  {
+    path: "/login",
+    name: "LoginView",
+    component: LoginView,
+  },
+  {
+    path: "/register",
+    name: "RegisterView",
+    component: RegisterView,
+  },
+  {
+    path: "/admin/employees",
+    name: "EmployeesManagementView",
+    component: EmployeesManagementView,
   },
 ];
 
