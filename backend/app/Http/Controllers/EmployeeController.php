@@ -25,7 +25,7 @@ class EmployeeController extends Controller
 
         return response()->json([
             'status' => true,
-            'employees' => EmployeeResource::collection(Employee::with('companies'))
+            'employees' => EmployeeResource::collection(Employee::with('companies')->get())
         ], 200);
     }
 

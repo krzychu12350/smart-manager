@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class StoreCompanyRequest extends ApiFormRequest
+class CompanyEmployeeRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,7 @@ class StoreCompanyRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            'name' => "required|max:70",
-            'city' => "required|max:70",
-            'industry' => "required|max:70",
-            'description' => "required|max:70",
+            "employees" => "required|array|min:1"
         ];
     }
 }
