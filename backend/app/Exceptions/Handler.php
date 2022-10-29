@@ -49,6 +49,7 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
+        /*
         $this->renderable(function (NotFoundHttpException $e, $request) {
             if ($request->is('api/*')) {
                 return response()->json([
@@ -56,5 +57,6 @@ class Handler extends ExceptionHandler
                 ], 404);
             }
         });
+        */
     }
 }

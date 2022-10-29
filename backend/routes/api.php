@@ -35,12 +35,23 @@ Route::group(['prefix' => 'auth'], function () {
 Route::group(['prefix' => 'auth', 'middleware' => ['auth:api']], function () {
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::post('/logout', [AuthController::class, 'logout']);
-
+    Route::apiResource('companies', CompanyController::class)
+        ->only(['index', 'show']);
+    Route::apiResource('employees', EmployeeController::class)
+        ->only(['index', 'show']);
     //Route::post('books/{book}/ratings', 'RatingController@store');
 });
 
-Route::apiResource('employees', EmployeeController::class);
-Route::apiResource('companies', CompanyController::class);
+Route::group(['middleware' => ['auth:api', 'admin']], function () {
+    Route::post('/refresh', [AuthController::class, 'refresh']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+
+    //Route::post('books/{book}/ratings', 'RatingController@store');
+    Route::apiResource('companies', CompanyController::class);
+    Route::apiResource('employees', EmployeeController::class);
+});
+
+
 
 Route::post('/companies/{company}/employees', [CompanyEmployeeController::class, 'store']);
 Route::put('/companies/{company}/employees', [CompanyEmployeeController::class, 'update']);

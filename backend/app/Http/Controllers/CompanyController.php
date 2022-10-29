@@ -82,7 +82,7 @@ class CompanyController extends Controller
         if ($request->user()->id !== $book->user_id) {
             return response()->json(['error' => 'You can only edit your own books.'], 403);
         }
-        */
+
 
         $company->update($request->only([
             'name',
@@ -90,7 +90,8 @@ class CompanyController extends Controller
             'industry',
             'description',
         ]));
-
+        */
+        $company->update($request->validated());
         return response()->json([
             'status' => true,
             'message' => "Company was updated successfully!",

@@ -45,6 +45,7 @@ class Employee extends Authenticatable implements JWTSubject
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_admin' => 'boolean',
     ];
 
     /**
@@ -71,4 +72,10 @@ class Employee extends Authenticatable implements JWTSubject
     {
         return $this->belongsToMany(Company::class);
     }
+
+    public function isAdmin(): bool
+    {
+        return $this->is_admin;
+    }
+
 }

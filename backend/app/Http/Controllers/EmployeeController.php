@@ -37,7 +37,7 @@ class EmployeeController extends Controller
      */
     public function store(StoreEmployeeRequest $request)
     {
-        $employee = Employee::create($request->all());
+        $employee = Employee::create($request->validated());
         /*
         $company = Company::create([
             'name' => $request->name,
