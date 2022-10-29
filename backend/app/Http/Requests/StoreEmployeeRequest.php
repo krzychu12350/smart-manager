@@ -11,7 +11,7 @@ class StoreEmployeeRequest extends ApiFormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class StoreEmployeeRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            //
+            'name' => ['required'],
+            'surname' => ['required'],
+            'position' => ['required'],
+            'salary' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'confirmed', 'min:8', 'string'],
         ];
     }
 }
