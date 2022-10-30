@@ -22,12 +22,12 @@ class StoreEmployeeRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            'name' => ['required'],
-            'surname' => ['required'],
-            'position' => ['required'],
-            'salary' => ['required'],
-            'email' => ['required', 'email'],
-            'password' => ['required', 'confirmed', 'min:8', 'string'],
+            'name' => "required|string|unique:App\Models\Employee",
+            'surname' => "required|string|unique:App\Models\Employee",
+            'position' => "required|string",
+            'salary' => "required|integer|min:4",
+            'email' => "required|email|unique:employees",
+            'password' => "required|confirmed|min:8|string",
         ];
     }
 }
