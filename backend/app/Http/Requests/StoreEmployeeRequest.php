@@ -11,7 +11,7 @@ class StoreEmployeeRequest extends ApiFormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
