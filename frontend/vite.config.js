@@ -9,6 +9,10 @@ export default defineConfig({
   plugins: [vue(),
      VitePWA({
       registerType: 'autoUpdate',
+      additionalManifestEntries: [
+        {url: '/offline', revision: null},
+        {url: 'https://static.express/img/.../connection-lost.svg', revision: null},
+      ],
       devOptions: {
         enabled: true
       },
