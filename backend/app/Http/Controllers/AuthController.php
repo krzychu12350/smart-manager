@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Employee;
 
@@ -53,26 +54,31 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        return $this->respondWithToken($token);
+        //return $this->respondWithToken($token);
+        $currentUser = Auth::user();
+        return response()->json([
+            'status' => true,
+            'message' => 'You have been logged in successfully',
+            'authorization' => $this->respondWithToken($token),
+            //'user' => $currentUser,
+        ], 200);
     }
 
     /**
      * Get the token array structure.
      * @param string $token
-     * @return JsonResponse
+     * @return array
      */
     protected function respondWithToken($token)
     {
         $minutes = auth('api')->factory()->getTTL() * 60;
         $timestamp = now()->addMinute($minutes);
         $expires_at = date('M d, Y H:i A', strtotime($timestamp));
-        return response()->json([
-            'status' => true,
-            'message' => 'You have been logged in successfully',
+        return [
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_at' => $expires_at
-        ], 200);
+            'expires_at' => $expires_at,
+        ];
     }
 
     /**
@@ -140,5 +146,19 @@ class AuthController extends Controller
     public function refresh(Request $request)
     {
         return $this->respondWithToken(auth('api')->refresh());
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @return JsonResponse
+     */
+    public function userProfile()
+    {
+        $currentUser = Auth::user();
+        return response()->json([
+            'status' => true,
+            'user' => $currentUser
+        ], 200);
     }
 }

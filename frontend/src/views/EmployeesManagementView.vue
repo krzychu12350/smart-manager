@@ -192,8 +192,7 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script>
 import { ref } from 'vue'
 import {
   Dialog,
@@ -353,7 +352,7 @@ const people = [
   // More people...
 ]
 
-export default defineComponent({
+export default {
   components: {
     Dialog,
     DialogOverlay,
@@ -389,6 +388,6 @@ export default defineComponent({
       people,
     }
   },
-})
+}
 </script>
 			

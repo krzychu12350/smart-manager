@@ -35,6 +35,7 @@ Route::group(['prefix' => 'auth', 'middleware' => ['cors'],], function () {
 Route::group(['prefix' => 'auth', 'middleware' => ['auth:api']], function () {
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/me', [AuthController::class, 'userProfile']);
 
     //Route::post('books/{book}/ratings', 'RatingController@store');
 });
@@ -47,12 +48,12 @@ Route::group(['middleware' => ['auth:api', 'admin']], function () {
     Route::apiResource('companies', CompanyController::class);
     Route::apiResource('employees', EmployeeController::class);
 });
-
+/*
 Route::apiResource('companies', CompanyController::class)
     ->only(['index', 'show']);
 Route::apiResource('employees', EmployeeController::class)
     ->only(['index', 'show']);
-
+*/
 Route::post('/companies/{company}/employees', [CompanyEmployeeController::class, 'store']);
 Route::put('/companies/{company}/employees', [CompanyEmployeeController::class, 'update']);
 Route::delete('/companies/{company}/employees', [CompanyEmployeeController::class, 'destroy']);
