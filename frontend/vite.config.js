@@ -16,6 +16,9 @@ export default defineConfig({
       devOptions: {
         enabled: true
       },
+      workbox: {
+        cleanupOutdatedCaches: false
+      },
       includeAssets: ['favicon.ico', 'logo.png', 'masked-icon.svg'],
       manifest: {
         id: 'sm',

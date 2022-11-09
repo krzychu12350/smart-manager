@@ -16,6 +16,19 @@ const setup = () => {
             return Promise.reject(error);
         }
     );
+
+    axiosInstance.interceptors.response.use(
+        (res) => {
+            return res;
+        },
+        async (err) => {
+            const originalConfig = err.config;
+            if (originalConfig.url === "/login" && err.response) {
+                originalConfig._retry = false;
+            }
+        }
+    );
+
     axiosInstance.interceptors.response.use(
         (res) => {
             return res;
@@ -30,7 +43,7 @@ const setup = () => {
                         const rs = await axiosInstance.post("/auth/refresh", {
                             refreshToken: TokenService.getLocalRefreshToken(),
                         });
-                        const {access_token} = rs.data.authorization;
+                        const { access_token } = rs.data.authorization;
                         //store.dispatch('auth/refreshToken', accessToken);
                         TokenService.updateLocalAccessToken(access_token);
                         return axiosInstance(originalConfig);

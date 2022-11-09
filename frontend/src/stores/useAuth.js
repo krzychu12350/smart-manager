@@ -44,7 +44,7 @@ export const useAuthStore = defineStore("auth", {
         this.$reset();
 
         this.loggedIn = false;
-        
+
       }
     },
 

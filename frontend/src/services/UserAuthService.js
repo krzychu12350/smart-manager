@@ -19,8 +19,8 @@ class UserAuthService {
         return response.data;
     }
 
-    register(user) {
-        return axios.post('/auth/register', {
+    async register(user) {
+        return api.post('/auth/register', {
             name: user.name,
             surname: user.surname,
             email: user.email,

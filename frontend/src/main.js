@@ -16,7 +16,8 @@ import VueAxios from 'vue-axios'
 import setupInterceptors from './services/setupInterceptors';
 
 setupInterceptors();
-//import axios from './plugins/axios'
+//import setup from './plugins/axios'
+//setup();
 //import auth from './plugins/auth'
 const app = createApp(App)
 //import './services/axios'

@@ -27,12 +27,12 @@ Route::get('/testt',  function () {
 });
 
 
-Route::group(['prefix' => 'auth', 'middleware' => ['cors'],], function () {
+Route::group(['prefix' => 'auth', 'middleware' => ['cors', 'forceJSON'],], function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
 });
 
-Route::group(['prefix' => 'auth', 'middleware' => ['auth:api']], function () {
+Route::group(['prefix' => 'auth', 'middleware' => ['auth:api', 'forceJSON']], function () {
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'userProfile']);
