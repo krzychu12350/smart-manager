@@ -33,6 +33,21 @@ class UserAuthService {
         const response = await api.get('/auth/me');
         return response.data.user;
     }
+
+    async sendPasswordResetEmail(email) {
+        return api.post('/auth/reset-password-request', {
+            email: email.email
+        });
+    }
+
+    async passwordResetUpdate(updatePasswordData, token) {
+        const response = await api.post('/auth/change-password', {
+            email: updatePasswordData.email,
+            token: token,
+            password: updatePasswordData.password
+        });
+        return response.data;
+    }
 }
 
 export default new UserAuthService();

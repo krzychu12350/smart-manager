@@ -5,11 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginEmployeeRequest;
 use App\Http\Requests\RegisterEmployeeRequest;
 use Exception;
+use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Employee;
+
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\PasswordReset;
 
 class AuthController extends Controller
 {
@@ -20,7 +26,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        //$this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
     /**
@@ -58,11 +64,7 @@ class AuthController extends Controller
 
         //return $this->respondWithToken($token);
         $currentUser = Auth::user();
-        return response()->json([
-            'status' => true,
-            'message' => 'You have been logged in successfully',
-            'authorization' => $this->respondWithToken($token),
-            //'user' => $currentUser,
+        return response()->json(['status' => true, 'message' => 'You have been logged in successfully', 'authorization' => $this->respondWithToken($token),//'user' => $currentUser,
         ], 200);
     }
 
@@ -76,11 +78,7 @@ class AuthController extends Controller
         $minutes = auth('api')->factory()->getTTL() * 60;
         $timestamp = now()->addMinute($minutes);
         $expires_at = date('M d, Y H:i A', strtotime($timestamp));
-        return [
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_at' => $expires_at,
-        ];
+        return ['access_token' => $token, 'token_type' => 'bearer', 'expires_at' => $expires_at,];
     }
 
     /**
@@ -107,18 +105,9 @@ class AuthController extends Controller
         */
         //dd($request->all());
 
-        $employee = Employee::create([
-            'name' => $request->name,
-            'surname' => $request->surname,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-        ]);
+        $employee = Employee::create(['name' => $request->name, 'surname' => $request->surname, 'email' => $request->email, 'password' => bcrypt($request->password),]);
 
-        return response()->json([
-            'status' => true,
-            'message' => 'You have been successfully registered',
-            'employee' => $employee
-        ], 201);
+        return response()->json(['status' => true, 'message' => 'You have been successfully registered', 'employee' => $employee], 201);
     }
 
     /**
@@ -129,15 +118,9 @@ class AuthController extends Controller
     {
         try {
             auth('api')->logout();
-            return response()->json([
-                'status' => true,
-                'message' => 'You have been logged out successfully'
-            ], 200);
+            return response()->json(['status' => true, 'message' => 'You have been logged out successfully'], 200);
         } catch (Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Sorry, we cannot logout'
-            ], 500);
+            return response()->json(['status' => false, 'message' => 'Sorry, we cannot logout'], 500);
         }
     }
 
@@ -158,9 +141,51 @@ class AuthController extends Controller
     public function userProfile()
     {
         $currentUser = Auth::user();
-        return response()->json([
-            'status' => true,
-            'user' => $currentUser
-        ], 200);
+        return response()->json(['status' => true, 'user' => $currentUser], 200);
+    }
+
+    /** * Send password reset link.  */
+    public function sendPasswordResetLink(Request $request)
+    {
+        //dd($request);
+        return $this->sendResetLinkEmail($request);
+    }
+
+    /** * Handle reset password  */
+    public function callResetPassword(Request $request)
+    {
+        return $this->reset($request);
+    }
+
+    /** * Get the response for a successful password reset link. * * @param Request $request * @param  string  $response * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse */
+    protected function sendResetLinkResponse(Request $request, $response)
+    {
+        return response()->json(['message' => 'Password reset email sent.', 'data' => $response]);
+    }
+
+    /** * Get the response for a failed password reset link. * * @param Request $request * @param  string  $response * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse */
+    protected function sendResetLinkFailedResponse(Request $request, $response)
+    {
+        return response()->json(['message' => 'Email could not be sent to this email address.']);
+    }
+
+    /** * Reset the given user's password. * * @param CanResetPassword $user * @param  string  $password * @return void */
+    protected function resetPassword($user, $password)
+    {
+        $user->password = Hash::make($password);
+        $user->save();
+        event(new PasswordReset($user));
+    }
+
+    /** * Get the response for a successful password reset. * * @param Request $request * @param  string  $response * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse */
+    protected function sendResetResponse(Request $request, $response)
+    {
+        return response()->json(['message' => 'Password reset successfully.']);
+    }
+
+    /** * Get the response for a failed password reset. * * @param Request $request * @param  string  $response * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse */
+    protected function sendResetFailedResponse(Request $request, $response)
+    {
+        return response()->json(['message' => 'Failed, Invalid Token.']);
     }
 }

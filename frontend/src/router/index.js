@@ -3,6 +3,8 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import ManagerDashboard from '../views/ManagerDashboard.vue'
+import RequestPasswordResetView from '@/views/RequestPasswordResetView.vue'
+import UpdatePasswordResetView from '@/views/UpdatePasswordResetView.vue'
 import { useAuthStore } from "../stores/useAuth";
 
 const router = createRouter({
@@ -32,6 +34,17 @@ const router = createRouter({
       name: "RegisterView",
       component: RegisterView,
     },
+    {
+      path: "/reset-password",
+      name: "request-passwordreset",
+      component: RequestPasswordResetView,
+    },
+    {
+      path: "/change-password/:token",
+      name: "update-password",
+      component: UpdatePasswordResetView,
+      params: true
+    },
     /*
     {
       path: "/manager/dashboard",
@@ -60,8 +73,9 @@ router.beforeEach((to, from, next) => {
   else next();
 });
 */
+/*
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/login', '/register'];
+  const publicPages = ['/login', '/register', '/reset-password', '/update-password/:token'];
   const authRequired = !publicPages.includes(to.path);
   //const loggedIn = localStorage.getItem('user');
   if (authRequired && !useAuthStore().loggedIn) {
@@ -70,6 +84,6 @@ router.beforeEach((to, from, next) => {
       next();
   }
 });
-
+*/
 
 export default router
