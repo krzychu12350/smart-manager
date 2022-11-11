@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Company;
+use App\Models\Employee;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -54,7 +57,7 @@ class CompanyFactory extends Factory
             'name' => $company,
             'city' => fake()->city(), 
             'industry' => $industry,
-            'description' => $description[fake()->numberBetween($min = 0, $max = 2)]
+            'description' => $description[fake()->numberBetween($min = 0, $max = 2)],
         ];
     }
 }
