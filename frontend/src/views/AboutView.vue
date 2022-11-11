@@ -304,8 +304,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script >
+
 import { ref } from 'vue'
 import {
   Dialog,
@@ -380,7 +380,7 @@ const statusStyles = {
   failed: 'bg-gray-100 text-gray-800',
 }
 
-export default defineComponent({
+export default {
   components: {
     Dialog,
     DialogOverlay,
@@ -415,6 +415,6 @@ export default defineComponent({
       sidebarOpen,
     }
   },
-})
+}
 </script>
 			

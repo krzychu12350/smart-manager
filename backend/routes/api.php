@@ -7,6 +7,8 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\PdfDownloadController;
 use App\Http\Controllers\CompanyEmployeeController;
+use App\Http\Controllers\ChangePasswordController;
+use App\Http\Controllers\PasswordResetRequestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,18 +30,18 @@ Route::get('/testt',  function () {
 });
 
 
-Route::group(['prefix' => 'auth'], function () {
+Route::group(['prefix' => 'auth', 'middleware' => ['cors', 'forceJSON'],], function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/reset-password-request', [PasswordResetRequestController::class, 'sendPasswordResetEmail']);
+    Route::post('/change-password', [ChangePasswordController::class, 'passwordResetProcess']);
 });
 
-Route::group(['prefix' => 'auth', 'middleware' => ['auth:api']], function () {
+Route::group(['prefix' => 'auth', 'middleware' => ['auth:api', 'forceJSON']], function () {
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::apiResource('companies', CompanyController::class)
-        ->only(['index', 'show']);
-    Route::apiResource('employees', EmployeeController::class)
-        ->only(['index', 'show']);
+    Route::get('/me', [AuthController::class, 'userProfile']);
+
     //Route::post('books/{book}/ratings', 'RatingController@store');
 });
 
@@ -51,6 +53,12 @@ Route::group(['middleware' => ['auth:api', 'admin']], function () {
     Route::apiResource('companies', CompanyController::class);
     Route::apiResource('employees', EmployeeController::class);
 });
+/*
+Route::apiResource('companies', CompanyController::class)
+    ->only(['index', 'show']);
+Route::apiResource('employees', EmployeeController::class)
+    ->only(['index', 'show']);
+*/
 
 
 
@@ -59,6 +67,11 @@ Route::get('/pdf', [PdfDownloadController::class, 'index']);
 Route::post('/companies/{company}/employees', [CompanyEmployeeController::class, 'store']);
 Route::put('/companies/{company}/employees', [CompanyEmployeeController::class, 'update']);
 Route::delete('/companies/{company}/employees', [CompanyEmployeeController::class, 'destroy']);
+
+
+
+
+
 /*
  * https://laracasts.com/discuss/channels/laravel/best-practice-for-crud-updating-an-existing-belongstomany-in-api
     GET 	/api/companies/:id/employees 	retrieve all Employees  of a Company

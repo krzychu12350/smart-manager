@@ -64,7 +64,7 @@ class EmployeeController extends Controller
     {
         return response()->json([
             'status' => true,
-            'company' => new EmployeeResource($employee)
+            'employee' => new EmployeeResource($employee)
         ], 200);
     }
 

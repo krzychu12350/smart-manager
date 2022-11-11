@@ -12,7 +12,7 @@
       <div>
         <img class="mx-auto h-12 w-auto" src="../assets/logo.png" alt="Smart Manager" />
         <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-          Sign in to your account
+          Enter email to reset password
         </h2>
         <p class="mt-2 text-center text-sm text-gray-600">
           Or
@@ -20,7 +20,7 @@
           <RouterLink
             to="/login"
             class="font-medium text-indigo-600 hover:text-indigo-500"
-            >sign if if you already have an account</RouterLink
+            >go back to sign in</RouterLink
           >
         </p>
       </div>
@@ -37,38 +37,8 @@
             <label for="email-address" class="sr-only">First name</label>
             <Field
               id="email-address"
-              name="name"
-              type="text"
-              autocomplete="email"
-              required=""
-              class="relative block w-full appearance-none rounded border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              placeholder="First name"
-            />
-            <div class="text-sm text-red-600">
-              <ErrorMessage name="name" />
-            </div>
-          </div>
-          <div class="mb-4">
-            <label for="email-address" class="sr-only">Surname</label>
-            <Field
-              id="email-address"
-              name="surname"
-              type="text"
-              autocomplete="email"
-              required=""
-              class="relative block w-full appearance-none rounded border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              placeholder="Surname"
-            />
-            <div class="text-sm text-red-600">
-              <ErrorMessage name="surname" />
-            </div>
-          </div>
-          <div class="mt-4">
-            <label for="email-address" class="sr-only">Email address</label>
-            <Field
-              id="email-address"
               name="email"
-              type="email"
+              type="text"
               autocomplete="email"
               required=""
               class="relative block w-full appearance-none rounded border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
@@ -76,21 +46,6 @@
             />
             <div class="text-sm text-red-600">
               <ErrorMessage name="email" />
-            </div>
-          </div>
-          <div class="mt-4">
-            <label for="password" class="sr-only mt-8">Password</label>
-            <Field
-              id="password"
-              name="password"
-              type="password"
-              autocomplete="current-password"
-              required=""
-              class="relative block w-full appearance-none rounded border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              placeholder="Password"
-            />
-            <div class="text-sm text-red-600">
-              <ErrorMessage name="password" />
             </div>
           </div>
         </div>
@@ -107,7 +62,7 @@
                 aria-hidden="true"
               />
             </span>
-            Sign up
+            Send Password Reset Link
           </button>
         </div>
       </Form>
@@ -172,22 +127,25 @@ const user = {
   password: "tCruise12?3",
 };
 
-const onSubmit = async (newUserData) => {
+const onSubmit = async (email) => {
   //loading.value = !loading.value;
-  console.log(newUserData);
-  UserAuthService.register(newUserData)
+  //console.log(email.email);
+  //const email = "c.hamond@gmail.com";
+  UserAuthService.sendPasswordResetEmail(email)
     .then((res) => {
-      console.log(res);
+  
+      //if(res)
       ToastService.showToast(res.data.message);
       router.push("/login");
     })
     .catch((error) => {
+     
       const message =
         (error.response && error.response.data && error.response.data.message) ||
         error.message ||
         error.toString();
-      console.log(message);
-      ToastService.showToast(message);
+      //console.log(message);
+      ToastService.showToast('Email does not exist.');
     });
 
   /*
@@ -202,10 +160,7 @@ const onSubmit = async (newUserData) => {
 };
 
 const schema = yup.object({
-  name: yup.string().required().min(6),
-  surname: yup.string().required().min(6),
   email: yup.string().required().email(),
-  password: yup.string().required().min(8),
 });
 
 function onInvalidSubmit({ values, errors, results }) {
