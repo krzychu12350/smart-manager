@@ -29,7 +29,7 @@
                             <!--<img width="60" src="https://i.ibb.co/hL4XZp2/android-chrome-192x192.png" title="logo"
                                  alt="logo">-->
                             <img
-                                src="{{ $message->embed('logo.png') }}"
+                                src="{{ $message->embed(public_path('logo.png')) }}"
                                 width="100"
                                 height="100"
                                 title="logo"
