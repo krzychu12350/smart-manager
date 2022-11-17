@@ -18,12 +18,10 @@ export default defineComponent({
   },
   methods: {
     fetchTestData() {
-      this.axios
-        .get("http://127.0.0.1:8000/api/testt")
-        .then((response) => {
-          this.person = response.data.data;
-          console.log(this.person);
-        });
+      this.axios.get("http://127.0.0.1:8000/api/testt").then((response) => {
+        this.person = response.data.data;
+        console.log(this.person);
+      });
     },
   },
 });

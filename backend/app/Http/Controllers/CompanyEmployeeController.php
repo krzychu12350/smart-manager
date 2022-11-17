@@ -76,7 +76,6 @@ class CompanyEmployeeController extends Controller
         return response()->json([
             'status' => true,
             'message' => "Company's employees was updated successfully",
-            'company' => new CompanyResource($company)
         ], 200);
     }
 

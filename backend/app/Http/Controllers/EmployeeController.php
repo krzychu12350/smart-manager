@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEmployeeRequest;
+use App\Http\Requests\UpdateEmployeeRequest;
 use App\Http\Resources\CompanyResource;
 use App\Http\Resources\EmployeeResource;
 use App\Models\Employee;
@@ -32,7 +33,7 @@ class EmployeeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(StoreEmployeeRequest $request)
@@ -50,14 +51,14 @@ class EmployeeController extends Controller
         return response()->json([
             'status' => true,
             'message' => "Employee was created successfully.",
-            'post' =>  new EmployeeResource($employee)
+            'post' => new EmployeeResource($employee)
         ], 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Employee $employee)
@@ -71,18 +72,24 @@ class EmployeeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(StoreEmployeeRequest $request, Employee $employee)
+    public function update(UpdateEmployeeRequest $request, Employee $employee)
     {
+        /*
         $employee->update($request->only([
-            'name',
-            'city',
-            'industry',
-            'description',
+            "name',
+            'surname',
+            'position',
+            'salary",
+            'email',
+            'is_admin'
         ]));
+        */
+        //dd($request->validated());
+        $employee->update($request->validated());
 
         return response()->json([
             'status' => true,
@@ -94,7 +101,7 @@ class EmployeeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Employee $employee)
@@ -106,4 +113,6 @@ class EmployeeController extends Controller
             'message' => "Employee was deleted successfully!",
         ], 204);
     }
+
+
 }
