@@ -10,7 +10,8 @@
       <div class="sm:flex sm:items-center">
         <div class="sm:flex-auto">
           <h1 class="text-xl font-semibold text-gray-900">Employees</h1>
-          <p class="mt-2 text-sm text-gray-700">
+
+          <p v-if="isAdmin" class="mt-2 text-sm text-gray-700">
             A list of all the employees in your company including their name, title, email
             and role etc.
           </p>
@@ -62,4 +63,7 @@ import ConfirmationModalComponent from "../components/modals/ConfirmationModalEm
 import CreateNewEmployeeComponent from "../components/employees/CreateNewEmployeeComponent.vue";
 import useEventsBus from "@/composables/eventBus";
 const { emit, bus } = useEventsBus();
+
+const userStore = useAuthStore();
+const { user } = storeToRefs(userStore);
 </script>

@@ -75,8 +75,13 @@
               </div>
             </div>
             -->
-
-            <form class="space-y-8 divide-y divide-gray-200">
+            <Form
+              @submit="onSubmit"
+              :validation-schema="schema"
+              @invalid-submit="onInvalidSubmit"
+              method="POST"
+              class="space-y-8 divide-y divide-gray-200"
+            >
               <div class="space-y-8 divide-y divide-gray-200">
                 <!--
                 <div>
@@ -213,20 +218,20 @@
                   </div>
                   <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                     <div class="sm:col-span-3">
-                      <label
-                        for="first-name"
-                        class="block text-sm font-medium text-gray-700"
-                      >
+                      <label for="ame" class="block text-sm font-medium text-gray-700">
                         First name
                       </label>
                       <div class="mt-1">
-                        <input
+                        <Field
                           type="text"
-                          name="first-name"
-                          id="first-name"
+                          name="firstName"
+                          id="firstName"
                           autocomplete="given-name"
                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         />
+                      </div>
+                      <div class="text-sm text-red-600">
+                        <ErrorMessage name="firstName" />
                       </div>
                     </div>
 
@@ -240,11 +245,14 @@
                       <div class="mt-1">
                         <input
                           type="text"
-                          name="last-name"
-                          id="last-name"
+                          name="lastName"
+                          id="lastName"
                           autocomplete="family-name"
                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         />
+                      </div>
+                      <div class="text-sm text-red-600">
+                        <ErrorMessage name="lastName" />
                       </div>
                     </div>
 
@@ -253,13 +261,16 @@
                         Email address
                       </label>
                       <div class="mt-1">
-                        <input
+                        <Field
                           id="email"
                           name="email"
                           type="email"
                           autocomplete="email"
                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         />
+                      </div>
+                      <div class="text-sm text-red-600">
+                        <ErrorMessage name="email" />
                       </div>
                     </div>
 
@@ -501,7 +512,7 @@
                   </button>
                 </div>
               </div>
-            </form>
+            </Form>
             <!--
             <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
              
@@ -530,7 +541,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, onMounted, onBeforeUnmount } from "vue";
 import {
   Dialog,
   DialogOverlay,
@@ -542,6 +553,12 @@ import { ExclamationTriangleIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import useEventsBus from "@/composables/eventBus";
 import EmployeeDataService from "@/services/EmployeeDataService";
 import ToastService from "@/services/ToastService";
+
+import { Form, Field, ErrorMessage } from "vee-validate";
+import * as yup from "yup";
+import { useRouter } from "vue-router";
+
+import { useErrorStore } from "../../stores/useError";
 
 let open = ref(false);
 const empId = ref(0);
@@ -563,4 +580,55 @@ watch(
     toggleModal();
   }
 );
+
+//const credentials = ref({});
+const loading = ref(false);
+const router = useRouter();
+const error = useErrorStore();
+const user = {
+  email: "t.cruise@gmail.com",
+  password: "tCruise12?3",
+};
+
+const onSubmit = async (newUserData) => {
+  console.log(newUserData);
+  //loading.value = !loading.value
+
+  console.log(newUserData);
+  EmployeeDataService.create(newUserData)
+    .then((res) => {
+      console.log(res);
+      ToastService.showToast(res.data.message);
+      router.push("/login");
+    })
+    .catch((error) => {
+      const message =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+      console.log(message);
+      ToastService.showToast(error.message);
+    });
+};
+
+const schema = yup.object({
+  firstName: yup.string().required().min(6),
+  lastName: yup.string().required().min(6),
+  email: yup.string().required.email,
+  /*
+  position: yup.string().required().min(6),
+  salary: yup.string().required(),
+  password: yup.string().required(),
+  is_admin: yup.boolean().required(),
+  */
+});
+
+function onInvalidSubmit({ values, errors, results }) {
+  console.log(values); // current form values
+  console.log(errors); // a map of field names and their first error message
+  console.log(results); // a detailed map of field names and their validation results
+  //console.log(email);
+}
+
+onBeforeUnmount(() => error.$reset());
 </script>
