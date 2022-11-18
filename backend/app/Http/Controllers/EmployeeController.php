@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Resources\CompanyResource;
+use App\Http\Resources\EmployeeCollection;
 use App\Http\Resources\EmployeeResource;
 use App\Models\Employee;
 use Illuminate\Http\Request;
@@ -22,10 +23,10 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-
+        $employees = Employee::query()->paginate(1);
         return response()->json([
             'status' => true,
-            'employees' => EmployeeResource::collection(Employee::with('companies')->get())
+            'employees' => new EmployeeCollection(Employee::paginate(1))
         ], 200);
     }
 
