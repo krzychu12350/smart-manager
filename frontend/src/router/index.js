@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import LoginView from '../views/LoginView.vue'
-import RegisterView from '../views/RegisterView.vue'
-import ManagerDashboard from '../views/ManagerDashboard.vue'
-import RequestPasswordResetView from '@/views/RequestPasswordResetView.vue'
-import UpdatePasswordResetView from '@/views/UpdatePasswordResetView.vue'
+import LoginView from '../views/Authentication/LoginView.vue'
+import RegisterView from '../views/Authentication/RegisterView.vue'
+
+import RequestPasswordResetView from '@/views/Authentication/RequestPasswordResetView.vue'
+import UpdatePasswordResetView from '@/views/Authentication/UpdatePasswordResetView.vue'
 import { useAuthStore } from "../stores/useAuth";
 
 const router = createRouter({
@@ -13,21 +13,29 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: ManagerDashboard
+      component: () => import('../components/DashboardBaseComponent.vue')
     },
     {
-      path: '/about',
-      name: 'about',
+      path: '/admin/employees',
+      name: 'admin-employees',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
+      component: () => import('../views/EmployeesManagementView.vue')
+    },
+    {
+      path: '/admin/reports',
+      name: 'admin-reports',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/ReportGeneratingView.vue')
     },
     {
       path: "/login",
       name: "LoginView",
       //component: LoginView,
-      component: () => import('../views/LoginView.vue')
+      component: () => import('../views/Authentication/LoginView.vue')
     },
     {
       path: "/register",
@@ -43,7 +51,12 @@ const router = createRouter({
       path: "/change-password/:token",
       name: "update-password",
       component: UpdatePasswordResetView,
-      params: true
+      params: true,
+      beforeEnter: (to, from) => {
+        // reject the navigation
+        return true;
+      },
+      
     },
     /*
     {
@@ -73,9 +86,9 @@ router.beforeEach((to, from, next) => {
   else next();
 });
 */
-/*
+
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/login', '/register', '/reset-password', '/update-password/:token'];
+  const publicPages = ['/login', '/register', '/reset-password', '/change-password/' + to.params.token];
   const authRequired = !publicPages.includes(to.path);
   //const loggedIn = localStorage.getItem('user');
   if (authRequired && !useAuthStore().loggedIn) {
@@ -84,6 +97,6 @@ router.beforeEach((to, from, next) => {
       next();
   }
 });
-*/
+
 
 export default router

@@ -28,7 +28,7 @@ const setup = () => {
             }
         }
     );
-
+        
     axiosInstance.interceptors.response.use(
         (res) => {
             return res;
@@ -55,5 +55,6 @@ const setup = () => {
             return Promise.reject(err);
         }
     );
+    
 };
 export default setup;

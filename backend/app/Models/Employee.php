@@ -25,6 +25,7 @@ class Employee extends Authenticatable implements JWTSubject
         'salary',
         'email',
         'password',
+        'is_admin',
     ];
 
     /**
@@ -35,7 +36,7 @@ class Employee extends Authenticatable implements JWTSubject
     protected $hidden = [
         'password',
         'remember_token',
-        'pivot',
+        'pivot'
     ];
 
     /**
@@ -45,7 +46,7 @@ class Employee extends Authenticatable implements JWTSubject
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'is_admin' => 'boolean',
+        'id_admin' => 'boolean'
     ];
 
     /**

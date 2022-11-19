@@ -9,6 +9,7 @@ export const useAuthStore = defineStore("auth", {
     loggedIn: localStorage.getItem("token") ? true : false,
     user: localStorage.getItem("user"),
     //user: null,
+    isAdmin: false,
   }),
 
   getters: {},
@@ -22,7 +23,7 @@ export const useAuthStore = defineStore("auth", {
 
       if (response) {
         const token = `Bearer ${response.authorization.access_token}`;
-
+ 
         localStorage.setItem("token", token);
         axios.defaults.headers.common["Authorization"] = token;
 
@@ -49,8 +50,10 @@ export const useAuthStore = defineStore("auth", {
     },
 
     async fetchUser() {
-      this.user = await UserAuthService.userProfile();
+      const response = await UserAuthService.userProfile();
+      this.user = response;
       //localStorage.setItem("user", this.user);
+      this.isAdmin = response.is_admin;
       this.loggedIn = true;
     },
   },
