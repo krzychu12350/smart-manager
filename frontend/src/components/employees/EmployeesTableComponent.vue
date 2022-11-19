@@ -25,14 +25,6 @@
                 >
                   Salary
                 </th>
-                <!--
-                <th
-                  scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                Salary
-                </th>
-                -->
                 <th
                   scope="col"
                   class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -100,7 +92,7 @@
                   </router-link>
                   -->
                   <PencilIcon
-                    @click="emit('showEditingExistingEmployeeModal')"
+                    @click="emit('showEditingExistingEmployeeModal', { employeeId: employee.id })"
                     class="w-5 h-10"
                   />
                   <TrashIcon
