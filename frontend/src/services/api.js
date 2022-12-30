@@ -2,6 +2,8 @@ import axios from "axios";
 import { useAuthStore } from '../stores/useAuth'
 
 const instance = axios.create({
+    //baseURL: "https://slow-chicken-divide-37-225-90-16.loca.lt/api",
+    //baseURL: "http://4.tcp.eu.ngrok.io:10840/api",
     baseURL: "http://localhost:8000/api",
     headers: {
         "Content-Type": "application/json",

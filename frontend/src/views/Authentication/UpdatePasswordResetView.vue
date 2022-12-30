@@ -197,11 +197,17 @@ const onSubmit = async (resetPasswordData) => {
 };
 
 const schema = yup.object({
+  email: yup.string().required(),
+  password: yup.string().required(),
+  password_confirmation: yup.string(),
+
+  /*
   email: yup.string().required().email(),
   password: yup.string().required().min(8),
   password_confirmation: yup
     .string()
     .oneOf([yup.ref("password"), null], "Passwords must match"),
+    */
 });
 
 function onInvalidSubmit({ values, errors, results }) {

@@ -2,18 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Services\PdfDownloadService;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
-use Illuminate\Http\Request;
+use App\Http\Requests\SalaryPdfRequest;
+use App\Http\Requests\FormMarkPdfRequest;
 
 class PdfDownloadController extends Controller
 {
-    public function index(){
-        $pdf = PDF::loadView('pdf.sample', [
-    		'title' => 'CodeAndDeploy.com Laravel Pdf Tutorial',
-    		'description' => 'This is an example Laravel pdf tutorial.',
-    		'footer' => 'by <a href="#">codeanddeploy.com</a>'
-    	]);
-    
-        return $pdf->download('myfile.pdf');       
+    public function downloadPdfSalaryReport(SalaryPdfRequest $request, PdfDownloadService $service){
+
+        $pdfFile = $service->generatePdfSalaryReport($request->validated());
+
+        return $pdfFile->download('salary-report.pdf');       
+    }
+
+    public function downloadPdfEmployeeMarkReport(FormMarkPdfRequest $request, PdfDownloadService $service){
+
+        $pdfFile = $service->generatePdfEmployeeMarkReport($request->validated());
+        
+        return $pdfFile->download('mark-report.pdf');       
     }
 }

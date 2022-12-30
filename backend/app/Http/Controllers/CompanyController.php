@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCompanyRequest;
+use App\Http\Resources\CompanyCollection;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\Models\Company;
@@ -25,7 +26,7 @@ class CompanyController extends Controller
         //$comapnies = Company::with('employees')->paginate(1);
         return response()->json([
             'status' => true,
-            'companies' => CompanyResource::collection(Company::with('employees')->get())
+            'companies' => new CompanyCollection(Company::paginate(1))
         ], 200);
     }
 
