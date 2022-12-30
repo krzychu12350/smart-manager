@@ -17,21 +17,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $employees = \App\Models\Employee::factory(10)->create();
-        $companies = \App\Models\Company::factory(10)->create();
+        $employees = \App\Models\Employee::factory(100)->create();
+        $companies = \App\Models\Company::factory(100)->create();
 
         foreach($employees as $employee){
             $employee->companies()->attach($employees->random()->id);
-            $company->employees()->attach($companies->random()->id);
+            //$company->employees()->attach($companies->random()->id);
         }
-        
+
         // \App\Models\Employee::factory()->create([
         //     'name' => 'Test Employee',
         //     'email' => 'test@example.com',
         // ]);
         $this->call([
-            CompanySeeder::class,
-            EmployeeSeeder::class,
+            //CompanySeeder::class,
+           EmployeeSeeder::class,
         ]);
     }
 }
