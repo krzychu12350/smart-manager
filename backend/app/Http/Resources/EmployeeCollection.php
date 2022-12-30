@@ -27,6 +27,7 @@ class EmployeeCollection extends ResourceCollection
                "total" =>  $this->total(),
                "path" =>  $this->getOptions()['path'],
            ],
+           'meta' => []
        ];
     }
 }

@@ -155,10 +155,10 @@ export default {
     };
   },
   mounted() {
-    this.retrieveCompanies();
+    //this.retrieveCompanies();
     //console.log("testtt");
     const userStore = useAuthStore();
-    console.log(userStore.user);
+    //console.log(userStore.user);
 
     //alert('geegge');
   },
@@ -167,7 +167,7 @@ export default {
       ComapnyDataService.getAll()
         .then((response) => {
           this.companies = response.data;
-          console.log(response.data);
+          //console.log(response.data);
         })
         .catch((e) => {
           console.log(e);

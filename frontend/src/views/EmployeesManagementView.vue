@@ -59,8 +59,7 @@ import Dashboard from "../components/DashboardBaseComponent.vue";
 import TableComponent from "../components/employees/EmployeesTableComponent.vue";
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "../stores/useAuth";
-import ConfirmationModalComponent from "../components/modals/ConfirmationModalEmployeeDeletingComponent.vue";
-import CreateNewEmployeeComponent from "../components/employees/CreateNewEmployeeComponent.vue";
+import ConfirmationModalComponent from "../components/employees/modals/ConfirmationModalEmployeeDeletingComponent.vue";
 import useEventsBus from "@/composables/eventBus";
 const { emit, bus } = useEventsBus();
 

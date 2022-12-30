@@ -1,8 +1,8 @@
 import api from "./api";
 
 class EmployeeDataService {
-  async getAll() {
-    return api.get("/employees");
+  async getAll(page) {
+    return api.get("/employees?page=" + page);
   }
 
   async get(id) {

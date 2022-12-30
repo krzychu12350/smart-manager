@@ -25,9 +25,10 @@ class EmployeeController extends Controller
     public function index()
     {
         $employees = Employee::query()->paginate(1);
+        $employees2 = new EmployeeCollection(Employee::filter()->paginate(8));
         return response()->json([
             'status' => true,
-            'employees' => new EmployeeCollection(Employee::filter()->paginate(1))
+            'employees' => $employees2
         ], 200);
     }
 

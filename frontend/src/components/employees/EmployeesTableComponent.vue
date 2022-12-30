@@ -92,7 +92,11 @@
                   </router-link>
                   -->
                   <PencilIcon
-                    @click="emit('showEditingExistingEmployeeModal', { employeeId: employee.id })"
+                    @click="
+                      emit('showEditingExistingEmployeeModal', {
+                        employeeId: employee.id,
+                      })
+                    "
                     class="w-5 h-10"
                   />
                   <TrashIcon
@@ -113,6 +117,7 @@
   <div
     class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 shadow overflow-hidden sm:rounded-b-lg"
   >
+    <!--
     <div class="flex flex-1 justify-between sm:hidden">
       <a
         href="#"
@@ -125,6 +130,7 @@
         >Next</a
       >
     </div>
+        -->
     <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
       <div>
         <p class="text-sm text-gray-700">
@@ -143,64 +149,14 @@
           results
         </p>
       </div>
-      <div>
-        <nav
-          class="isolate inline-flex -space-x-px rounded-md shadow-sm"
-          aria-label="Pagination"
-        >
-          <a
-            href="#"
-            class="relative inline-flex items-center rounded-l-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
-          >
-            <span>Previous</span>
-            <!--<ChevronLeftIcon class="h-5 w-5" aria-hidden="true" />-->
-          </a>
-          <!-- Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" -->
-          <a
-            href="#"
-            aria-current="page"
-            class="relative z-10 inline-flex items-center border border-indigo-500 bg-indigo-50 px-4 py-2 text-sm font-medium text-indigo-600 focus:z-20"
-            >1</a
-          >
-          <a
-            href="#"
-            class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
-            >2</a
-          >
-          <a
-            href="#"
-            class="relative hidden items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 md:inline-flex"
-            >3</a
-          >
-          <span
-            class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700"
-            >...</span
-          >
-          <a
-            href="#"
-            class="relative hidden items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20 md:inline-flex"
-            >8</a
-          >
-          <a
-            href="#"
-            class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
-            >9</a
-          >
-          <a
-            href="#"
-            class="relative inline-flex items-center border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
-            >10</a
-          >
-          <a
-            href="#"
-            class="relative inline-flex items-center rounded-r-md border border-gray-300 bg-white px-2 py-2 text-sm font-medium text-gray-500 hover:bg-gray-50 focus:z-20"
-          >
-            <span>Next</span>
-            <!--<ChevronRightIcon class="h-5 w-5" aria-hidden="true" />-->
-          </a>
-        </nav>
-      </div>
     </div>
+
+    <TailwindPagination
+      :data="pagination"
+      @pagination-change-page="getAllEmployees"
+      :limit="1"
+    />
+    <!--<PaginationEmployeesComponent />-->
   </div>
   <CreateNewEmployeeModalComponent />
   <EditExistingEmployeeModalComponent />
@@ -212,17 +168,22 @@ import { PencilIcon, TrashIcon } from "@heroicons/vue/24/outline";
 import { useRouter } from "vue-router";
 import useEventsBus from "@/composables/eventBus";
 import EmployeeDataService from "@/services/EmployeeDataService";
-import CreateNewEmployeeModalComponent from "../modals/CreateNewEmployeeModalComponent.vue";
-import EditExistingEmployeeModalComponent from "../modals/EditExistingEmployeeModalComponent.vue";
+import CreateNewEmployeeModalComponent from "./modals/CreateNewEmployeeModalComponent.vue";
+import EditExistingEmployeeModalComponent from "./modals/EditExistingEmployeeModalComponent.vue";
+import PaginationEmployeesComponent from "@/components/employees/PaginationEmployeesComponent.vue";
+import { TailwindPagination } from "laravel-vue-pagination";
 const router = useRouter();
 const { emit, bus } = useEventsBus();
 
 const employees = ref([]);
+const pagination = ref({});
 
-const getAllEmployees = async () => {
-  EmployeeDataService.getAll()
-    .then((res) => {
-      employees.value = res.data.employees;
+const getAllEmployees = async (page = 1) => {
+  EmployeeDataService.getAll(page)
+    .then(async (res) => {
+      employees.value = await res.data.employees.data;
+      pagination.value = await res.data.employees.pagination;
+      console.log(pagination.value);
     })
 
     .catch((error) => {
@@ -241,79 +202,4 @@ watch(
     getAllEmployees();
   }
 );
-
-const people = ref([
-  {
-    name: "Jane Cooper",
-    title: "Regional Paradigm Technician",
-    department: "Optimization",
-    role: "Admin",
-    email: "jane.cooper@example.com",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    name: "Jane Cooper",
-    title: "Regional Paradigm Technician",
-    department: "Optimization",
-    role: "Admin",
-    email: "jane.cooper@example.com",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    name: "Jane Cooper",
-    title: "Regional Paradigm Technician",
-    department: "Optimization",
-    role: "Admin",
-    email: "jane.cooper@example.com",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    name: "Jane Cooper",
-    title: "Regional Paradigm Technician",
-    department: "Optimization",
-    role: "Admin",
-    email: "jane.cooper@example.com",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    name: "Jane Cooper",
-    title: "Regional Paradigm Technician",
-    department: "Optimization",
-    role: "Admin",
-    email: "jane.cooper@example.com",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    name: "Jane Cooper",
-    title: "Regional Paradigm Technician",
-    department: "Optimization",
-    role: "Admin",
-    email: "jane.cooper@example.com",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    name: "Jane Cooper",
-    title: "Regional Paradigm Technician",
-    department: "Optimization",
-    role: "Admin",
-    email: "jane.cooper@example.com",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-  {
-    name: "Jane Cooper",
-    title: "Regional Paradigm Technician",
-    department: "Optimization",
-    role: "Admin",
-    email: "jane.cooper@example.com",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60",
-  },
-]);
 </script>

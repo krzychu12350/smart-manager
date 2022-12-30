@@ -157,7 +157,7 @@ export default {
   mounted() {
     //console.log("testtt");
     const userStore = useAuthStore();
-    console.log(userStore.user);
+    //console.log(userStore.user);
 
     //alert('geegge');
   },

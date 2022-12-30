@@ -52,18 +52,22 @@
               @submit="onSubmit"
               :validation-schema="schema"
               @invalid-submit="onInvalidSubmit"
-              method="POST" class="space-y-8 divide-y divide-gray-200">
+              method="POST"
+              class="space-y-8 divide-y divide-gray-200"
+            >
               <div class="space-y-8 divide-y divide-gray-200">
-                
                 <div class="pt-8">
                   <div>
                     <h3 class="text-lg leading-6 font-medium text-gray-900">
-                      Edit an employee
+                      Create an employee
                     </h3>
+                    <p class="mt-1 text-sm text-gray-500">
+                      Use a permanent address where you can receive mail.
+                    </p>
                   </div>
                   <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                     <div class="sm:col-span-3">
-                      <label for="ame" class="block text-sm font-medium text-gray-700">
+                      <label for="name" class="block text-sm font-medium text-gray-700">
                         First name
                       </label>
                       <div class="mt-1">
@@ -82,8 +86,9 @@
 
                     <div class="sm:col-span-3">
                       <label
-                        for="last-name"
-                        class="block text-sm font-medium text-gray-700">
+                        for="surname"
+                        class="block text-sm font-medium text-gray-700"
+                      >
                         Last name
                       </label>
                       <div class="mt-1">
@@ -91,12 +96,30 @@
                           type="text"
                           name="surname"
                           id="surname"
-                          autocomplete="family-name"
+                          autocomplete="given-name"
                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         />
                       </div>
                       <div class="text-sm text-red-600">
                         <ErrorMessage name="surname" />
+                      </div>
+                    </div>
+
+                    <div class="sm:col-span-4">
+                      <label for="email" class="block text-sm font-medium text-gray-700">
+                        Email address
+                      </label>
+                      <div class="mt-1">
+                        <Field
+                          id="email"
+                          name="email"
+                          type="email"
+                          autocomplete="email"
+                          class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                        />
+                      </div>
+                      <div class="text-sm text-red-600">
+                        <ErrorMessage name="email" />
                       </div>
                     </div>
 
@@ -108,21 +131,27 @@
                         Position
                       </label>
                       <div class="mt-1">
-                        <Field id="position" name="position" as="select" type="boolean" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                        <Field
+                          id="position"
+                          name="position"
+                          as="select"
+                          class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                        >
                           <option value="Manager">Manager</option>
-                          <option value="Junior Python Developer">Junior Python Developer</option>
+                          <option value="Junior Python Developer">
+                            Junior Python Developer
+                          </option>
                         </Field>
                       </div>
                       <div class="text-sm text-red-600">
-                        <ErrorMessage name="position">Position is a required field</ErrorMessage>
+                        <ErrorMessage name="position"
+                          >position is a required field</ErrorMessage
+                        >
                       </div>
                     </div>
 
                     <div class="sm:col-span-3">
-                      <label
-                        for="salary"
-                        class="block text-sm font-medium text-gray-700"
-                      >
+                      <label for="salary" class="block text-sm font-medium text-gray-700">
                         Salary
                       </label>
                       <div class="mt-1">
@@ -130,7 +159,7 @@
                           type="number"
                           name="salary"
                           id="salary"
-                          autocomplete="salary-name"
+                          autocomplete="given-name"
                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         />
                       </div>
@@ -140,20 +169,63 @@
                     </div>
 
                     <div class="sm:col-span-3">
-                      <label
-                        for="country"
-                        class="block text-sm font-medium text-gray-700"
-                      >
+                      <label for="admin" class="block text-sm font-medium text-gray-700">
                         Admin
                       </label>
                       <div class="mt-1">
-                        <Field name="is_admin" as="select" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
-                          <option :value=true>Yes</option>
-                          <option :value=false selected>No</option>
+                        <Field
+                          name="is_admin"
+                          as="select"
+                          class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                        >
+                          <option :value="true">Yes</option>
+                          <option :value="false" selected>No</option>
                         </Field>
                       </div>
                       <div class="text-sm text-red-600">
-                        <ErrorMessage name="is_admin">Admin is a required field</ErrorMessage>
+                        <ErrorMessage name="is_admin"
+                          >admin is a required field</ErrorMessage
+                        >
+                      </div>
+                    </div>
+
+                    <div class="sm:col-span-4">
+                      <label
+                        for="password"
+                        class="block text-sm font-medium text-gray-700"
+                      >
+                        Password
+                      </label>
+                      <div class="mt-1">
+                        <Field
+                          type="password"
+                          name="password"
+                          id="password"
+                          class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                        />
+                      </div>
+                      <div class="text-sm text-red-600">
+                        <ErrorMessage name="password" />
+                      </div>
+                    </div>
+
+                    <div class="sm:col-span-4">
+                      <label
+                        for="password_confirmation"
+                        class="block text-sm font-medium text-gray-700"
+                      >
+                        Confirm password
+                      </label>
+                      <div class="mt-1">
+                        <Field
+                          type="password"
+                          name="password_confirmation"
+                          id="password_confirmation"
+                          class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                        />
+                      </div>
+                      <div class="text-sm text-red-600">
+                        <ErrorMessage name="password_confirmation" />
                       </div>
                     </div>
                   </div>
@@ -178,6 +250,26 @@
                 </div>
               </div>
             </Form>
+            <!--
+            <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+             
+              <button
+                type="button"
+                class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                @click="deleteEmployee(empId)"
+              >
+                Delete
+              </button>
+
+              <button
+                type="button"
+                class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
+                @click="open = false"
+              >
+                Cancel
+              </button>
+            </div>
+            -->
           </div>
         </TransitionChild>
       </div>
@@ -186,7 +278,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, onMounted, onBeforeUnmount } from "vue";
 import {
   Dialog,
   DialogOverlay,
@@ -196,15 +288,18 @@ import {
 } from "@headlessui/vue";
 import { ExclamationTriangleIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import useEventsBus from "@/composables/eventBus";
-import * as yup from "yup";
 import EmployeeDataService from "@/services/EmployeeDataService";
 import ToastService from "@/services/ToastService";
+
 import { Form, Field, ErrorMessage } from "vee-validate";
+import * as yup from "yup";
 import { useRouter } from "vue-router";
-import { useErrorStore } from "../../stores/useError";
+
+import { useErrorStore } from "../../../stores/useError";
 
 let open = ref(false);
 const empId = ref(0);
+//open.value = true;
 const { bus, emit } = useEventsBus();
 
 function toggleModal() {
@@ -217,23 +312,29 @@ function deleteEmployee() {
 */
 
 watch(
-  () => bus.value.get("showEditingExistingEmployeeModal"),
-    (val, open) => {
-    empId.value = val[0].employeeId;
-    console.log(empId.value);
+  () => bus.value.get("showCreatingNewEmployeeModal"),
+  () => {
     toggleModal();
   }
 );
 
+//const credentials = ref({});
 const loading = ref(false);
 const router = useRouter();
 const error = useErrorStore();
+const user = {
+  email: "t.cruise@gmail.com",
+  password: "tCruise12?3",
+};
 
 const onSubmit = async (newUserData) => {
   console.log(newUserData);
-  EmployeeDataService.update(empId.value, newUserData)
+  //loading.value = !loading.value
+
+  console.log(newUserData);
+  EmployeeDataService.create(newUserData)
     .then(() => {
-      ToastService.showToast("Update complete");
+      ToastService.showToast("Employee created");
       router.go();
     })
     .catch((error) => {
@@ -247,17 +348,33 @@ const onSubmit = async (newUserData) => {
 };
 
 const schema = yup.object({
-  name: yup.string().required().min(3),
-  surname: yup.string().required().min(3),
-  salary: yup.number().required().min(4),
+  name: yup.string().required().min(2).max(30),
+  surname: yup.string().required().min(2).max(50),
+  email: yup.string().required().email(),
   position: yup.string().required(),
-  is_admin: yup.boolean().required()
+  salary: yup.number().required().min(4),
+  is_admin: yup.boolean().required(),
+  password: yup
+    .string()
+    .required()
+    .min(8)
+    .max(20)
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+      "must contain 8 characters, one uppercase, one lowercase, one number and one special case character"
+    ),
+  password_confirmation: yup
+    .string()
+    .required("confirm password is required field")
+    .oneOf([yup.ref("password"), null], "passwords must match"),
 });
 
 function onInvalidSubmit({ values, errors, results }) {
   console.log(values); // current form values
   console.log(errors); // a map of field names and their first error message
   console.log(results); // a detailed map of field names and their validation results
+  //console.log(email);
 }
 
+onBeforeUnmount(() => error.$reset());
 </script>
