@@ -20,10 +20,10 @@ class ChangePasswordController extends Controller {
     // Token not found response
     private function tokenNotFoundError() {
         return response()->json([
-            'error' => 'Either your email or token is wrong.'
+            'error' => '.'
         ],Response::HTTP_UNPROCESSABLE_ENTITY);
     }
-    // Reset password
+    // Reset passwordEither your email or token is wrong
     private function resetPassword($request) {
         // find email
         $userData = Employee::whereEmail($request->email)->first();

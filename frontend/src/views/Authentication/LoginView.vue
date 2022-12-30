@@ -10,7 +10,11 @@
   <div class="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
     <div class="w-full max-w-md space-y-8">
       <div>
-        <img class="mx-auto h-12 w-auto" src="../assets/logo.png" alt="Smart Manager" />
+        <img
+          class="mx-auto h-12 w-auto"
+          src="../../assets/logo.png"
+          alt="Smart Manager"
+        />
         <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
           Sign in to your account
         </h2>
@@ -18,9 +22,9 @@
           Or
           {{ " " }}
           <RouterLink
-            to="/login"
+            to="/register"
             class="font-medium text-indigo-600 hover:text-indigo-500"
-            >sign if if you already have an account</RouterLink
+            >create an account</RouterLink
           >
         </p>
       </div>
@@ -32,38 +36,8 @@
         method="POST"
       >
         <input type="hidden" name="remember" value="true" />
-        <div class="rounded-md shadow-sm">
+        <div class="-space-y-px rounded-md shadow-sm">
           <div class="mb-4">
-            <label for="email-address" class="sr-only">First name</label>
-            <Field
-              id="email-address"
-              name="name"
-              type="text"
-              autocomplete="email"
-              required=""
-              class="relative block w-full appearance-none rounded border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              placeholder="First name"
-            />
-            <div class="text-sm text-red-600">
-              <ErrorMessage name="name" />
-            </div>
-          </div>
-          <div class="mb-4">
-            <label for="email-address" class="sr-only">Surname</label>
-            <Field
-              id="email-address"
-              name="surname"
-              type="text"
-              autocomplete="email"
-              required=""
-              class="relative block w-full appearance-none rounded border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              placeholder="Surname"
-            />
-            <div class="text-sm text-red-600">
-              <ErrorMessage name="surname" />
-            </div>
-          </div>
-          <div class="mt-4">
             <label for="email-address" class="sr-only">Email address</label>
             <Field
               id="email-address"
@@ -78,8 +52,8 @@
               <ErrorMessage name="email" />
             </div>
           </div>
-          <div class="mt-4">
-            <label for="password" class="sr-only mt-8">Password</label>
+          <div>
+            <label for="password" class="sr-only">Password</label>
             <Field
               id="password"
               name="password"
@@ -94,11 +68,32 @@
             </div>
           </div>
         </div>
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <input
+              id="remember-me"
+              name="remember-me"
+              type="checkbox"
+              class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+            />
+            <label for="remember-me" class="ml-2 block text-sm text-gray-900"
+              >Remember me</label
+            >
+          </div>
+
+          <div class="text-sm">
+            <RouterLink
+              to="/reset-password"
+              class="font-medium text-indigo-600 hover:text-indigo-500"
+              >Forgot your password?</RouterLink
+            >
+          </div>
+        </div>
 
         <div>
           <button
-            @click="handleRegister"
             type="submit"
+            @click="showToast"
             class="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
             <span class="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -107,7 +102,7 @@
                 aria-hidden="true"
               />
             </span>
-            Sign up
+            Sign in
           </button>
         </div>
       </Form>
@@ -116,52 +111,40 @@
 </template>
 
 <script setup>
-/*
-import { LockClosedIcon } from '@heroicons/vue/20/solid'
-import ToastService from "../services/ToastService";
-import UserAuthService from '../services/UserAuthService';
-import router from '../router';
-export default {
-  setup () {
-  },
-  methods: {
-    showToast() {
-    
-      
-    },
-    handleRegister() {
-      const newUser = {
-        name: "Adam",
-        surname: "Craft",
-        email: "a.craft@gmail.com",
-        password: "acraft123?!23"
-      };
-      const response = UserAuthService.register(newUser)
-        .then(response => {
-          ToastService.showToast(response.data.message)
-          return response.data;
-          //console.log(response.data);
-        })
-        .catch(e => {
-          console.log(e);
-        });
-
-        router.push('/login')
-    }
-  },
-  mounted() {
-  },
-}
-*/
+import { LockClosedIcon } from "@heroicons/vue/20/solid";
+import ToastService from "../../services/ToastService";
+import UserAuthService from "../../services/UserAuthService";
 
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
+/*
+export default {
+  name: "LoginView",
+  setup() {
+  },
+  methods: {
+    showToast() {
+      ToastService.showToast('Test of Toast')
+      router.router.push('')
+    },
+    handleLogin() {
+      const user = {
+        email: "t.cruise@gmail.com",
+        password: "tCruise12?3"
+      };
+      const res = UserAuthService.login(user)
+      console.log(res)
+    }
+  },
+  mounted() {
+    this.handleLogin()
+  },
+}
+*/
 import { ref, onBeforeUnmount } from "vue";
 import { useRouter } from "vue-router";
-import { useAuthStore } from "../stores/useAuth";
-import { useErrorStore } from "../stores/useError";
-import UserAuthService from "../services/UserAuthService";
-import ToastService from "../services/ToastService";
+import { useAuthStore } from "../../stores/useAuth";
+import { useErrorStore } from "../../stores/useError";
 
 //const credentials = ref({});
 const loading = ref(false);
@@ -172,45 +155,29 @@ const user = {
   password: "tCruise12?3",
 };
 
-const onSubmit = async (newUserData) => {
-  //loading.value = !loading.value;
-  console.log(newUserData);
-  UserAuthService.register(newUserData)
-    .then((res) => {
-      console.log(res);
-      ToastService.showToast(res.data.message);
-      router.push("/login");
-    })
-    .catch((error) => {
-      const message =
-        (error.response && error.response.data && error.response.data.message) ||
-        error.message ||
-        error.toString();
-      console.log(message);
-      ToastService.showToast(message);
-    });
-
-  /*
+const onSubmit = (credentials) => {
+  loading.value = !loading.value;
   useAuthStore()
     .login(credentials)
     .then((response) => {
-      console.log(response)
-      router.push({name:'home'})
+      console.log(response);
+      router.push({ name: "home" });
     })
-    .catch(() => (loading.value = !loading.value));
-    */
+    .catch(() => {
+      loading.value = !loading.value;
+      //console.log(e);
+      ToastService.showToast("Invalid email or password");
+    });
 };
 
 const schema = yup.object({
-  name: yup.string().required().min(6),
-  surname: yup.string().required().min(6),
   email: yup.string().required().email(),
   password: yup.string().required().min(8),
 });
 
 function onInvalidSubmit({ values, errors, results }) {
   //console.log(values); // current form values
-  //console.log(errors); // a map of field names and their first error message
+  console.log(errors); // a map of field names and their first error message
   //console.log(results); // a detailed map of field names and their validation results
   //console.log(email);
 }

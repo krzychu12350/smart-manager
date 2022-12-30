@@ -44,16 +44,15 @@
                 @click="sidebarOpen = false"
               >
                 <span class="sr-only">Close sidebar</span>
-                <XIcon class="h-6 w-6 text-white" aria-hidden="true" />
+                <XMarkIcon class="h-6 w-6 text-white" aria-hidden="true" />
               </button>
             </div>
           </TransitionChild>
-          <div class="flex-shrink-0 flex items-center px-4">
-            <img
-              class="h-8 w-auto"
-              src="https://tailwindui.com/img/logos/workflow-logo-indigo-300-mark-white-text.svg"
-              alt="Workflow"
-            />
+          <div
+            class="text-white flex-shrink-0 flex items-center px-4 py-2 text-lg font-medium rounded-md"
+          >
+            <img class="h-8 w-auto" src="../assets/logo.png" alt="Smart Manager" />
+            <h1 class="mx-4">Smart Manager</h1>
           </div>
           <div class="mt-5 flex-1 h-0 overflow-y-auto">
             <nav class="px-2 space-y-1">
@@ -77,6 +76,7 @@
               </a>
             </nav>
           </div>
+          <!--
           <div class="flex-shrink-0 flex border-t border-indigo-800 p-4">
             <a href="#" class="flex-shrink-0 w-full group block">
               <div class="flex items-center">
@@ -96,6 +96,7 @@
               </div>
             </a>
           </div>
+          -->
         </div>
       </TransitionChild>
       <div class="flex-shrink-0 w-14" aria-hidden="true">
@@ -119,10 +120,10 @@
       </div>
       <div class="mt-5 flex-1 flex flex-col">
         <nav class="flex-1 px-2 pb-4 space-y-1">
-          <a
+          <RouterLink
             v-for="item in navigation"
             :key="item.name"
-            :href="item.href"
+            :to="item.href"
             :class="[
               item.current
                 ? 'bg-indigo-800 text-white'
@@ -136,9 +137,10 @@
               aria-hidden="true"
             />
             {{ item.name }}
-          </a>
+          </RouterLink>
         </nav>
       </div>
+      <!--
       <div class="flex-shrink-0 flex border-t border-indigo-800 p-4">
         <a href="#" class="flex-shrink-0 w-full group block">
           <div class="flex items-center">
@@ -158,13 +160,13 @@
           </div>
         </a>
       </div>
+      -->
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-import { ref } from "vue";
+<script setup>
+import { ref, watch } from "vue";
 import {
   Dialog,
   DialogOverlay,
@@ -185,25 +187,56 @@ import {
   //MenuAlt2Icon,
   UsersIcon,
   //XIcon,
+  XMarkIcon,
 } from "@heroicons/vue/24/outline";
 //import { SearchIcon } from '@heroicons/vue/24/solid'
+import useEventsBus from "@/composables/eventBus";
 
-const navigation = [
-  { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-  { name: "Team", href: "#", icon: UsersIcon, current: false },
+const navigation = ref([
+  { name: "Dashboard", href: "/", icon: HomeIcon, current: true },
+  { name: "Emoloyees", href: "/admin/employees", icon: UsersIcon, current: false },
   { name: "Projects", href: "#", icon: FolderIcon, current: false },
   { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
   { name: "Documents", href: "#", icon: InboxIcon, current: false },
-  { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
-];
-const userNavigation = [
+  { name: "Reports", href: "/admin/reports", icon: ChartBarIcon, current: false },
+]);
+const userNavigation = ref([
   { name: "Your Profile", href: "#" },
   { name: "Settings", href: "#" },
-  { name: "Sign out", href: "#" },
-];
+  { name: "Sign out", href: "/logout" },
+]);
 
+const sidebarOpen = ref(false);
+//open.value = true;
+const { bus } = useEventsBus();
+
+function showSidebar() {
+  sidebarOpen.value = true;
+}
+
+function deleteEmployee() {
+  alert("works");
+}
+
+watch(
+  () => bus.value.get("showSidebar"),
+  (val, open) => {
+    showSidebar();
+    //console.log(open[0]);
+    // destruct the parameters
+    const [sidebarCollapsedBus] = val ?? [];
+    //open = sidebarCollapsedBus.name;
+    //open = sidebarCollapsedBus;
+    //console.log("emitted" + sidebarCollapsedBus);
+    //open.value = true;
+    //open[0] = true;
+    //open = true;
+  }
+);
+
+/*
 export default defineComponent({
-  name: "HelloWorld",
+  name: "Sidebar",
   props: {
     msg: String,
   },
@@ -217,6 +250,7 @@ export default defineComponent({
     TransitionChild,
     TransitionRoot,
     BellIcon,
+    XMarkIcon,
     //MenuAlt2Icon,
     //SearchIcon,
     // XIcon,
@@ -231,6 +265,7 @@ export default defineComponent({
     };
   },
 });
+*/
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

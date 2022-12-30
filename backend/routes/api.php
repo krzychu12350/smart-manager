@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Company;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -71,6 +73,38 @@ Route::post('/companies/{company}/employees', [CompanyEmployeeController::class,
 Route::put('/companies/{company}/employees', [CompanyEmployeeController::class, 'update']);
 Route::delete('/companies/{company}/employees', [CompanyEmployeeController::class, 'destroy']);
 
+Route::get('test', function () {
+
+    //return Company::with('employees')->where('id', 1)->get()->groupBy('employees.position');
+       // with('companies')->where('id', 1)->get();
+    /*
+    return Employee::with(['companies' => function($query) {
+        $query->where('companies.id', 1)->get();
+    }])->get();*/
+
+    //return Company::find(1)->employees()->get()->groupBy('position');
+    //$employees = Company::find(1)->employees()->withAvg('salaries as salary', 'salary')->get()->groupBy('position');
+    //return Company::find(1)->withAvg('employees', 'salary')->groupBy('employees.position')->get();
+   // return Company::find(1)->withAvg('employees', 'salary')->get()->groupBy('employees.position');
+
+    /*
+    return Company::where('id', 1)->with(['employees' => function ($row) {
+       return $row->get()->groupBy('position');
+    }])->get();
+    */
+
+    //$employees = Employee::whereRelation('companies', 'companies.id', '=', 1)->groupBy('position')->avg('salary');
+    $employees = Employee::whereRelation('companies', 'companies.id', '=', 1)->groupBy('position')->avg('salary');
+
+    $employees = Employee::whereRelation('companies', 'companies.id', '=', 1)->get()->groupBy('position');
+    $valuesByGroups = $employees->map(function ($row) {
+        return ['avg' => $row->avg('salary'), 'min' => $row->min('salary'), 'max' => $row->max('salary')];
+    });
+    return $valuesByGroups;
+        //->get()->avg('salary');
+
+    //return Company::find(1)->employees()->get()->groupBy('position');
+});
 
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class EmployeeResource extends JsonResource
@@ -9,12 +10,14 @@ class EmployeeResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @param Request $request
+     * @return array
      */
     public function toArray($request)
     {
+
         return [
+
             'id' => $this->id,
             'name' => $this->name,
             'surname' => $this->surname,
@@ -22,8 +25,11 @@ class EmployeeResource extends JsonResource
             'salary' => $this->salary,
             'created_at' => (string) $this->created_at,
             'updated_at' => (string) $this->updated_at,
-            'is_admin' => $this->isAdmin(),
+            'is_admin' => $this->is_admin,
             'companies' => $this->companies,
         ];
+
+
+
     }
 }

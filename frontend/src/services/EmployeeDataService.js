@@ -1,31 +1,31 @@
 import api from "./api";
 
 class EmployeeDataService {
-  getAll() {
+  async getAll() {
     return api.get("/employees");
   }
 
-  get(id) {
+  async get(id) {
     return api.get(`/employees/${id}`);
   }
 
-  create(data) {
+  async create(data) {
     return api.post("/employees", data);
   }
 
-  update(id, data) {
+  async update(id, data) {
     return api.put(`/employees/${id}`, data);
   }
 
-  delete(id) {
+  async delete(id) {
     return api.delete(`/employees/${id}`);
   }
 
-  deleteAll() {
+  async deleteAll() {
     return api.delete(`/employees`);
   }
 
-  findByTitle(title) {
+  async findByTitle(title) {
     return api.get(`/employees?title=${title}`);
   }
 }
