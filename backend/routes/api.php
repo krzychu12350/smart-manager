@@ -30,6 +30,8 @@ Route::get('/testt',  function () {
 });
 
 
+
+
 Route::group(['prefix' => 'auth', 'middleware' => ['cors', 'forceJSON'],], function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
@@ -46,6 +48,8 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:api', 'forceJSON']], fu
 });
 
 Route::group(['middleware' => ['auth:api', 'admin']], function () {
+    Route::get('/pdf/formmark', [PdfDownloadController::class, 'downloadPdfEmployeeMarkReport']);
+    Route::get('/pdf/salary', [PdfDownloadController::class, 'downloadPdfSalaryReport']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
@@ -62,7 +66,6 @@ Route::apiResource('employees', EmployeeController::class)
 
 
 
-Route::get('/pdf', [PdfDownloadController::class, 'index']);
 
 Route::post('/companies/{company}/employees', [CompanyEmployeeController::class, 'store']);
 Route::put('/companies/{company}/employees', [CompanyEmployeeController::class, 'update']);
