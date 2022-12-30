@@ -9,6 +9,7 @@ class UserAuthService {
             password: user.password
         });
         if (response.data.authorization.access_token)
+            console.log(response);
             //TokenService.setUser(response.data);
             console.log(response.data.authorization.access_token)
         return response.data;
