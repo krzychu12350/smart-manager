@@ -11,6 +11,7 @@
     </button>
     <div class="flex-1 px-4 flex justify-between">
       <div class="flex-1 flex">
+        <!--
         <form class="w-full flex md:ml-0" action="#" method="GET">
           <label for="search-field" class="sr-only">Search</label>
           <div class="relative w-full text-gray-400 focus-within:text-gray-600">
@@ -26,6 +27,7 @@
             />
           </div>
         </form>
+           -->
       </div>
       <div class="ml-4 flex items-center md:ml-6">
         <button
@@ -64,7 +66,7 @@
             >
               <MenuItem :key="1" v-slot="{ active }">
                 <a
-                  @click="this.$router.push('/about')"
+                  @click="this.$router.push('/admin/my-profile')"
                   :class="[
                     active ? 'bg-gray-100' : '',
                     'block px-4 py-2 text-sm text-gray-700',
