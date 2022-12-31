@@ -34,7 +34,7 @@ import useEventsBus from "@/composables/eventBus";
 const { emit, bus } = useEventsBus();
 function onTriggeredEventHandler(payload) {
   console.log(`You have pressed CMD (CTRL) + ${payload.keyString}`);
-  alert(`You have pressed CMD (CTRL) + ${payload.keyString}`);
+  //alert(`You have pressed CMD (CTRL) + ${payload.keyString}`);
   emit("showEmployeesSearchEngine");
 }
 </script>

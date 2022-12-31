@@ -1,5 +1,5 @@
 <template>
-  <TransitionRoot mode="out-in" as="div" :show="open" @after-leave="query === ''">
+  <TransitionRoot as="template" :show="open" @after-leave="query = ''">
     <Dialog
       as="div"
       class="fixed inset-0 z-10 overflow-y-auto p-4 sm:p-6 md:p-20"
@@ -20,7 +20,7 @@
       </TransitionChild>
 
       <TransitionChild
-        as="template"
+        as="div"
         enter="ease-out duration-300"
         enter-from="opacity-0 scale-95"
         enter-to="opacity-100 scale-100"
@@ -46,7 +46,7 @@
               @change="query = $event.target.value"
             />
           </div>
-
+          <!--<button @click="toggleSearchBox()">Deactivate</button>-->
           <div
             v-if="query === '' || filteredPeople.length > 0"
             class="flex divide-x divide-gray-100"
@@ -224,16 +224,18 @@ const filteredPeople = computed(() =>
       })
 );
 
+function toggleSearchBox() {
+  open.value = !open.value;
+  //console.log(open.value);
+}
+
 watch(
   () => bus.value.get("showEmployeesSearchEngine"),
   () => {
     toggleSearchBox();
   }
 );
-const toggleSearchBox = async () => {
-  open = !open;
-  alert("works" + open);
-};
+
 const onSelect = (person) => {
   window.location = person.url;
 };
