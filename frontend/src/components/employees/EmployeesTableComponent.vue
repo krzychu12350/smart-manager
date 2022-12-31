@@ -1,30 +1,44 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
+  <div class="mb-4">
+    <label>Filter by Name:</label>
+    <input v-model="filterName" />
+  </div>
+
   <div class="flex flex-col">
     <div class="-my-3 overflow-x-auto sm:-mx-6 :-mx-8 lg:-mx-8">
       <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
         <div class="shadow overflow-hidden border-t border-gray-200 sm:rounded-t-lg">
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
+          <VTable
+            sortHeaderClass="flex items-center justify-between w-full"
+            :data="employees"
+            class="min-w-full divide-y divide-gray-200"
+            :filters="filters"
+          >
+            <template #head class="bg-gray-50">
               <tr>
-                <th
+                <VTh
+                  sortKey="name"
                   scope="col"
                   class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
                   Name
-                </th>
-                <th
+                </VTh>
+
+                <VTh
+                  sortKey="position"
                   scope="col"
                   class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
                   Position
-                </th>
-                <th
+                </VTh>
+                <VTh
+                  sortKey="salary"
                   scope="col"
                   class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
                   Salary
-                </th>
+                </VTh>
                 <th
                   scope="col"
                   class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -32,9 +46,9 @@
                   Actions
                 </th>
               </tr>
-            </thead>
-            <tbody class="bg-white divide-y">
-              <tr v-for="employee in employees" :key="employee.id">
+            </template>
+            <template #body="{ rows }" class="bg-white divide-y">
+              <tr v-for="employee in rows" :key="employee.guid" class="bg-white">
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="flex items-center">
                     <div class="flex-shrink-0 h-10 w-10">
@@ -107,8 +121,8 @@
                   />
                 </td>
               </tr>
-            </tbody>
-          </table>
+            </template>
+          </VTable>
         </div>
       </div>
     </div>
@@ -177,6 +191,7 @@ const { emit, bus } = useEventsBus();
 
 const employees = ref([]);
 const pagination = ref({});
+let filterName = ref("");
 
 const getAllEmployees = async (page = 1) => {
   EmployeeDataService.getAll(page)
@@ -191,6 +206,10 @@ const getAllEmployees = async (page = 1) => {
     });
 };
 
+const filters = {
+  name: { value: filterName, keys: ["name"] },
+};
+console.log(filters.name.value);
 onMounted(() => {
   getAllEmployees();
 });
