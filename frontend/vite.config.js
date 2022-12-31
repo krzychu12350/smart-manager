@@ -6,8 +6,13 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(),
-    /*
+  plugins: [vue({
+    template: {
+      compilerOptions: {
+        isCustomElement: (tag) => ['vue-pdf-embed'].includes(tag),
+      }
+    }
+  }),
      VitePWA({
       registerType: 'autoUpdate',
       additionalManifestEntries: [
@@ -41,7 +46,6 @@ export default defineConfig({
         ]
       }
     })
-    */
   ],
   resolve: {
     alias: {

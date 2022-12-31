@@ -5,6 +5,7 @@ import RegisterView from '../views/Authentication/RegisterView.vue'
 import RequestPasswordResetView from '@/views/Authentication/RequestPasswordResetView.vue'
 import UpdatePasswordResetView from '@/views/Authentication/UpdatePasswordResetView.vue'
 import UserDashboardView from '@/views/UserDashboardView.vue'
+import ApplicationsManagementView from '@/views/ApplicationsManagementView.vue'
 import { useAuthStore } from "../stores/useAuth";
 
 const router = createRouter({
@@ -61,6 +62,10 @@ const router = createRouter({
     {
       path: "/admin/my-profile",
       component: UserDashboardView,
+    },
+    {
+      path: "/admin/applications",
+      component: ApplicationsManagementView,
     },
 
     /*

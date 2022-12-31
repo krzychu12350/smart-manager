@@ -6,7 +6,7 @@ const instance = axios.create({
     //baseURL: "http://4.tcp.eu.ngrok.io:10840/api",
     baseURL: "http://localhost:8000/api",
     headers: {
-        "Content-Type": "application/json",
+       "Content-Type": "application/json",
     },
 });
 /*

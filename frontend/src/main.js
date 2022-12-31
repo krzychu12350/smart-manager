@@ -9,7 +9,7 @@ import App from './App.vue'
 import router from './router'
 import VueTailwindDatepicker from 'vue-tailwind-datepicker'
 import './assets/main.css'
-
+import VuePdf from 'vue3-pdfjs'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
@@ -28,4 +28,5 @@ app.use(VueTailwindDatepicker)
 app.use(router)
 app.use(VueAxios, axios)
 app.use(SmartTable)
+app.use(VuePdf)
 app.mount('#app')

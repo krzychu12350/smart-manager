@@ -195,9 +195,9 @@ import useEventsBus from "@/composables/eventBus";
 const navigation = ref([
   { name: "Dashboard", href: "/", icon: HomeIcon, current: true },
   { name: "Emoloyees", href: "/admin/employees", icon: UsersIcon, current: false },
-  { name: "Projects", href: "#", icon: FolderIcon, current: false },
-  { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
-  { name: "Documents", href: "#", icon: InboxIcon, current: false },
+  //{ name: "Projects", href: "#", icon: FolderIcon, current: false },
+  //{ name: "Calendar", href: "#", icon: CalendarIcon, current: false },
+  { name: "Applications", href: "/admin/applications", icon: InboxIcon, current: false },
   { name: "Reports", href: "/admin/reports", icon: ChartBarIcon, current: false },
 ]);
 const userNavigation = ref([
