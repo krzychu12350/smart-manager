@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Company extends Model
+class Position extends Model
 {
     use HasFactory;
 
@@ -16,9 +16,6 @@ class Company extends Model
      */
     protected $fillable = [
         'name',
-        'city',
-        'industry',
-        'description',
     ];
 
     /**
@@ -30,18 +27,8 @@ class Company extends Model
         'pivot'
     ];
 
-    public function employees()
+    public function companies()
     {
-        return $this->belongsToMany(User::class);
-    }
-
-    public function applications()
-    {
-        return $this->belongsTo(Application::class);
-    }
-
-    public function positions()
-    {
-        return $this->belongsToMany(Position::class);
+        return $this->belongsToMany(Company::class);
     }
 }

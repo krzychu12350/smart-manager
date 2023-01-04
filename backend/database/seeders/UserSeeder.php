@@ -3,11 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\Company;
-use App\Models\Employee;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class EmployeeSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,7 +16,7 @@ class EmployeeSeeder extends Seeder
      */
     public function run()
     {
-        $employees = [
+        $users = [
             [
                 'name' => "Tom",
                 'surname' => "Cruise",
@@ -24,7 +24,7 @@ class EmployeeSeeder extends Seeder
                 "password" => bcrypt("tCruise12?3"),
                 'position' => "Manager",
                 'salary' => "20000",
-                'is_admin' => true,
+                'is_owner' => true,
             ],
             [
                 'name' => "Mark",
@@ -33,12 +33,12 @@ class EmployeeSeeder extends Seeder
                 "password" => bcrypt("mBlack12?3"),
                 'position' => "Junior Python Developer",
                 'salary' => "5000",
-                'is_admin' => false,
+                'is_owner' => false,
             ],
 
         ];
 
-        foreach ($employees as $employee)
-            Employee::create($employee);
+        foreach ($users as $user)
+            User::create($user);
     }
 }

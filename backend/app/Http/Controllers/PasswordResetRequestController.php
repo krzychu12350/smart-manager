@@ -2,7 +2,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\Employee;
+use App\Models\User;
 use App\Mail\SendMail;
 use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
@@ -31,7 +31,7 @@ class PasswordResetRequestController extends Controller {
         Mail::to($email)->send(new SendMail($token));
     }
     public function validEmail($email) {
-        return !!Employee::where('email', $email)->first();
+        return !!User::where('email', $email)->first();
     }
     public function generateToken($email){
         $isOtherToken = DB::table('password_resets')->where('email', $email)->first();

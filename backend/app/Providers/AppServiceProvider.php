@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Http\Resources\EmployeeResource;
-use App\Models\Employee;
+use App\Http\Resources\UserResource;
+use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\ServiceProvider;

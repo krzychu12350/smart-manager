@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Employee>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
  */
-class EmployeeFactory extends Factory
+class UserFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -22,12 +22,12 @@ class EmployeeFactory extends Factory
 
         return [
             'name' => $name,
-            'surname' => $surname, 
+            'surname' => $surname,
             'position' => fake()->jobTitle(),
             'salary' => fake()->numberBetween($min = 1000, $max = 9000),
             'email' => strtolower($name[0]).".".strtolower($surname)."@gmail.com",
             'password' => bcrypt(strtolower($name[0])."".ucfirst($surname)."12?3"),
-            'is_admin' => 0,
+            'is_owner' => 0,
         ];
     }
 

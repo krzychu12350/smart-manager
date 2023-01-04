@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreEmployeeRequest;
-use App\Http\Requests\UpdateEmployeeRequest;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\CompanyResource;
-use App\Http\Resources\EmployeeCollection;
-use App\Http\Resources\EmployeeResource;
-use App\Models\Employee;
+use App\Http\Resources\UserCollection;
+use App\Http\Resources\UserResource;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class EmployeeController extends Controller
+class UserController extends Controller
 {
     public function __construct()
     {
@@ -24,8 +24,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Employee::query()->paginate(1);
-        $employees2 = new EmployeeCollection(Employee::filter()->paginate(8));
+        $employees = User::query()->paginate(1);
+        $employees2 = new UserCollection(User::filter()->paginate(8));
         return response()->json([
             'status' => true,
             'employees' => $employees2
@@ -38,9 +38,9 @@ class EmployeeController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreEmployeeRequest $request)
+    public function store(StoreUserRequest $request)
     {
-        $employee = Employee::create($request->validated());
+        $employee = User::create($request->validated());
         /*
         $company = Company::create([
             'name' => $request->name,
@@ -52,8 +52,8 @@ class EmployeeController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => "Employee was created successfully.",
-            'post' => new EmployeeResource($employee)
+            'message' => "User was created successfully.",
+            'post' => new UserResource($employee)
         ], 201);
     }
 
@@ -63,11 +63,11 @@ class EmployeeController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(Employee $employee)
+    public function show(User $employee)
     {
         return response()->json([
             'status' => true,
-            'employee' => new EmployeeResource($employee)
+            'employee' => new UserResource($employee)
         ], 200);
     }
 
@@ -78,7 +78,7 @@ class EmployeeController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateEmployeeRequest $request, Employee $employee)
+    public function update(UpdateUserRequest $request, User $employee)
     {
         /*
         $employee->update($request->only([
@@ -95,8 +95,8 @@ class EmployeeController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => "Employee was updated successfully!",
-            'employee' => new EmployeeResource($employee)
+            'message' => "User was updated successfully!",
+            'employee' => new UserResource($employee)
         ], 200);
     }
 
@@ -106,13 +106,13 @@ class EmployeeController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(Employee $employee)
+    public function destroy(User $employee)
     {
         $employee->delete();
 
         return response()->json([
             'status' => true,
-            'message' => "Employee was deleted successfully!",
+            'message' => "User was deleted successfully!",
         ], 204);
     }
 

@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginEmployeeRequest;
-use App\Http\Requests\RegisterEmployeeRequest;
+use App\Http\Requests\LoginUserRequest;
+use App\Http\Requests\RegisterUserRequest;
+use App\Http\Resources\UserCollection;
+use App\Http\Resources\UserResource;
 use Exception;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Employee;
+use App\Models\User;
 
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Foundation\Auth\ResetsPasswords;
@@ -33,7 +35,7 @@ class AuthController extends Controller
      * Get a JWT via given credentials.
      * @return JsonResponse
      */
-    public function login(LoginEmployeeRequest $request): JsonResponse
+    public function login(LoginUserRequest $request): JsonResponse
     {
         /*
         $validator = Validator::make($request->all(), [
@@ -85,7 +87,7 @@ class AuthController extends Controller
      * Register a User.
      * @return JsonResponse
      */
-    public function register(RegisterEmployeeRequest $request): JsonResponse
+    public function register(RegisterUserRequest $request): JsonResponse
     {
         /*
         $validator = Validator::make($request->all(), [
@@ -105,7 +107,7 @@ class AuthController extends Controller
         */
         //dd($request->all());
 
-        $employee = Employee::create(['name' => $request->name, 'surname' => $request->surname, 'email' => $request->email, 'password' => bcrypt($request->password),]);
+        $employee = User::create(['name' => $request->name, 'surname' => $request->surname, 'email' => $request->email, 'password' => bcrypt($request->password),]);
 
         return response()->json(['status' => true, 'message' => 'You have been successfully registered', 'employee' => $employee], 201);
     }
@@ -140,7 +142,7 @@ class AuthController extends Controller
      */
     public function userProfile()
     {
-        $currentUser = Auth::user();
+       $currentUser =  new UserResource(Auth::user());
         return response()->json(['status' => true, 'user' => $currentUser], 200);
     }
 

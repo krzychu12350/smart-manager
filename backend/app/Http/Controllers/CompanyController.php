@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCompanyRequest;
+use App\Http\Resources\ApplicationCollection;
 use App\Http\Resources\CompanyCollection;
-use App\Models\Employee;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Company;
 use App\Http\Resources\CompanyResource;
@@ -116,4 +117,5 @@ class CompanyController extends Controller
         ], 200);
         //or 204 status
     }
+
 }

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CompanyEmployeeRequest;
+use App\Http\Requests\CompanyUserRequest;
 use App\Http\Resources\CompanyResource;
+use App\Http\Resources\UserResource;
 use App\Models\Company;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -13,30 +14,33 @@ class CompanyEmployeeController extends Controller
     /*
  * https://laracasts.com/discuss/channels/laravel/best-practice-for-crud-updating-an-existing-belongstomany-in-api
     GET 	/api/companies/:id/employees 	retrieve all Employees  of a Company(CompanyController)
-    GET 	/api/employees/:id/companies	retrieve all Companies of an Employee(EmployeeController)
-    POST 	/api/companies/:id/employees 	add Employee for a Company
-    PUT 	/api/companies/:id/employees 	update Employee's Company
-    DELETE 	/api/companies/:id/employees 	remove Employee from  a Company
+    GET 	/api/employees/:id/companies	retrieve all Companies of an User(UserController)
+    POST 	/api/companies/:id/employees 	add User for a Company
+    PUT 	/api/companies/:id/employees 	update User's Company
+    DELETE 	/api/companies/:id/employees 	remove User from  a Company
 
 */
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function index()
+    public function index(Company $company)
     {
-
+        return response()->json([
+            'status' => true,
+            'employees' => $company->employees()->get()
+        ], 200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param CompanyEmployeeRequest $request
+     * @param CompanyUserRequest $request
      * @param Company $company
      * @return JsonResponse
      */
-    public function store(CompanyEmployeeRequest $request, Company $company)
+    public function store(CompanyUserRequest $request, Company $company)
     {
         //dd($request['employees']);
         $employeesIds = $request->only('employees');
@@ -65,11 +69,11 @@ class CompanyEmployeeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param CompanyEmployeeRequest $request
+     * @param CompanyUserRequest $request
      * @param Company $company
      * @return JsonResponse
      */
-    public function update(CompanyEmployeeRequest $request, Company $company)
+    public function update(CompanyUserRequest $request, Company $company)
     {
         $company->employees()->sync($request['employees']);
 
@@ -82,11 +86,11 @@ class CompanyEmployeeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param CompanyEmployeeRequest $request
+     * @param CompanyUserRequest $request
      * @param Company $company
      * @return JsonResponse
      */
-    public function destroy(CompanyEmployeeRequest $request, Company $company)
+    public function destroy(CompanyUserRequest $request, Company $company)
     {
         $company->employees()->detach($request['employees']);
 

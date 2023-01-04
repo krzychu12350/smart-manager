@@ -2,12 +2,12 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class CompanyCollection extends ResourceCollection
+class ApplicationCollection extends JsonResource
 {
     /**
-     * Transform the resource collection into an array.
+     * Transform the resource into an array.
      *
      * @param \Illuminate\Http\Request $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
@@ -15,7 +15,7 @@ class CompanyCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'data' => CompanyResource::collection($this->collection),
+            'data' => ApplicationResource::collection($this->collection),
             'pagination' => [
                 "current_page" => $this->currentPage(),
                 "first_page_url" => $this->getOptions()['path'] . '?' . $this->getOptions()['pageName'] . '=1',
@@ -26,7 +26,7 @@ class CompanyCollection extends ResourceCollection
                 "per_page" => $this->perPage(),
                 "total" => $this->total(),
                 "path" => $this->getOptions()['path'],
-            ],
+            ]
         ];
     }
 }

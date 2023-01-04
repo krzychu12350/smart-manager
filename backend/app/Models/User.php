@@ -10,7 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Mehradsadeghi\FilterQueryString\FilterQueryString;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Employee extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject
 {
 
     use HasApiTokens, HasFactory, Notifiable, FilterQueryString;
@@ -27,7 +27,7 @@ class Employee extends Authenticatable implements JWTSubject
         'salary',
         'email',
         'password',
-        'is_admin',
+        'is_owner',
     ];
 
     /**
@@ -83,9 +83,14 @@ class Employee extends Authenticatable implements JWTSubject
         return $this->belongsToMany(Company::class);
     }
 
-    public function isAdmin(): bool
+    public function applications()
     {
-        return $this->is_admin;
+        return $this->belongsTo(Application::class);
+    }
+
+    public function isOwner(): bool
+    {
+        return $this->is_owner;
     }
 
 }

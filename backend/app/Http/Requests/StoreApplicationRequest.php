@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class RegisterEmployeeRequest extends FormRequest
+class StoreApplicationRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,12 @@ class RegisterEmployeeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => "required|min:6",
-            'surname' => "required|min:6",
-            'password' => "required|min:8",
-            'email' => "required|email|unique:employees|min:6",
+            'status' => [
+                "required",
+                Rule::in(['accepted', 'in progress', 'rejected']),
+            ],
+            'company_id' => "required|integer",
+            'employee_id' => "required|integer",
         ];
     }
 }

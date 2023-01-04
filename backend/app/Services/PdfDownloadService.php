@@ -4,16 +4,16 @@ namespace App\Services;
 
 use Carbon\Carbon;
 use App\Models\Company;
-use App\Models\Employee;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
- 
+
 class PdfDownloadService {
- 
+
     public function generatePdfSalaryReport(array $salaryData)
     {
         $company = Company::find($salaryData['company']);
-        $employees = Employee::whereRelation('companies', 'companies.id', '=', $company->id)->get()->groupBy('position');
+        $employees = User::whereRelation('companies', 'companies.id', '=', $company->id)->get()->groupBy('position');
         $emp = collect();
 
         foreach($employees as $employee){
@@ -34,14 +34,14 @@ class PdfDownloadService {
             'dateFrom' => $dateFrom,
             'dateTo' => $dateTo,
     	]);
- 
+
         return $pdf;
     }
- 
+
     public function generatePdfEmployeeMarkReport(array $markData)
     {
-        $employee = Employee::find($markData['employee'])->name." ".Employee::find($markData['employee'])->surname;
-        $position = Employee::find($markData['employee'])->position;
+        $employee = User::find($markData['employee'])->name." ".User::find($markData['employee'])->surname;
+        $position = User::find($markData['employee'])->position;
         $job_knowledge = $markData['job_knowledge'];
         $productivity = $markData['productivity'];
         $work_quality = $markData['work_quality'];
@@ -60,7 +60,7 @@ class PdfDownloadService {
         $overall_rating = $markData['overall_rating'];
         $date = Carbon::now()->format('d-M-Y');
         $reviewer = $markData['reviewer'];
-        $company = Employee::find($markData['employee'])->with('companies')->first()->name;
+        $company = User::find($markData['employee'])->with('companies')->first()->name;
         $comment = $markData['reviewer_comment'];
 
         $pdf = PDF::loadView('pdf.markreport', [
@@ -87,7 +87,7 @@ class PdfDownloadService {
             "company" => $company,
             "comment" => $comment
     	]);
- 
+
         return $pdf;
     }
 }

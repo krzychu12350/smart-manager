@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-
-class LoginEmployeeRequest extends FormRequest
+class StoreUserRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +22,13 @@ class LoginEmployeeRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => "required|email|min:8",
-            'password' => "required|min:8",
+            'name' => "required|string",
+            'surname' => "required|string",
+            'position' => "required|string",
+            'salary' => "required|integer|min:4",
+            'email' => "required|email|unique:employees",
+            'password' => "required|confirmed|min:8|string",
+            'is_owner' => 'required|boolean'
         ];
     }
 }

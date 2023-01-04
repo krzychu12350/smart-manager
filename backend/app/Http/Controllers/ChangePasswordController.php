@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UpdatePasswordRequest;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\DB;
-use App\Models\Employee;
+use App\Models\User;
 class ChangePasswordController extends Controller {
     public function passwordResetProcess(UpdatePasswordRequest $request){
         //dd($this->updatePasswordRow($request)->count());
@@ -26,7 +26,7 @@ class ChangePasswordController extends Controller {
     // Reset passwordEither your email or token is wrong
     private function resetPassword($request) {
         // find email
-        $userData = Employee::whereEmail($request->email)->first();
+        $userData = User::whereEmail($request->email)->first();
         // update password
         $userData->update([
             'password'=> bcrypt($request->password)

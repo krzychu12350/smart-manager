@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class CompanyEmployeeRequest extends ApiFormRequest
+class StorePositionRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,8 @@ class CompanyEmployeeRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            "employees" => "required|array|min:1"
+            'name' => "required|string|min:3",
+            'company_id' => "required|integer",
         ];
     }
 }

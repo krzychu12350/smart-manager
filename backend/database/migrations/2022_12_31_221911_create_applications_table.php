@@ -13,14 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('company_employee', function (Blueprint $table) {
-            $table->increments('id');
-            $table->foreignId('company_id')
-                ->constrained('companies')
+        Schema::create('applications', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->enum('status',['accepted', 'in progress', 'rejected']);
+            $table->timestamps();
+            $table->foreignId('user_id')
+                ->constrained('users')
                 ->cascadeOnUpdate('cascade')
                 ->cascadeOnDelete('cascade');
-            $table->foreignId('employee_id')
-                ->constrained('employees')
+            $table->foreignId('company_id')
+                ->constrained('companies')
                 ->cascadeOnUpdate('cascade')
                 ->cascadeOnDelete('cascade');
         });
@@ -33,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('company_employee');
+        Schema::dropIfExists('applications');
     }
 };
