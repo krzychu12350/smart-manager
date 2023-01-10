@@ -53,7 +53,7 @@ Route::group(['prefix' => 'auth', 'middleware' => ['auth:api', 'forceJSON']], fu
 
 Route::group(['middleware' => ['auth:api', 'admin']], function () {
     Route::get('/pdf/formmark', [PdfDownloadController::class, 'downloadPdfEmployeeMarkReport']);
-    Route::post('/pdf/salary', [PdfDownloadController::class, 'downloadPdfSalaryReport']);
+
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
@@ -66,6 +66,7 @@ Route::apiResource('companies', CompanyController::class)
 Route::apiResource('employees', UserController::class)
     ->only(['index', 'show']);
 */
+Route::post('/pdf/salary', [PdfDownloadController::class, 'downloadPdfSalaryReport']);
 
 Route::apiResource('companies', CompanyController::class);
 Route::apiResource('users', UserController::class);

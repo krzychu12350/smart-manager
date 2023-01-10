@@ -24,7 +24,7 @@ class FormMarkPdfRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            "employee" => "required",
+            "employee_id" => "required|integer",
             "job_knowledge" => "required|string",
             "productivity" => "required|string",
             "work_quality" => "required|string",
@@ -41,7 +41,8 @@ class FormMarkPdfRequest extends ApiFormRequest
             "dependability" => "required|string",
             "communication_skills" => "required|string",
             "overall_rating" => "required|string",
-            "reviewer" => "required|string",
+            "reviewer_id" => "required|integer",
+            "company_id" => "required|integer",
             "reviewer_comment" => "required|string|min:8"
         ];
     }

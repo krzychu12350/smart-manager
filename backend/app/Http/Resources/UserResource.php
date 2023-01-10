@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Income;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -21,11 +23,13 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'surname' => $this->surname,
             'position' => $this->position,
-            'salary' => $this->salary,
+            //'salary' => $this->salary,
             'created_at' => (string) $this->created_at,
             'updated_at' => (string) $this->updated_at,
             'is_owner' => $this->is_owner,
             'companies' => $this->companies,
+            'salary' => Income::where('user_id', $this->id)->latest()->first()->amount,
+
         ];
 
 

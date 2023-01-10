@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\CompanyResource;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
+use App\Models\Income;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -78,8 +79,9 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateUserRequest $request, User $employee)
+    public function update(UpdateUserRequest $request, User $user)
     {
+       // dd($user->id);
         /*
         $employee->update($request->only([
             "name',
@@ -91,12 +93,18 @@ class UserController extends Controller
         ]));
         */
         //dd($request->validated());
-        $employee->update($request->validated());
+        $user->update($request->validated());
+
+
+        Income::create([
+            'user_id' => $user->id,
+            'amount' => $request->salary
+        ]);
 
         return response()->json([
             'status' => true,
             'message' => "User was updated successfully!",
-            'employee' => new UserResource($employee)
+            'employee' => new UserResource($user)
         ], 200);
     }
 
@@ -106,9 +114,9 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(User $employee)
+    public function destroy(User $user)
     {
-        $employee->delete();
+        $user->delete();
 
         return response()->json([
             'status' => true,

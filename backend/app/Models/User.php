@@ -93,4 +93,8 @@ class User extends Authenticatable implements JWTSubject
         return $this->is_owner;
     }
 
+    public function incomes()
+    {
+        return $this->belongsTo(Income::class);
+    }
 }

@@ -64,13 +64,15 @@ export const useAuthStore = defineStore("auth", {
 
       if (response) {
         const token = `Bearer ${response.authorization.access_token}`;
- 
+      
+
         localStorage.setItem("token", token);
 
         //await this.setAccessToken(token);
         axios.defaults.headers.common["Authorization"] = token;
 
         const userData = await this.fetchUser();
+
         const userDataForStoring = {
           user_id: userData.id,
           user_name: userData.name,

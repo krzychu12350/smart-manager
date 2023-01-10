@@ -21,7 +21,7 @@
 			<div class="invoice-from mt-3">
 				Employee Name: {{ $employee }}<br/>
 				Company: {{ $company }}<br/>
-				Job: {{ $position }}<br/>
+				Position: {{ $position }}<br/>
 				Reviewer: {{ $reviewer }}<br/><br/>
 				<small>Date:</small>
                	<div class="m-t-5 m-b-5">
@@ -200,7 +200,7 @@
 							<td>
 							<span class="text-inverse">{{ $comment }}</span><br>
 							</td>
-						</tr>	
+						</tr>
 					</tbody>
 				</table>
 				</div>

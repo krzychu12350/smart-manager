@@ -17,8 +17,8 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-        $name = fake()->firstName($gender = 'male'|'female');
-        $surname = fake()->lastName();
+        $name = fake()->unique()->firstName($gender = 'male'|'female');
+        $surname = fake()->unique()->lastName();
 
         return [
             'name' => $name,

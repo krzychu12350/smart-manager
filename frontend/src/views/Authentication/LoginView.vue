@@ -163,9 +163,9 @@ const onSubmit = (credentials) => {
       //console.log(response);
       router.push({ name: "home" });
     })
-    .catch(() => {
+    .catch((err) => {
       loading.value = !loading.value;
-      //console.log(e);
+      console.log(err);
       ToastService.showToast("Invalid email or password");
     });
 };
