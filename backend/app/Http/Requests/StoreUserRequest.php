@@ -26,7 +26,7 @@ class StoreUserRequest extends ApiFormRequest
             'surname' => "required|string",
             'position' => "required|string",
             'salary' => "required|integer|min:4",
-            'email' => "required|email|unique:employees",
+            'email' => "required|email|unique:users",
             'password' => "required|confirmed|min:8|string",
             'is_owner' => 'required|boolean'
         ];

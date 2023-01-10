@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RegisterUserRequest;
+use App\Http\Requests\StoreUserRequest;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use Exception;
@@ -107,9 +108,13 @@ class AuthController extends Controller
         */
         //dd($request->all());
 
-        $employee = User::create(['name' => $request->name, 'surname' => $request->surname, 'email' => $request->email, 'password' => bcrypt($request->password),]);
+        $employee = User::create(['name' => $request->name, 'surname' => $request->surname,
+            'email' => $request->email, 'password' => bcrypt($request->password),]);
 
-        return response()->json(['status' => true, 'message' => 'You have been successfully registered', 'employee' => $employee], 201);
+        return response()->json([
+            'status' => true,
+            'message' => 'You have been successfully registered',
+            'employee' => $employee], 201);
     }
 
     /**

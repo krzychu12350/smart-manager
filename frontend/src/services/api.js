@@ -3,11 +3,15 @@ import { useAuthStore } from '../stores/useAuth'
 
 const instance = axios.create({
     //baseURL: "https://slow-chicken-divide-37-225-90-16.loca.lt/api",
-    //baseURL: "http://4.tcp.eu.ngrok.io:10840/api",
+    //baseURL: "https://eb8d-176-221-121-81.eu.ngrok.io/api",
+    //baseURL: "https://3930-176-221-121-81.eu.ngrok.io/api",
     baseURL: "http://localhost:8000/api",
     headers: {
        "Content-Type": "application/json",
        "Access-Control-Allow-Private-Network": "true",
+        "ngrok-skip-browser-warning": "69420",
+        //"User-Agent": "Mozilaa"   
+
     },
 });
 /*
