@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "moment": "^2.29.4",
     "vue-hotkeys-rt": "^0.2.0",
     "vue-use-hotkeys": "^0.3.5"
   }

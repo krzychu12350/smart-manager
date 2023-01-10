@@ -51,7 +51,9 @@
                 alt=""
               />
             </MenuButton>
-            <div class="flex items-center mx-2">{{ user.name }} {{ user.surname }}</div>
+            <div class="flex items-center mx-2">
+              {{ user.user_name }} {{ user.user_surname }}
+            </div>
           </div>
           <transition
             enter-active-class="transition ease-out duration-100"
@@ -138,14 +140,14 @@ export default {
   },
   setup() {
     const userStore = useAuthStore();
-    const { user } = storeToRefs(userStore);
+    const { userData } = storeToRefs(userStore);
     const router = useRouter();
     const { emit } = useEventsBus();
-
+    const user = userData.value;
     //const user = userStore.user;
     return {
       //userNavigation,
-      user,
+      //user,
       emit,
       user,
     };

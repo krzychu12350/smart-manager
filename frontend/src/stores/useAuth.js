@@ -7,14 +7,55 @@ import ToastService from "../services/ToastService";
 export const useAuthStore = defineStore("auth", {
   state: () => ({
     loggedIn: localStorage.getItem("token") ? true : false,
-    user: localStorage.getItem("user"),
-    //user: null,
-    isAdmin: false,
+    //user: localStorage.getItem("user"),
+    userData: {},
+    /*
+    accessToken: null,
+    userId: null,
+    userComapnyId: null,
+    isOwner: false,
+    */
   }),
 
-  getters: {},
+  getters: {
+    /*
+    async getUserRole () {
+      return this.isOwner;
+    },
+    async getUserId () {
+      return this.userId;
+    },
+    async getUserCompanyId () {
+      return this.userCompanyId;
+    },
+    async getAccessToken () {
+      return this.accessToken;
+    },
+   
+    getUserData: () => {
+      return this.userData;
+    },
+     */
+  },
 
   actions: {
+    async setUserData(userData) {
+      this.userData = userData;
+    },
+    /*
+    async setUserRole(isOwner) {
+      this.isOwner = isOwner;
+    },
+    async setUserId(userId) {
+      this.userId = userId;
+    },
+    async setUserCompanyId(companyId) {
+      this.userComapnyId = companyId;
+    },
+    async setAccessToken(accessToken) {
+      this.accessToken = accessToken;
+    },
+    */
     async login(credentials) {
       //await axios.get("sanctum/csrf-cookie");
 
@@ -25,11 +66,29 @@ export const useAuthStore = defineStore("auth", {
         const token = `Bearer ${response.authorization.access_token}`;
  
         localStorage.setItem("token", token);
+
+        //await this.setAccessToken(token);
         axios.defaults.headers.common["Authorization"] = token;
 
-        await this.fetchUser();
+        const userData = await this.fetchUser();
+        const userDataForStoring = {
+          user_id: userData.id,
+          user_name: userData.name,
+          user_surname: userData.surname,
+          user_company_id: userData.companies[0].id,
+          is_owner: userData.is_owner,
+        };
+
+        //console.log(userData.companies[0].id);
+
+        //await this.setUserCompanyId(userData.companies[0].id);
+        //await this.setUserId(userData.id);
+        //await this.setUserRole(userData.is_owner);
+        await this.setUserData(userDataForStoring);
+
         ToastService.showToast(response.message)
         //this.loggedIn = true;
+        this.loggedIn = true;
       }
     },
 
@@ -51,10 +110,13 @@ export const useAuthStore = defineStore("auth", {
 
     async fetchUser() {
       const response = await UserAuthService.userProfile();
-      this.user = response;
+      //this.user = response;
       //localStorage.setItem("user", this.user);
-      this.isAdmin = response.is_admin;
-      this.loggedIn = true;
+      //this.setUserCompanyId(response.user.company[0]);
+      //this.isOwner = response.is_owner;
+
+  
+      return response;
     },
   },
   persist: {

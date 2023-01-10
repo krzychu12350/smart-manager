@@ -5,39 +5,54 @@
     <input v-model="filterName" />
   </div>
 
-  <div class="flex flex-col">
+  <div class="z-1 flex flex-col">
     <div class="-my-3 overflow-x-auto sm:-mx-6 :-mx-8 lg:-mx-8">
       <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
         <div class="shadow overflow-hidden border-t border-gray-200 sm:rounded-t-lg">
           <VTable
             sortHeaderClass="flex items-center justify-between w-full"
-            :data="employees"
+            :data="applications"
             class="min-w-full divide-y divide-gray-200"
             :filters="filters"
           >
             <template #head class="bg-gray-50">
               <tr>
                 <VTh
-                  sortKey="name"
+                  sortKey="id"
                   scope="col"
                   class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  Name
+                  ID
                 </VTh>
 
                 <VTh
-                  sortKey="position"
+                  sortKey="user[0].surname"
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Candidate
+                </VTh>
+
+                <VTh
+                  sortKey="user[0].surname"
                   scope="col"
                   class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
                   Position
                 </VTh>
                 <VTh
-                  sortKey="salary"
+                  sortKey="application_date"
                   scope="col"
                   class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  Salary
+                  Application date
+                </VTh>
+                <VTh
+                  sortKey="status"
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Status
                 </VTh>
                 <th
                   scope="col"
@@ -48,30 +63,16 @@
               </tr>
             </template>
             <template #body="{ rows }" class="bg-white divide-y">
-              <tr v-for="employee in rows" :key="employee.guid" class="bg-white">
-                <td class="px-6 py-4 whitespace-nowrap">
+              <tr v-for="application in rows" :key="application.guid" class="bg-white">
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   <div class="flex items-center">
-                    <div class="flex-shrink-0 h-10 w-10">
-                      <!-- <img class="h-10 w-10 rounded-full" :src="person.image" alt="" />-->
-                      <img
-                        class="h-10 w-10 rounded-full"
-                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60"
-                        alt=""
-                      />
-                    </div>
-                    <div class="ml-4">
-                      <div class="text-sm font-medium text-gray-900">
-                        {{ employee.name }}
-                      </div>
-                      <div class="text-sm text-gray-500">
-                        {{ employee.surname }}
-                      </div>
-                    </div>
+                    <div class="flex-shrink-0 h-10 w-10">#{{ application.id }}</div>
                   </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-900">{{ employee.position }}</div>
-                  <div class="text-sm text-gray-500"></div>
+                  <div class="text-sm text-gray-900">
+                    {{ application.user[0].name }} {{ application.user[0].surname }}
+                  </div>
                 </td>
                 <!--
                 <td class="px-6 py-4 whitespace-nowrap">
@@ -83,11 +84,23 @@
                 </td>
                 -->
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {{ employee.role }}
-                  {{ employee.salary }}
+                  <div class="text-sm text-gray-900">Applied position</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <div class="text-sm text-gray-900">
+                    {{ moment(application.application_date).format("LL") }}
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <span
+                    :class="[statusStyles[String(application.status)]]"
+                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize"
+                  >
+                    {{ application.status }}
+                  </span>
                 </td>
                 <td
-                  class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-600 font-medium flex flex-row"
+                  class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-600 font-medium flex items-center"
                 >
                   <!--
                   <router-link
@@ -104,7 +117,7 @@
                   >
                   
                   </router-link>
-                  -->
+                 
                   <PencilIcon
                     @click="
                       emit('showEditingExistingEmployeeModal', {
@@ -113,11 +126,17 @@
                     "
                     class="w-5 h-10"
                   />
+                  -->
+                  <ApplicationActionMenuComponent
+                    :applicationId="application.id"
+                  ></ApplicationActionMenuComponent>
                   <TrashIcon
                     @click="
-                      emit('showDeleteConfirmationModal', { employeeId: employee.id })
+                      emit('showApplicationDeletingConfirmationModal', {
+                        applicationId: application.id,
+                      })
                     "
-                    class="w-5 h-10"
+                    class="w-5 h-10 ml-2"
                   />
                 </td>
               </tr>
@@ -165,15 +184,8 @@
       </div>
     </div>
 
-    <TailwindPagination
-      :data="pagination"
-      @pagination-change-page="getAllEmployees"
-      :limit="1"
-    />
     <!--<PaginationEmployeesComponent />-->
   </div>
-  <CreateNewEmployeeModalComponent />
-  <EditExistingEmployeeModalComponent />
 </template>
 
 <script setup>
@@ -181,24 +193,31 @@ import { ref, reactive, onMounted, watch } from "vue";
 import { PencilIcon, TrashIcon } from "@heroicons/vue/24/outline";
 import { useRouter } from "vue-router";
 import useEventsBus from "@/composables/eventBus";
-import UserDataService from "@/services/UserDataService";
-import CreateNewEmployeeModalComponent from "./modals/CreateNewEmployeeModalComponent.vue";
-import EditExistingEmployeeModalComponent from "./modals/EditExistingEmployeeModalComponent.vue";
-import PaginationEmployeesComponent from "@/components/employees/PaginationEmployeesComponent.vue";
-import { TailwindPagination } from "laravel-vue-pagination";
+import ApplicationDataService from "../../services/ApplicationDataService";
+import { useAuthStore } from "../../stores/useAuth";
+import { storeToRefs } from "pinia";
+import ApplicationActionMenuComponent from "./ApplicationActionMenuComponent.vue";
+import ToastService from "../../services/ToastService";
+import moment from "moment";
+
 const router = useRouter();
 const { emit, bus } = useEventsBus();
 
-const employees = ref([]);
+const userStore = useAuthStore();
+const { userData } = storeToRefs(userStore);
+const user = userData.value;
+const userCompanyId = user.user_company_id;
+
+const applications = ref([]);
 const pagination = ref({});
 let filterName = ref("");
 
-const getAllEmployees = async (page = 1) => {
-  UserDataService.getAll(page)
+const getAllApplications = async (page = 1) => {
+  ApplicationDataService.getAll(userCompanyId, page)
     .then(async (res) => {
-      employees.value = await res.data.employees.data;
-      pagination.value = await res.data.employees.pagination;
-      console.log(pagination.value);
+      applications.value = await res.data.applications;
+      //pagination.value = await res.data.employees.pagination;
+      console.log(applications.value);
     })
 
     .catch((error) => {
@@ -207,18 +226,49 @@ const getAllEmployees = async (page = 1) => {
 };
 
 const filters = {
-  name: { value: filterName, keys: ["name"] },
+  name: { value: filterName, keys: ["user[0].surname"] },
 };
-console.log(filters.name.value);
+const statusStyles = reactive({
+  accepted: "bg-green-100 text-green-800",
+  "in progress": "bg-yellow-100 text-yellow-800",
+  rejected: "bg-red-100 text-red-800",
+});
+
+const updateApplicationStatus = async (applicationId, status) => {
+  return ApplicationDataService.update(applicationId, status)
+    .then(async (res) => {
+      return res.data.message;
+    })
+
+    .catch((error) => {
+      console.log(error.response.data);
+    });
+};
+
 onMounted(() => {
-  getAllEmployees();
+  getAllApplications();
 });
 
 watch(
-  () => bus.value.get("refreshEmployeesTable"),
-  () => {
+  () => bus.value.get("refreshApplicationTable"),
+  (data) => {
     //alert("refresh users");
-    getAllEmployees();
+    getAllApplications();
+  }
+);
+
+watch(
+  () => bus.value.get("updateApplicationStatus"),
+  async (data) => {
+    const applicationId = data[0].applicationId;
+    console.log(data[0].applicationId, data[0].status);
+
+    const messageFromAPI = await updateApplicationStatus(data[0].applicationId, {
+      status: data[0].status,
+    });
+    console.log(messageFromAPI);
+    ToastService.showToast(messageFromAPI);
+    getAllApplications();
   }
 );
 </script>

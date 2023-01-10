@@ -160,7 +160,7 @@ const onSubmit = (credentials) => {
   useAuthStore()
     .login(credentials)
     .then((response) => {
-      console.log(response);
+      //console.log(response);
       router.push({ name: "home" });
     })
     .catch(() => {

@@ -14,9 +14,14 @@
           </div>
         </div>
       </div>
+
+      <applications-table-component></applications-table-component>
+      <ConfirmationApplicationDeletingModalComponent />
     </template>
   </Dashboard>
 </template>
 <script setup>
 import Dashboard from "../components/DashboardBaseComponent.vue";
+import ApplicationsTableComponent from "../components/applications/ApplicationsTableComponent.vue";
+import ConfirmationApplicationDeletingModalComponent from "../components/applications/modals/ConfirmationApplicationDeletingModalComponent.vue";
 </script>

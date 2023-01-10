@@ -68,7 +68,7 @@ Route::apiResource('employees', UserController::class)
 */
 
 Route::apiResource('companies', CompanyController::class);
-Route::apiResource('employees', UserController::class);
+Route::apiResource('users', UserController::class);
 Route::apiResource('positions', PositionController::class);
 Route::apiResource('applications', ApplicationController::class);
 

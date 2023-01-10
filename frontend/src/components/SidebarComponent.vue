@@ -66,6 +66,8 @@
                     : 'text-indigo-100 hover:bg-indigo-600',
                   'group flex items-center px-2 py-2 text-base font-medium rounded-md',
                 ]"
+                :v-if="item.visible_for_owner"
+                @click="setThisAsCurrent(item.name)"
               >
                 <component
                   :is="item.icon"
@@ -120,24 +122,26 @@
       </div>
       <div class="mt-5 flex-1 flex flex-col">
         <nav class="flex-1 px-2 pb-4 space-y-1">
-          <RouterLink
-            v-for="item in navigation"
-            :key="item.name"
-            :to="item.href"
-            :class="[
-              item.current
-                ? 'bg-indigo-800 text-white'
-                : 'text-indigo-100 hover:bg-indigo-600',
-              'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
-            ]"
-          >
-            <component
-              :is="item.icon"
-              class="mr-3 flex-shrink-0 h-6 w-6 text-indigo-300"
-              aria-hidden="true"
-            />
-            {{ item.name }}
-          </RouterLink>
+          <div>
+            <a
+              v-for="item in navigation"
+              :key="item.name"
+              :class="[
+                item.current
+                  ? 'bg-indigo-800 text-white'
+                  : 'text-indigo-100 hover:bg-indigo-600',
+                'group flex items-center px-2 py-2 text-sm font-medium rounded-md',
+              ]"
+              @click="emit('test', { to: item.href, name: item.name })"
+            >
+              <component
+                :is="item.icon"
+                class="mr-3 flex-shrink-0 h-6 w-6 text-indigo-300"
+                aria-hidden="true"
+              />
+              {{ item.name }}
+            </a>
+          </div>
         </nav>
       </div>
       <!--
@@ -166,7 +170,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import {
   Dialog,
   DialogOverlay,
@@ -191,15 +195,59 @@ import {
 } from "@heroicons/vue/24/outline";
 //import { SearchIcon } from '@heroicons/vue/24/solid'
 import useEventsBus from "@/composables/eventBus";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 const navigation = ref([
-  { name: "Dashboard", href: "/", icon: HomeIcon, current: true },
+  {
+    name: "Dashboard",
+    href: "/",
+    icon: HomeIcon,
+    current: true,
+    visible_for_owner: true,
+  },
   { name: "Emoloyees", href: "/admin/employees", icon: UsersIcon, current: false },
   //{ name: "Projects", href: "#", icon: FolderIcon, current: false },
   //{ name: "Calendar", href: "#", icon: CalendarIcon, current: false },
   { name: "Applications", href: "/admin/applications", icon: InboxIcon, current: false },
   { name: "Reports", href: "/admin/reports", icon: ChartBarIcon, current: false },
 ]);
+
+const adults = computed(() => {
+  return navigation.filter((item) => item.visible_for_owner === true);
+});
+
+console.log(adults);
+
+const setThisAsCurrent = async (name) => {
+  //await router.push(to);
+
+  const currentTab = navigation.value.filter((item) => {
+    //filter.current = true;
+    //return item.name === "Dashboard";
+    //console.log(item.name === "Dashboard");
+    //console.log(name);
+    item.current = false;
+    //console.log((item.current = false));
+    return item.name === name;
+    //return (items.name = "Reports");
+    //return test;
+  });
+
+  //currentTab[0].current == true;
+  //current = !current;
+
+  //this.navigation[3].current = !this.navigation[3].current;
+  //console.log(this.navigation[3]);
+  // console.log(currentTab);
+  currentTab[0].current = !currentTab[0].current;
+
+  //this.navigation[3].current = !this.navigation[3].current;
+  // currentTab[0].current = !currentTab[0].current;
+  // console.log(currentTab[0].current);
+  //setTimeout(router.push(to), 1000000);
+};
+
 const userNavigation = ref([
   { name: "Your Profile", href: "#" },
   { name: "Settings", href: "#" },
@@ -208,7 +256,7 @@ const userNavigation = ref([
 
 const sidebarOpen = ref(false);
 //open.value = true;
-const { bus } = useEventsBus();
+const { emit, bus } = useEventsBus();
 
 function showSidebar() {
   sidebarOpen.value = true;
@@ -234,6 +282,14 @@ watch(
   }
 );
 
+watch(
+  () => bus.value.get("test"),
+  async (to) => {
+    // console.log(to[0]);
+    router.push(to[0].to);
+    setTimeout(setThisAsCurrent(to[0].name), 20000);
+  }
+);
 /*
 export default defineComponent({
   name: "Sidebar",

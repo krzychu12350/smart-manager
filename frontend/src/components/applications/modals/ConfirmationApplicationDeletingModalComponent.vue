@@ -64,9 +64,7 @@
                 </DialogTitle>
                 <div class="mt-2">
                   <p class="text-sm text-gray-500">
-                    Are you sure you want to deactivate your account? All of your data
-                    will be permanently removed from our servers forever. This action
-                    cannot be undone.
+                    Are you sure you want to delete this application?
 
                     <slot name="dialog-description"></slot>
                   </p>
@@ -80,7 +78,7 @@
               <button
                 type="button"
                 class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-                @click="deleteEmployee(empId)"
+                @click="deleteApplication(appId)"
               >
                 Delete
               </button>
@@ -111,11 +109,11 @@ import {
 } from "@headlessui/vue";
 import { ExclamationTriangleIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import useEventsBus from "@/composables/eventBus";
-import UserDataService from "@/services/UserDataService";
+import ApplicationDataService from "../../../services/ApplicationDataService";
 import ToastService from "@/services/ToastService";
 
 let open = ref(false);
-const empId = ref(0);
+const appId = ref(0);
 //open.value = true;
 const { bus, emit } = useEventsBus();
 
@@ -128,16 +126,17 @@ function deleteEmployee() {
 }
 */
 
-const deleteEmployee = async (id) => {
-  // alert("id usera " + id);
+const deleteApplication = async (id) => {
+  //alert("id app " + id);
   toggleModal();
-  UserDataService.delete(id)
+
+  ApplicationDataService.delete(id)
     .then((res) => {
       console.log(res);
       //employees.value.splice(index, 1);
 
-      ToastService.showToast("Employee was deleted successfully");
-      emit("refreshEmployeesTable");
+      ToastService.showToast("Application was deleted successfully");
+      emit("refreshApplicationTable");
       //console.log(employees);
     })
     .catch((error) => {
@@ -146,20 +145,10 @@ const deleteEmployee = async (id) => {
 };
 
 watch(
-  () => bus.value.get("showDeleteConfirmationModal"),
+  () => bus.value.get("showApplicationDeletingConfirmationModal"),
   (val, open) => {
-    //console.log(val[0].employeeId);
-    empId.value = val[0].employeeId;
+    appId.value = val[0].applicationId;
     toggleModal();
-    //console.log(open[0]);
-    // destruct the parameters
-    const [sidebarCollapsedBus] = val ?? [];
-    //open = sidebarCollapsedBus.name;
-    //open = sidebarCollapsedBus;
-    //console.log("emitted" + sidebarCollapsedBus);
-    //open.value = true;
-    //open[0] = true;
-    //open = true;
   }
 );
 </script>

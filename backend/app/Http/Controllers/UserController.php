@@ -63,11 +63,11 @@ class UserController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show(User $employee)
+    public function show(User $user)
     {
         return response()->json([
             'status' => true,
-            'employee' => new UserResource($employee)
+            'employee' => new UserResource($user)
         ], 200);
     }
 

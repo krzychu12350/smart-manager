@@ -21,7 +21,7 @@ return [
 
     'allowed_origins' => ['*'],
 
-    'allowed_origins_patterns' => ['*', 'chicken123.loca.lt'],
+    'allowed_origins_patterns' => ['*'],
 
     'allowed_headers' => ['*'],
 

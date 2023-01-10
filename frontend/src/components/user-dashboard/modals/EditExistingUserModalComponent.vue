@@ -52,6 +52,7 @@
               @submit="onSubmit"
               :validation-schema="schema"
               @invalid-submit="onInvalidSubmit"
+              :initial-values="formValues"
               method="POST"
               class="space-y-8 divide-y divide-gray-200"
             >
@@ -59,13 +60,13 @@
                 <div class="pt-8">
                   <div>
                     <h3 class="text-lg leading-6 font-medium text-gray-900">
-                      Edit an employee
+                      Edit your personal details
                     </h3>
                   </div>
                   <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                     <div class="sm:col-span-3">
                       <label for="ame" class="block text-sm font-medium text-gray-700">
-                        First name
+                        First Name
                       </label>
                       <div class="mt-1">
                         <Field
@@ -95,7 +96,7 @@
                           id="surname"
                           autocomplete="family-name"
                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                        />
+                        ></Field>
                       </div>
                       <div class="text-sm text-red-600">
                         <ErrorMessage name="surname" />
@@ -107,29 +108,24 @@
                         for="position"
                         class="block text-sm font-medium text-gray-700"
                       >
-                        Position
+                        Salary
                       </label>
                       <div class="mt-1">
                         <Field
-                          id="position"
-                          name="position"
-                          as="select"
-                          type="boolean"
+                          id="industry"
+                          name="industry"
+                          type="text"
                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         >
-                          <option value="Manager">Manager</option>
-                          <option value="Junior Python Developer">
-                            Junior Python Developer
-                          </option>
                         </Field>
                       </div>
                       <div class="text-sm text-red-600">
-                        <ErrorMessage name="position"
-                          >Position is a required field</ErrorMessage
+                        <ErrorMessage name="industry"
+                          >Company industry is a required field</ErrorMessage
                         >
                       </div>
                     </div>
-
+                    <!--
                     <div class="sm:col-span-3">
                       <label for="salary" class="block text-sm font-medium text-gray-700">
                         Salary
@@ -147,27 +143,28 @@
                         <ErrorMessage name="salary" />
                       </div>
                     </div>
-
+                    -->
                     <div class="sm:col-span-3">
                       <label
                         for="country"
                         class="block text-sm font-medium text-gray-700"
                       >
-                        Admin
+                        Position
                       </label>
                       <div class="mt-1">
                         <Field
-                          name="is_admin"
-                          as="select"
+                          id="description"
+                          name="description"
+                          as="textarea"
+                          type="textarea"
                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         >
-                          <option :value="true">Yes</option>
-                          <option :value="false" selected>No</option>
+                          <textarea type="text" value="rrwr"></textarea>
                         </Field>
                       </div>
                       <div class="text-sm text-red-600">
-                        <ErrorMessage name="is_admin"
-                          >Admin is a required field</ErrorMessage
+                        <ErrorMessage name="description"
+                          >About company is required</ErrorMessage
                         >
                       </div>
                     </div>
@@ -188,7 +185,7 @@
                     type="submit"
                     class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >
-                    Save
+                    Save changes
                   </button>
                 </div>
               </div>
@@ -210,13 +207,15 @@ import {
   TransitionRoot,
 } from "@headlessui/vue";
 import { ExclamationTriangleIcon, XMarkIcon } from "@heroicons/vue/24/outline";
-import useEventsBus from "@/composables/eventBus";
+import useEventsBus from "../../../composables/eventBus";
 import * as yup from "yup";
-import UserDataService from "@/services/UserDataService";
 import ToastService from "@/services/ToastService";
-import { Form, Field, ErrorMessage } from "vee-validate";
+import { Form, Field, ErrorMessage, useForm } from "vee-validate";
 import { useRouter } from "vue-router";
 import { useErrorStore } from "../../../stores/useError";
+import ComapnyDataService from "@/services/ComapnyDataService";
+
+const currentUserData = ref();
 
 let open = ref(false);
 const empId = ref(0);
@@ -230,13 +229,29 @@ function deleteEmployee() {
   alert("works");
 }
 */
+//const city = currentCompanyData.value;
+//console.log(currentCompanyData.value.city);
+let test = "";
+// Initial values
+let formValues = {};
 
 watch(
-  () => bus.value.get("showEditingExistingEmployeeModal"),
-  (val, open) => {
-    empId.value = val[0].employeeId;
-    console.log(empId.value);
+  () => bus.value.get("showEditingExistingUserModal"),
+  (val) => {
+    currentUserData.value = val[0];
+    //console.log(currentUserData.value);
+    //test = String(currentCompanyData.value.city);
+    //console.log(test);
+
+    formValues = {
+      name: String(currentUserData.value.name),
+      surname: String(currentUserData.value.surname),
+      industry: String(currentUserData.value.industry),
+      description: String(currentUserData.value.description),
+    };
     toggleModal();
+
+    //alert("test");
   }
 );
 
@@ -244,12 +259,15 @@ const loading = ref(false);
 const router = useRouter();
 const error = useErrorStore();
 
-const onSubmit = async (newUserData) => {
-  console.log(newUserData);
-  UserDataService.update(empId.value, newUserData)
-    .then(() => {
-      ToastService.showToast("Update complete");
-      router.go();
+const onSubmit = async (companyUpdatedData) => {
+  //console.log(companyUpdatedData, currentCompanyData.value.id);
+
+  ComapnyDataService.update(currentCompanyData.value.id, companyUpdatedData)
+    .then(async (res) => {
+      //console.log(res.data.message);
+      toggleModal();
+      await ToastService.showToast(res.data.message);
+      //router.go();
     })
     .catch((error) => {
       const message =
@@ -262,11 +280,17 @@ const onSubmit = async (newUserData) => {
 };
 
 const schema = yup.object({
-  name: yup.string().required().min(3),
+  name: yup.string().required().min(4, "Company name must be at least 4 characters"),
   surname: yup.string().required().min(3),
-  salary: yup.number().required().min(4),
-  position: yup.string().required(),
-  is_admin: yup.boolean().required(),
+  industry: yup.string().required().min(4),
+  description: yup.string().required().min(3),
+
+  /*
+    company_name: String(currentCompanyData.value.name),
+      location: String(currentCompanyData.value.city),
+      comapny_industry: String(currentCompanyData.value.industry),
+      about_company: String(currentCompanyData.value.description),
+      */
 });
 
 function onInvalidSubmit({ values, errors, results }) {

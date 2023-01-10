@@ -19,18 +19,19 @@ class ApplicationController extends Controller
      */
     public function getCompanyApplications(Company $company): \Illuminate\Http\JsonResponse
     {
-       // dd($company->id);
+        // dd($company->id);
+        $applications = Application::where('company_id', $company->id)->get();
+
         return response()->json([
             'status' => true,
-            'applications' =>  Application::where('company_id', 1)->get()
-
+            'applications' => ApplicationResource::collection($applications)
         ], 200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(StoreApplicationRequest $request)
@@ -48,14 +49,14 @@ class ApplicationController extends Controller
         return response()->json([
             'status' => true,
             'message' => "Application was created successfully!",
-            'application' =>  new ApplicationResource($application)
+            'application' => new ApplicationResource($application)
         ], 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Application  $application
+     * @param \App\Models\Application $application
      * @return \Illuminate\Http\Response
      */
     public function show(Application $application)
@@ -66,8 +67,8 @@ class ApplicationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Application  $application
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Application $application
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateApplicationRequest $request, Application $application)
@@ -84,7 +85,7 @@ class ApplicationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Application  $application
+     * @param \App\Models\Application $application
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Application $application)

@@ -177,7 +177,7 @@ import {
   TransitionChild,
   TransitionRoot,
 } from "@headlessui/vue";
-import EmployeeDataService from "@/services/EmployeeDataService";
+import UserDataService from "@/services/UserDataService";
 import useEventsBus from "@/composables/eventBus";
 const { bus } = useEventsBus();
 const recent = [];
@@ -202,7 +202,7 @@ export default {
 const employees = ref([]);
 
 const getAllEmployees = (page = 1) => {
-  return EmployeeDataService.getAll(page)
+  return UserDataService.getAll(page)
     .then((res) => {
       employees.value = res.data.employees.data;
     })

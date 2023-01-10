@@ -288,7 +288,7 @@ import {
 } from "@headlessui/vue";
 import { ExclamationTriangleIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import useEventsBus from "@/composables/eventBus";
-import EmployeeDataService from "@/services/EmployeeDataService";
+import UserDataService from "@/services/UserDataService";
 import ToastService from "@/services/ToastService";
 
 import { Form, Field, ErrorMessage } from "vee-validate";
@@ -332,7 +332,7 @@ const onSubmit = async (newUserData) => {
   //loading.value = !loading.value
 
   console.log(newUserData);
-  EmployeeDataService.create(newUserData)
+  UserDataService.create(newUserData)
     .then(() => {
       ToastService.showToast("Employee created");
       router.go();

@@ -25,7 +25,7 @@ class StoreCompanyRequest extends ApiFormRequest
             'name' => "required|max:70",
             'city' => "required|max:70",
             'industry' => "required|max:70",
-            'description' => "required|max:70",
+            'description' => "required|min:10",
         ];
     }
 }

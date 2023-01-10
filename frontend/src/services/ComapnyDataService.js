@@ -1,6 +1,6 @@
 import api from "./api";
 
-class TutorialDataService {
+class CompanyDataService {
   getAll() {
     return api.get("/companies");
   }
@@ -30,4 +30,4 @@ class TutorialDataService {
   }
 }
 
-export default new TutorialDataService();
+export default new CompanyDataService();
