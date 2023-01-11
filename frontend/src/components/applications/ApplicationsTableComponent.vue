@@ -136,7 +136,7 @@
                         applicationId: application.id,
                       })
                     "
-                    class="w-5 h-10 ml-2"
+                    class="w-5 h-10 ml-2 cursor-pointer"
                   />
                 </td>
               </tr>

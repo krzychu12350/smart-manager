@@ -41,18 +41,30 @@ Route::group(['prefix' => 'auth', 'middleware' => ['cors', 'forceJSON'],], funct
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/reset-password-request', [PasswordResetRequestController::class, 'sendPasswordResetEmail']);
     Route::post('/change-password', [ChangePasswordController::class, 'passwordResetProcess']);
-});
-
-Route::group(['prefix' => 'auth', 'middleware' => ['auth:api', 'forceJSON']], function () {
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me', [AuthController::class, 'userProfile']);
+});
+
+Route::group(['prefix' => 'auth', 'middleware' => ['auth:api', 'forceJSON']], function () {
 
     //Route::post('books/{book}/ratings', 'RatingController@store');
 });
 
-Route::group(['middleware' => ['auth:api', 'admin']], function () {
-    Route::get('/pdf/formmark', [PdfDownloadController::class, 'downloadPdfEmployeeMarkReport']);
+Route::group(['middleware' => ['auth:api', 'admin', 'forceJSON']], function () {
+    Route::post('/pdf/employee-evaluation', [PdfDownloadController::class, 'downloadPdfEmployeeMarkReport']);
+    Route::post('/pdf/salary', [PdfDownloadController::class, 'downloadPdfSalaryReport']);
+
+    Route::apiResource('companies', CompanyController::class);
+    Route::apiResource('users', UserController::class);
+    Route::apiResource('positions', PositionController::class);
+    Route::apiResource('applications', ApplicationController::class);
+
+    Route::get('/companies/{company}/applications', [ApplicationController::class, 'getCompanyApplications']);
+    Route::get('/companies/{company}/employees', [CompanyEmployeeController::class, 'index']);
+    Route::post('/companies/{company}/employees', [CompanyEmployeeController::class, 'store']);
+    Route::put('/companies/{company}/employees', [CompanyEmployeeController::class, 'update']);
+    Route::delete('/companies/{company}/employees', [CompanyEmployeeController::class, 'destroy']);
 
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -66,18 +78,9 @@ Route::apiResource('companies', CompanyController::class)
 Route::apiResource('employees', UserController::class)
     ->only(['index', 'show']);
 */
-Route::post('/pdf/salary', [PdfDownloadController::class, 'downloadPdfSalaryReport']);
 
-Route::apiResource('companies', CompanyController::class);
-Route::apiResource('users', UserController::class);
-Route::apiResource('positions', PositionController::class);
-Route::apiResource('applications', ApplicationController::class);
 
-Route::get('/companies/{company}/applications', [ApplicationController::class, 'getCompanyApplications']);
-Route::get('/companies/{company}/employees', [CompanyEmployeeController::class, 'index']);
-Route::post('/companies/{company}/employees', [CompanyEmployeeController::class, 'store']);
-Route::put('/companies/{company}/employees', [CompanyEmployeeController::class, 'update']);
-Route::delete('/companies/{company}/employees', [CompanyEmployeeController::class, 'destroy']);
+
 
 Route::get('test', function () {
 

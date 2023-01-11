@@ -47,145 +47,145 @@
 							<td class="border-right">
 							<span class="text-inverse">Job knowledge</span><br>
 							</td>
-							<td class="text-center border-right">@if($job_knowledge == "excellent"){{ "X" }}@endif</td>
-							<td class="text-center border-right">@if($job_knowledge == "good"){{ "X" }}@endif</td>
-							<td class="text-right border-right">@if($job_knowledge == "fair"){{ "X" }}@endif</td>
-							<td class="text-right">@if($job_knowledge == "poor"){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($job_knowledge == 1){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($job_knowledge == 2){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($job_knowledge == 3){{ "X" }}@endif</td>
+							<td class="text-center">@if($job_knowledge == 4){{ "X" }}@endif</td>
 						</tr>
 						<tr>
 							<td class="border-right">
 							<span class="text-inverse">Productivity</span><br>
 							</td>
-							<td class="text-center border-right">@if($productivity == "excellent"){{ "X" }}@endif</td>
-							<td class="text-center border-right">@if($productivity == "good"){{ "X" }}@endif</td>
-							<td class="text-right border-right">@if($productivity == "fair"){{ "X" }}@endif</td>
-							<td class="text-right">@if($productivity == "poor"){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($productivity == 1){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($productivity == 2){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($productivity == 3){{ "X" }}@endif</td>
+							<td class="text-center">@if($productivity == 4){{ "X" }}@endif</td>
 						</tr>
 						<tr>
 							<td class="border-right">
 							<span class="text-inverse">Work quality</span><br>
 							</td>
-							<td class="text-center border-right">@if($work_quality == "excellent"){{ "X" }}@endif</td>
-							<td class="text-center border-right">@if($work_quality == "good"){{ "X" }}@endif</td>
-							<td class="text-right border-right">@if($work_quality == "fair"){{ "X" }}@endif</td>
-							<td class="text-right">@if($work_quality == "poor"){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($work_quality == 1){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($work_quality == 2){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($work_quality == 3){{ "X" }}@endif</td>
+							<td class="text-center">@if($work_quality == 4){{ "X" }}@endif</td>
 						</tr>
 						<tr>
 							<td class="border-right">
 							<span class="text-inverse">Technical skills</span><br>
 							</td>
-							<td class="text-center border-right">@if($technical_skills == "excellent"){{ "X" }}@endif</td>
-							<td class="text-center border-right">@if($technical_skills == "good"){{ "X" }}@endif</td>
-							<td class="text-right border-right">@if($technical_skills == "fair"){{ "X" }}@endif</td>
-							<td class="text-right">@if($technical_skills == "poor"){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($technical_skills == 1){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($technical_skills == 2){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($technical_skills == 3){{ "X" }}@endif</td>
+							<td class="text-center">@if($technical_skills == 4){{ "X" }}@endif</td>
 						</tr>
 						<tr>
 							<td class="border-right">
 							<span class="text-inverse">Work consistency</span><br>
 							</td>
-							<td class="text-center border-right">@if($work_consistency == "excellent"){{ "X" }}@endif</td>
-							<td class="text-center border-right">@if($work_consistency == "good"){{ "X" }}@endif</td>
-							<td class="text-right border-right">@if($work_consistency == "fair"){{ "X" }}@endif</td>
-							<td class="text-right">@if($work_consistency == "poor"){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($work_consistency == 1){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($work_consistency == 2){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($work_consistency == 3){{ "X" }}@endif</td>
+							<td class="text-center">@if($work_consistency == 4){{ "X" }}@endif</td>
 						</tr>
 						<tr>
 							<td class="border-right">
 							<span class="text-inverse">Enthusiasm</span><br>
 							</td>
-							<td class="text-center border-right">@if($enthusiasm == "excellent"){{ "X" }}@endif</td>
-							<td class="text-center border-right">@if($enthusiasm == "good"){{ "X" }}@endif</td>
-							<td class="text-right border-right">@if($enthusiasm == "fair"){{ "X" }}@endif</td>
-							<td class="text-right">@if($enthusiasm == "poor"){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($enthusiasm == 1){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($enthusiasm == 2){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($enthusiasm == 3){{ "X" }}@endif</td>
+							<td class="text-center">@if($enthusiasm == 4){{ "X" }}@endif</td>
 						</tr>
 						<tr>
 							<td class="border-right">
 							<span class="text-inverse">Cooperation</span><br>
 							</td>
-							<td class="text-center border-right">@if($cooperation == "excellent"){{ "X" }}@endif</td>
-							<td class="text-center border-right">@if($cooperation == "good"){{ "X" }}@endif</td>
-							<td class="text-right border-right">@if($cooperation == "fair"){{ "X" }}@endif</td>
-							<td class="text-right">@if($cooperation == "poor"){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($cooperation == 1){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($cooperation == 2){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($cooperation == 3){{ "X" }}@endif</td>
+							<td class="text-center">@if($cooperation == 4){{ "X" }}@endif</td>
 						</tr>
 						<tr>
 							<td class="border-right">
 							<span class="text-inverse">Attitude</span><br>
 							</td>
-							<td class="text-center border-right">@if($attitude == "excellent"){{ "X" }}@endif</td>
-							<td class="text-center border-right">@if($attitude == "good"){{ "X" }}@endif</td>
-							<td class="text-right border-right">@if($attitude == "fair"){{ "X" }}@endif</td>
-							<td class="text-right">@if($attitude == "poor"){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($attitude == 1){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($attitude == 2){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($attitude == 3){{ "X" }}@endif</td>
+							<td class="text-center">@if($attitude == 4){{ "X" }}@endif</td>
 						</tr>
 						<tr>
 							<td class="border-right">
 							<span class="text-inverse">Initiative</span><br>
 							</td>
-							<td class="text-center border-right">@if($initiative == "excellent"){{ "X" }}@endif</td>
-							<td class="text-center border-right">@if($initiative == "good"){{ "X" }}@endif</td>
-							<td class="text-right border-right">@if($initiative == "fair"){{ "X" }}@endif</td>
-							<td class="text-right">@if($initiative == "poor"){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($initiative == 1){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($initiative == 2){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($initiative == 3){{ "X" }}@endif</td>
+							<td class="text-center">@if($initiative == 4){{ "X" }}@endif</td>
 						</tr>
 						<tr>
 							<td class="border-right">
 							<span class="text-inverse">Work relations</span><br>
 							</td>
-							<td class="text-center border-right">@if($work_relations == "excellent"){{ "X" }}@endif</td>
-							<td class="text-center border-right">@if($work_relations == "good"){{ "X" }}@endif</td>
-							<td class="text-right border-right">@if($work_relations == "fair"){{ "X" }}@endif</td>
-							<td class="text-right">@if($work_relations == "poor"){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($work_relations == 1){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($work_relations == 2){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($work_relations == 3){{ "X" }}@endif</td>
+							<td class="text-center">@if($work_relations == 4){{ "X" }}@endif</td>
 						</tr>
 						<tr>
 							<td class="border-right">
 							<span class="text-inverse">Creativity</span><br>
 							</td>
-							<td class="text-center border-right">@if($creativity == "excellent"){{ "X" }}@endif</td>
-							<td class="text-center border-right">@if($creativity == "good"){{ "X" }}@endif</td>
-							<td class="text-right border-right">@if($creativity == "fair"){{ "X" }}@endif</td>
-							<td class="text-right">@if($creativity == "poor"){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($creativity == 1){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($creativity == 2){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($creativity == 3){{ "X" }}@endif</td>
+							<td class="text-center">@if($creativity == 4){{ "X" }}@endif</td>
 						</tr>
 						<tr>
 							<td class="border-right">
 							<span class="text-inverse">Punctuality</span><br>
 							</td>
-							<td class="text-center border-right">@if($punctuality == "excellent"){{ "X" }}@endif</td>
-							<td class="text-center border-right">@if($punctuality == "good"){{ "X" }}@endif</td>
-							<td class="text-right border-right">@if($punctuality == "fair"){{ "X" }}@endif</td>
-							<td class="text-right">@if($punctuality == "poor"){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($punctuality == 1){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($punctuality == 2){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($punctuality == 3){{ "X" }}@endif</td>
+							<td class="text-center">@if($punctuality == 4){{ "X" }}@endif</td>
 						</tr>
 						<tr>
 							<td class="border-right">
 							<span class="text-inverse">Attendance</span><br>
 							</td>
-							<td class="text-center border-right">@if($attendance == "excellent"){{ "X" }}@endif</td>
-							<td class="text-center border-right">@if($attendance == "good"){{ "X" }}@endif</td>
-							<td class="text-right border-right">@if($attendance == "fair"){{ "X" }}@endif</td>
-							<td class="text-right">@if($attendance == "poor"){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($attendance == 1){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($attendance == 2){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($attendance == 3){{ "X" }}@endif</td>
+							<td class="text-center">@if($attendance == 4){{ "X" }}@endif</td>
 						</tr>
 						<tr>
 							<td class="border-right">
 							<span class="text-inverse">Dependability</span><br>
 							</td>
-							<td class="text-center border-right">@if($dependability == "excellent"){{ "X" }}@endif</td>
-							<td class="text-center border-right">@if($dependability == "good"){{ "X" }}@endif</td>
-							<td class="text-right border-right">@if($dependability == "fair"){{ "X" }}@endif</td>
-							<td class="text-right">@if($dependability == "poor"){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($dependability == 1){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($dependability == 2){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($dependability == 3){{ "X" }}@endif</td>
+							<td class="text-center">@if($dependability == 4){{ "X" }}@endif</td>
 						</tr>
 						<tr>
 							<td class="border-right">
 							<span class="text-inverse">Communication skills</span><br>
 							</td>
-							<td class="text-center border-right">@if($communication_skills == "excellent"){{ "X" }}@endif</td>
-							<td class="text-center border-right">@if($communication_skills == "good"){{ "X" }}@endif</td>
-							<td class="text-right border-right">@if($communication_skills == "fair"){{ "X" }}@endif</td>
-							<td class="text-right">@if($communication_skills == "poor"){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($communication_skills == 1){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($communication_skills == 2){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($communication_skills == 3){{ "X" }}@endif</td>
+							<td class="text-center">@if($communication_skills == 4){{ "X" }}@endif</td>
 						</tr>
 						<tr class="bg-white">
 							<td class="border-right">
 							<span class="text-inverse"><strong>Overall rating</strong></span><br>
 							</td>
-							<td class="text-center border-right">@if($overall_rating == "excellent"){{ "X" }}@endif</td>
-							<td class="text-center border-right">@if($overall_rating == "good"){{ "X" }}@endif</td>
-							<td class="text-right border-right">@if($overall_rating == "fair"){{ "X" }}@endif</td>
-							<td class="text-right">@if($overall_rating == "poor"){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($overall_rating == 1){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($overall_rating == 2){{ "X" }}@endif</td>
+							<td class="text-center border-right">@if($overall_rating == 3){{ "X" }}@endif</td>
+							<td class="text-center">@if($overall_rating == 4){{ "X" }}@endif</td>
 						</tr>
 					</tbody>
 				</table>

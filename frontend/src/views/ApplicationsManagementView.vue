@@ -21,7 +21,16 @@
   </Dashboard>
 </template>
 <script setup>
+import { defineAsyncComponent } from "vue";
 import Dashboard from "../components/DashboardBaseComponent.vue";
-import ApplicationsTableComponent from "../components/applications/ApplicationsTableComponent.vue";
-import ConfirmationApplicationDeletingModalComponent from "../components/applications/modals/ConfirmationApplicationDeletingModalComponent.vue";
+//import ApplicationsTableComponent from "../components/applications/ApplicationsTableComponent.vue";
+//import ConfirmationApplicationDeletingModalComponent from "../components/applications/modals/ConfirmationApplicationDeletingModalComponent.vue";
+const ApplicationsTableComponent = defineAsyncComponent(() =>
+  import("../components/applications/ApplicationsTableComponent.vue")
+);
+const ConfirmationApplicationDeletingModalComponent = defineAsyncComponent(() =>
+  import(
+    "../components/applications/modals/ConfirmationApplicationDeletingModalComponent.vue"
+  )
+);
 </script>

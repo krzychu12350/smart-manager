@@ -14,8 +14,8 @@ class PdfDownloadService
         $company = Company::findOrFail($salaryData['company']);
         $usersWithIncomesGroupByPositions = User::join('incomes', 'incomes.user_id', 'users.id')
             ->whereRelation('companies', 'companies.id', '=', $company->id)
-            ->where('is_owner', false)->where('incomes.created_at', '>', $salaryData['dateFrom'])
-            ->where('incomes.created_at', '<', $salaryData['dateTo'])
+            ->where('is_owner', false)->where('incomes.created_at', '>', $salaryData['date_from'])
+            ->where('incomes.created_at', '<', $salaryData['date_to'])
             ->get()->groupBy('position');
         $valuesByGroups = $usersWithIncomesGroupByPositions->map(function ($row) {
             return array(
@@ -29,8 +29,8 @@ class PdfDownloadService
         return PDF::loadView('pdf.salaryreport', [
             'company' => $company->name,
             'salaries' => $valuesByGroups,
-            'dateFrom' => $salaryData['dateFrom'],
-            'dateTo' => $salaryData['dateTo'],
+            'dateFrom' => $salaryData['date_from'],
+            'dateTo' => $salaryData['date_to'],
         ]);
     }
 
@@ -38,7 +38,7 @@ class PdfDownloadService
     {
         $employee = User::findOrFail($markData['employee_id']);
         $reviewer = User::findOrFail($markData['reviewer_id']);
-        $company = User::findOrFail($markData['company_id']);
+        $company = Company::findOrFail($markData['company_id']);
 
         return PDF::loadView('pdf.markreport', [
             "employee" => $employee->name . " " . $employee->surname,

@@ -9,7 +9,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "vtd-primary": colors.sky,
+        "vtd-primary": colors.indigo,
         "vtd-secondary": colors.gray,
       },
     },

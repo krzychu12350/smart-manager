@@ -56,17 +56,25 @@
   <EmployeesSearchEngineComponentVue />
 
   <ConfirmationModalComponent />
+  <EmployeeEvaluationFormComponent></EmployeeEvaluationFormComponent>
 </template>
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, defineAsyncComponent } from "vue";
 import Dashboard from "../components/DashboardBaseComponent.vue";
 import TableComponent from "../components/employees/EmployeesTableComponent.vue";
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "../stores/useAuth";
 import ConfirmationModalComponent from "../components/employees/modals/ConfirmationModalEmployeeDeletingComponent.vue";
 import useEventsBus from "@/composables/eventBus";
-import EmployeesSearchEngineComponentVue from "../components/employees/EmployeesSearchEngineComponent.vue";
+//import EmployeesSearchEngineComponentVue from "../components/employees/EmployeesSearchEngineComponent.vue";
 import SearchBoxTriggerComponent from "@/components/employees/SearchBoxTriggerComponent.vue";
+//import EmployeeEvaluationFormComponent from "../components/employees/modals/EmployeeEvaluationFormComponent.vue";
+const EmployeeEvaluationFormComponent = defineAsyncComponent(() =>
+  import("../components/employees/modals/EmployeeEvaluationFormComponent.vue")
+);
+const EmployeesSearchEngineComponentVue = defineAsyncComponent(() =>
+  import("../components/employees/EmployeesSearchEngineComponent.vue")
+);
 const { emit, bus } = useEventsBus();
 
 const userStore = useAuthStore();

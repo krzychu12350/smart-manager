@@ -19,7 +19,7 @@
 				</span>
 			</div>
 			<div class="invoice-from mt-3">
-				For a period:<br/><br/>
+                Period of time<br/><br/>
 				<small>From:</small>
                	<div class="m-t-5 m-b-5">
                   <strong class="text-inverse">{{ $dateFrom }}</strong><br>

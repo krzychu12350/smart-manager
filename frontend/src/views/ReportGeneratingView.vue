@@ -54,112 +54,73 @@
         <div class="space-y-6 lg:col-start-1 lg:col-span-2">
           <!-- Description list-->
           <section aria-labelledby="applicant-information-title">
-            <div class="bg-white shadow sm:rounded-lg">
-              <div class="px-4 py-5 sm:px-6">
-                <h2
-                  id="applicant-information-title"
-                  class="text-lg leading-6 font-medium text-gray-900"
-                >
-                  Generate salary report
-                </h2>
-                <p class="mt-1 max-w-2xl text-sm text-gray-500">
-                  Fill in details to generate report.
-                </p>
-              </div>
-              <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
-                <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-1">
-                  <div class="sm:col-span-1">
-                    <dt class="text-sm font-medium text-gray-500">Period</dt>
-                    <!--<dd class="mt-1 text-sm text-gray-900">Backend Developer</dd>-->
-                    <vue-tailwind-datepicker
-                      :formatter="formatter"
-                      v-model="dateValue"
-                      class="mt-2"
-                    />
-                  </div>
-                  <div class="sm:col-span-1">
-                    <dt class="text-sm font-medium text-gray-500">Company</dt>
-                    <select
-                      id="location"
-                      name="location"
-                      class="mt-2 block w-full pl-3 pr-10 py-2 pb-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                    >
-                      <option>Facebook</option>
-                      <option selected="">Amazon</option>
-                      <option>Google</option>
-                    </select>
-                  </div>
+            <Form
+              @submit="onSubmit"
+              :validation-schema="schema"
+              @invalid-submit="onInvalidSubmit"
+              method="POST"
+              class="space-y-8 divide-y divide-gray-200"
+            >
+              <div class="bg-white shadow sm:rounded-lg">
+                <div class="px-4 py-5 sm:px-6">
+                  <h2
+                    id="applicant-information-title"
+                    class="text-lg leading-6 font-medium text-gray-900"
+                  >
+                    Generate salary report
+                  </h2>
+                  <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                    Fill in details to generate report.
+                  </p>
+                </div>
 
-                  <!--
-                  <div class="sm:col-span-1">
-                    <dt class="text-sm font-medium text-gray-500">Email address</dt>
-                    <dd class="mt-1 text-sm text-gray-900">ricardocooper@example.com</dd>
-                  </div>
-                  <div class="sm:col-span-1">
-                    <dt class="text-sm font-medium text-gray-500">Salary expectation</dt>
-                    <dd class="mt-1 text-sm text-gray-900">$120,000</dd>
-                  </div>
-                  <div class="sm:col-span-1">
-                    <dt class="text-sm font-medium text-gray-500">Phone</dt>
-                    <dd class="mt-1 text-sm text-gray-900">+1 555-555-5555</dd>
-                  </div>
-             
-                  <div class="sm:col-span-2">
-                    <dt class="text-sm font-medium text-gray-500">About</dt>
-                    <dd class="mt-1 text-sm text-gray-900">
-                      Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim
-                      incididunt cillum culpa consequat. Excepteur qui ipsum aliquip
-                      consequat sint. Sit id mollit nulla mollit nostrud in ea officia
-                      proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit
-                      deserunt qui eu.
-                    </dd>
-                  </div>
-                
-                  <div class="sm:col-span-2">
-                    <dt class="text-sm font-medium text-gray-500">Attachments</dt>
-                    <dd class="mt-1 text-sm text-gray-900">
-                      <ul
-                        role="list"
-                        class="border border-gray-200 rounded-md divide-y divide-gray-200"
+                <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
+                  <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-1">
+                    <div class="sm:col-span-1">
+                      <dt class="text-sm font-medium text-gray-500">Period</dt>
+                      <!--<dd class="mt-1 text-sm text-gray-900">Backend Developer</dd>-->
+                      <vue-tailwind-datepicker
+                        :disable-date="dDate"
+                        :formatter="formatter"
+                        v-model="dateInterval"
+                        class="mt-2"
+                      />
+                      <Field
+                        name="date_interval"
+                        type="hidden"
+                        v-model="dateInterval[0]"
+                      ></Field>
+                      <div class="text-sm text-red-600 mt-2">
+                        <ErrorMessage name="date_interval"></ErrorMessage>
+                      </div>
+                    </div>
+                    <div class="sm:col-span-1">
+                      <dt class="text-sm font-medium text-gray-500">Company</dt>
+                      <Field
+                        id="company"
+                        name="company"
+                        as="select"
+                        class="mt-2 block w-full pl-3 pr-10 py-2 pb-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                       >
-                        <li
-                          v-for="attachment in attachments"
-                          :key="attachment.name"
-                          class="pl-3 pr-4 py-3 flex items-center justify-between text-sm"
-                        >
-                          <div class="w-0 flex-1 flex items-center">
-                            <PaperClipIcon
-                              class="flex-shrink-0 h-5 w-5 text-gray-400"
-                              aria-hidden="true"
-                            />
-                            <span class="ml-2 flex-1 w-0 truncate">
-                              {{ attachment.name }}
-                            </span>
-                          </div>
-                          <div class="ml-4 flex-shrink-0">
-                            <a
-                              :href="attachment.href"
-                              class="font-medium text-blue-600 hover:text-blue-500"
-                            >
-                              Download
-                            </a>
-                          </div>
-                        </li>
-                      </ul>
-                    </dd>
-                  </div>
-                   -->
-                </dl>
-              </div>
+                        <option v-for="company in ownerCompanies" :value="company.id">
+                          {{ company.name }}
+                        </option>
+                      </Field>
+                      <div class="text-sm text-red-600 mt-2">
+                        <ErrorMessage name="company"></ErrorMessage>
+                      </div>
+                    </div>
+                  </dl>
+                </div>
 
-              <div @click="generateSalaryReport">
-                <a
-                  href="#"
-                  class="bg-indigo-600 hover:bg-indigo-700 block bg-gray-50 text-sm font-medium text-white text-center px-4 py-4 hover:text-white sm:rounded-b-lg"
-                  >Generate</a
+                <button
+                  type="submit"
+                  class="min-w-full bg-indigo-600 hover:bg-indigo-700 block bg-gray-50 text-sm font-medium text-white text-center px-4 py-4 hover:text-white sm:rounded-b-lg"
                 >
+                  Generate
+                </button>
               </div>
-            </div>
+            </Form>
           </section>
         </div>
       </div>
@@ -167,28 +128,52 @@
   </Dashboard>
 </template>
 <script setup>
+import { ref, onMounted } from "vue";
+import { Form, Field, ErrorMessage } from "vee-validate";
+import * as yup from "yup";
 import Dashboard from "../components/DashboardBaseComponent.vue";
-import PdfReportService from "@/services/PdfReportService";
-import api from "@/services/api";
-import { ref } from "vue";
-const dateValue = ref([]);
+import PdfDataService from "../services/PdfDataService";
+import { storeToRefs } from "pinia";
+import { useAuthStore } from "@/stores/useAuth";
+import UserDataService from "@/services/UserDataService";
+
+const userStore = useAuthStore();
+const { userData } = storeToRefs(userStore);
+const loggedInOwner = userData.value;
+const ownerCompanies = ref([]);
+
+const requestPayload = ref({});
+
+const dateInterval = ref([]);
 const formatter = ref({
-  date: "DD MMM YYYY",
+  date: "YYYY-MM-DD",
   month: "MMM",
 });
-const data = JSON.stringify({
-  company: 1,
-  dateFrom: "2022-11-09 22:09:38",
-  dateTo: "2022-11-09 22:09:38",
+const dDate = (date) => {
+  return date > new Date();
+};
+onMounted(() => {
+  UserDataService.get(loggedInOwner.user_id)
+    .then((res) => {
+      ownerCompanies.value = res.data.employee.companies;
+      console.log(ownerCompanies.value);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
-
+/*
 const generateSalaryReport = async () => {
   //alert("test");
-  console.log(data);
-  api
-    .post("/pdf/salary", data, {
-      responseType: "blob",
-    })
+
+  requestPayload.value = JSON.stringify({
+    company: loggedInOwner.user_company_id,
+    date_from: dateInterval.value[0],
+    date_to: dateInterval.value[1],
+  });
+  console.log(requestPayload.value);
+
+  PdfDataService.getSalaryReport(requestPayload.value)
     .then((response) => {
       if (response.status == 200) {
         let blob = new Blob([response.data], { type: "application/pdf" });
@@ -200,4 +185,36 @@ const generateSalaryReport = async () => {
       console.log(error);
     });
 };
+*/
+const onSubmit = async (newUserData) => {
+  requestPayload.value = JSON.stringify({
+    company: loggedInOwner.user_company_id,
+    date_from: dateInterval.value[0],
+    date_to: dateInterval.value[1],
+  });
+  console.log(requestPayload.value);
+
+  PdfDataService.getSalaryReport(requestPayload.value)
+    .then((response) => {
+      if (response.status == 200) {
+        let blob = new Blob([response.data], { type: "application/pdf" });
+        let fileURL = window.URL.createObjectURL(blob);
+        window.open(fileURL, "_self");
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+const schema = yup.object({
+  company: yup.number().required("Comapny is a required field"),
+  date_interval: yup.string().required("Select a date interval"),
+});
+
+function onInvalidSubmit({ values, errors, results }) {
+  console.log(values); // current form values
+  console.log(errors); // a map of field names and their first error message
+  console.log(results); // a detailed map of field names and their validation results
+}
 </script>

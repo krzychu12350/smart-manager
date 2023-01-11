@@ -105,19 +105,27 @@
                   
                   </router-link>
                   -->
+                  <CalculatorIcon
+                    @click="
+                      emit('showEmployeeEvaluationForm', {
+                        employee: employee,
+                      })
+                    "
+                    class="w-5 h-10 mr-2 cursor-pointer"
+                  />
                   <PencilIcon
                     @click="
                       emit('showEditingExistingEmployeeModal', {
                         employeeId: employee.id,
                       })
                     "
-                    class="w-5 h-10"
+                    class="w-5 h-10 mr-2 cursor-pointer"
                   />
                   <TrashIcon
                     @click="
                       emit('showDeleteConfirmationModal', { employeeId: employee.id })
                     "
-                    class="w-5 h-10"
+                    class="w-5 h-10 cursor-pointer"
                   />
                 </td>
               </tr>
@@ -178,7 +186,7 @@
 
 <script setup>
 import { ref, reactive, onMounted, watch } from "vue";
-import { PencilIcon, TrashIcon } from "@heroicons/vue/24/outline";
+import { PencilIcon, TrashIcon, CalculatorIcon } from "@heroicons/vue/24/outline";
 import { useRouter } from "vue-router";
 import useEventsBus from "@/composables/eventBus";
 import UserDataService from "@/services/UserDataService";

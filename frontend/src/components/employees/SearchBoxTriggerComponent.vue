@@ -19,10 +19,7 @@
           class="inline-flex items-center border border-gray-200 rounded px-2 text-sm font-sans font-medium text-gray-400"
         >
           ctrl + k
-          <hotkeys
-            :shortcuts="['R', 'A', 'K', 'F', 'ArrowLeft', 'ArrowRight']"
-            @triggered="onTriggeredEventHandler"
-          />
+          <hotkeys :shortcuts="['K']" @triggered="onTriggeredEventHandler" />
         </kbd>
       </div>
     </div>

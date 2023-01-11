@@ -1,12 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '../views/Authentication/LoginView.vue'
 import RegisterView from '../views/Authentication/RegisterView.vue'
-
 import RequestPasswordResetView from '@/views/Authentication/RequestPasswordResetView.vue'
 import UpdatePasswordResetView from '@/views/Authentication/UpdatePasswordResetView.vue'
 import UserDashboardView from '@/views/UserDashboardView.vue'
 import ApplicationsManagementView from '@/views/ApplicationsManagementView.vue'
+import { storeToRefs } from "pinia";
 import { useAuthStore } from "../stores/useAuth";
+
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -97,6 +99,8 @@ router.beforeEach((to, from, next) => {
 });
 */
 
+
+
 router.beforeEach((to, from, next) => {
   const publicPages = ['/login', '/register', '/reset-password', '/change-password/' + to.params.token];
   const authRequired = !publicPages.includes(to.path);
@@ -107,6 +111,15 @@ router.beforeEach((to, from, next) => {
       next();
   }
 });
+/*
+router.beforeEach((to, from, next) => {
+  const userStore = useAuthStore();
+  const { userData } = storeToRefs(userStore);
+  const loggedInOwner = userData.value;
+  console.log(loggedInOwner.is_owner);
 
-
+  if (!loggedInOwner.is_owner == 1) router.push({ path: '/' });
+  else next()
+})
+*/
 export default router

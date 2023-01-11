@@ -3,7 +3,7 @@
     <Dialog
       as="div"
       class="fixed inset-0 z-10 overflow-y-auto p-4 sm:p-6 md:p-20"
-      @close="open = true"
+      @close="open = false"
     >
       <TransitionChild
         as="template"
@@ -135,6 +135,7 @@
                 </dl>
                 <button
                   type="button"
+                  @click="emit('showEmployeeEvaluationForm', { employee: activeOption })"
                   class="mt-6 w-full rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
                   Make the evaluation
@@ -179,7 +180,7 @@ import {
 } from "@headlessui/vue";
 import UserDataService from "@/services/UserDataService";
 import useEventsBus from "@/composables/eventBus";
-const { bus } = useEventsBus();
+const { bus, emit } = useEventsBus();
 const recent = [];
 /*
 export default {
