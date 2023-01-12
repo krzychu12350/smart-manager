@@ -72,6 +72,9 @@ export const useAuthStore = defineStore("auth", {
         axios.defaults.headers.common["Authorization"] = token;
 
         const userData = await this.fetchUser();
+        //console.log(userData.companies[0].id);
+
+      
 
         const userDataForStoring = {
           user_id: userData.id,
@@ -80,6 +83,7 @@ export const useAuthStore = defineStore("auth", {
           user_company_id: userData.companies[0].id,
           is_owner: userData.is_owner,
         };
+     
 
         //console.log(userData.companies[0].id);
 

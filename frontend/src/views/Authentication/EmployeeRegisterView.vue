@@ -16,7 +16,7 @@
           alt="Smart Manager"
         />
         <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-          Change your password
+          Sign in to your account
         </h2>
         <p class="mt-2 text-center text-sm text-gray-600">
           Or
@@ -24,7 +24,7 @@
           <RouterLink
             to="/login"
             class="font-medium text-indigo-600 hover:text-indigo-500"
-            >sign in if you would like undo this operation</RouterLink
+            >sign if if you already have an account</RouterLink
           >
         </p>
       </div>
@@ -37,6 +37,36 @@
       >
         <input type="hidden" name="remember" value="true" />
         <div class="rounded-md shadow-sm">
+          <div class="mb-4">
+            <label for="email-address" class="sr-only">First name</label>
+            <Field
+              id="email-address"
+              name="name"
+              type="text"
+              autocomplete="email"
+              required=""
+              class="relative block w-full appearance-none rounded border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              placeholder="First name"
+            />
+            <div class="text-sm text-red-600">
+              <ErrorMessage name="name" />
+            </div>
+          </div>
+          <div class="mb-4">
+            <label for="email-address" class="sr-only">Surname</label>
+            <Field
+              id="email-address"
+              name="surname"
+              type="text"
+              autocomplete="email"
+              required=""
+              class="relative block w-full appearance-none rounded border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              placeholder="Surname"
+            />
+            <div class="text-sm text-red-600">
+              <ErrorMessage name="surname" />
+            </div>
+          </div>
           <div class="mt-4">
             <label for="email-address" class="sr-only">Email address</label>
             <Field
@@ -63,6 +93,7 @@
               class="relative block w-full appearance-none rounded border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
               placeholder="Password"
             />
+
             <div class="text-sm text-red-600">
               <ErrorMessage name="password" />
             </div>
@@ -75,7 +106,7 @@
               id="password_confirmation"
               name="password_confirmation"
               type="password"
-              autocomplete="current-password"
+              autocomplete="password_confirmation"
               required=""
               class="relative block w-full appearance-none rounded border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
               placeholder="Password confirmation"
@@ -98,7 +129,7 @@
                 aria-hidden="true"
               />
             </span>
-            Change password
+            Sign up
           </button>
         </div>
       </Form>
@@ -153,8 +184,6 @@ import { useAuthStore } from "../../stores/useAuth";
 import { useErrorStore } from "../../stores/useError";
 import UserAuthService from "../../services/UserAuthService";
 import ToastService from "../../services/ToastService";
-import { useRoute } from "vue-router";
-const route = useRoute();
 
 //const credentials = ref({});
 const loading = ref(false);
@@ -165,15 +194,16 @@ const user = {
   password: "tCruise12?3",
 };
 
-const onSubmit = async (resetPasswordData) => {
-  const token = route.params.token;
+const onSubmit = async (newUserData) => {
   //loading.value = !loading.value;
-  console.log(route.params.token);
 
-  UserAuthService.passwordResetUpdate(resetPasswordData, token)
+  newUserData.is_owner = 0;
+  console.log(newUserData);
+
+  UserAuthService.register(newUserData)
     .then((res) => {
       console.log(res);
-      ToastService.showToast(res.data);
+      ToastService.showToast(res.data.message);
       router.push("/login");
     })
     .catch((error) => {
@@ -181,8 +211,8 @@ const onSubmit = async (resetPasswordData) => {
         (error.response && error.response.data && error.response.data.message) ||
         error.message ||
         error.toString();
-      //console.log(message);
-      ToastService.showToast(message);
+      console.log(message);
+      ToastService.showToast(error.message);
     });
 
   /*
@@ -197,12 +227,8 @@ const onSubmit = async (resetPasswordData) => {
 };
 
 const schema = yup.object({
-  /*
-  email: yup.string().required(),
-  password: yup.string().required(),
-  password_confirmation: yup.string(),
-*/
-
+  name: yup.string().required().min(6),
+  surname: yup.string().required().min(6),
   email: yup.string().required().email(),
   password: yup.string().required().min(8),
   password_confirmation: yup

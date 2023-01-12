@@ -1,6 +1,9 @@
 <template>
-  <div class="sticky top-0 z-10 flex-shrink-0 flex h-16 bg-white shadow">
+  <header class="sticky top-0 z-10 flex-shrink-0 flex h-16 bg-white shadow">
     <!-- @click="sidebarOpen = true"-->
+    <div class="mx-auto max-w-7xl py-4 px-4 sm:px-6 lg:px-8">
+      <h1 class="text-xl font-bold tracking-tight text-gray-900">Applications</h1>
+    </div>
     <button
       type="button"
       class="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
@@ -99,7 +102,7 @@
         </Menu>
       </div>
     </div>
-  </div>
+  </header>
 </template>
 <script>
 import {

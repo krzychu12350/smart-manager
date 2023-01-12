@@ -75,6 +75,11 @@ class ApplicationController extends Controller
     {
         $application->update($request->validated());
 
+        $company = Company::findOrFail($application->company_id);
+        //dd($application);
+        $company->employees()->syncWithoutDetaching($application->user_id);
+        //$application->delete();
+
         return response()->json([
             'status' => true,
             'message' => "Application was updated successfully!",

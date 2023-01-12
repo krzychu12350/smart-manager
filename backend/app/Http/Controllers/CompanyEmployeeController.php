@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CompanyUserRequest;
 use App\Http\Resources\CompanyResource;
+use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Models\Company;
 use Illuminate\Http\JsonResponse;
@@ -29,7 +30,9 @@ class CompanyEmployeeController extends Controller
     {
         return response()->json([
             'status' => true,
-            'employees' => $company->employees()->get()
+            //'employees' => $company->employees()->get()
+            //'companies' => new CompanyCollection(Company::paginate(10))
+            'employees' => new UserCollection($company->employees()->paginate(10))
         ], 200);
     }
 
@@ -43,10 +46,10 @@ class CompanyEmployeeController extends Controller
     public function store(CompanyUserRequest $request, Company $company)
     {
         //dd($request['employees']);
-        $employeesIds = $request->only('employees');
+        $employeesIds = $request->only('user');
 
 
-        $company->employees()->syncWithoutDetaching($request['employees']);
+        $company->employees()->syncWithoutDetaching($request->validated());
 
         return response()->json([
             'status' => true,

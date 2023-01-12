@@ -1,13 +1,13 @@
 <template>
-  <!--
-    This example requires updating your template:
-
-    ```
-    <html class="h-full bg-gray-50">
-    <body class="h-full">
-    ```
-  -->
-  <div class="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <CreatingNewCompanyView
+    v-if="isOwnerRegistered"
+    :owner_id="registeredOwnerId"
+    :owner_credentails="registeredOwnerData"
+  ></CreatingNewCompanyView>
+  <div
+    v-else
+    class="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8"
+  >
     <div class="w-full max-w-md space-y-8">
       <div>
         <img
@@ -98,6 +98,23 @@
             </div>
           </div>
         </div>
+        <div class="mt-4">
+          <label for="password_confirmation" class="sr-only mt-8"
+            >Password confirmation</label
+          >
+          <Field
+            id="password_confirmation"
+            name="password_confirmation"
+            type="password"
+            autocomplete="password_confirmation"
+            required=""
+            class="relative block w-full appearance-none rounded border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+            placeholder="Password confirmation"
+          />
+          <div class="text-sm text-red-600">
+            <ErrorMessage name="password_confirmation" />
+          </div>
+        </div>
 
         <div>
           <button
@@ -130,8 +147,8 @@ export default {
   },
   methods: {
     showToast() {
-    
-      
+
+
     },
     handleRegister() {
       const newUser = {
@@ -160,15 +177,21 @@ export default {
 
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
-import { ref, onBeforeUnmount } from "vue";
+import { ref, onBeforeUnmount, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/useAuth";
 import { useErrorStore } from "../../stores/useError";
 import UserAuthService from "../../services/UserAuthService";
 import ToastService from "../../services/ToastService";
+import CreatingNewCompanyView from "@/views/CreatingNewCompanyView.vue";
+import useEventsBus from "@/composables/eventBus";
 
+const { emit } = useEventsBus();
 //const credentials = ref({});
 const loading = ref(false);
+let isOwnerRegistered = ref(false);
+let registeredOwnerId = ref(0);
+let registeredOwnerData = ref();
 const router = useRouter();
 const error = useErrorStore();
 const user = {
@@ -178,12 +201,20 @@ const user = {
 
 const onSubmit = async (newUserData) => {
   //loading.value = !loading.value;
+  newUserData.is_owner = 1;
+  registeredOwnerData.value = newUserData;
   console.log(newUserData);
+
   UserAuthService.register(newUserData)
     .then((res) => {
       console.log(res);
       ToastService.showToast(res.data.message);
-      router.push("/login");
+
+      registeredOwnerId.value = res.data.employee.id;
+
+      //console.log(registeredOwnerId.value);
+      isOwnerRegistered.value = true;
+      //router.push("/login");
     })
     .catch((error) => {
       const message =
@@ -194,15 +225,7 @@ const onSubmit = async (newUserData) => {
       ToastService.showToast(error.message);
     });
 
-  /*
-  useAuthStore()
-    .login(credentials)
-    .then((response) => {
-      console.log(response)
-      router.push({name:'home'})
-    })
-    .catch(() => (loading.value = !loading.value));
-    */
+  emit("passNewOwnerId", { id: registeredOwnerId.value, new_owner_data: newUserData });
 };
 
 const schema = yup.object({
@@ -210,6 +233,9 @@ const schema = yup.object({
   surname: yup.string().required().min(6),
   email: yup.string().required().email(),
   password: yup.string().required().min(8),
+  password_confirmation: yup
+    .string()
+    .oneOf([yup.ref("password"), null], "Passwords must match"),
 });
 
 function onInvalidSubmit({ values, errors, results }) {

@@ -109,7 +109,9 @@ class AuthController extends Controller
         //dd($request->all());
 
         $employee = User::create(['name' => $request->name, 'surname' => $request->surname,
-            'email' => $request->email, 'password' => bcrypt($request->password),]);
+            'email' => $request->email, 'password' => bcrypt($request->password),
+            'is_owner'=> $request->is_owner
+            ]);
 
         return response()->json([
             'status' => true,

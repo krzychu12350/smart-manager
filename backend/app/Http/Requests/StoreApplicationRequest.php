@@ -29,7 +29,7 @@ class StoreApplicationRequest extends ApiFormRequest
                 Rule::in(['accepted', 'in progress', 'rejected']),
             ],
             'company_id' => "required|integer",
-            'employee_id' => "required|integer",
+            'user_id' => "required|integer",
         ];
     }
 }

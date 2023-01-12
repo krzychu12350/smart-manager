@@ -25,8 +25,12 @@ class CompanyDataService {
     return api.delete(`/companies`);
   }
 
-  findByTitle(title) {
-    return api.get(`/companies?title=${title}`);
+  getAllCompanyEmployees(id, page) {
+    return api.get(`/companies/${id}/users?page=` + page);
+  }
+
+  addUserForTheCompany(id, data) {
+    return api.post(`/companies/${id}/users`, data);
   }
 }
 

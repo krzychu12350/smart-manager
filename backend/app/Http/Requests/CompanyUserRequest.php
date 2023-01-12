@@ -22,7 +22,7 @@ class CompanyUserRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            "employees" => "required|array|min:1"
+            "user" => "required|integer|min:1"
         ];
     }
 }

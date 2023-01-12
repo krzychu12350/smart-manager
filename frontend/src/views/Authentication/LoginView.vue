@@ -22,9 +22,18 @@
           Or
           {{ " " }}
           <RouterLink
-            to="/register"
+            to="/register/employee"
             class="font-medium text-indigo-600 hover:text-indigo-500"
-            >create an account</RouterLink
+            >create an employee account</RouterLink
+          >
+        </p>
+        <p class="mt-2 text-center text-sm text-gray-600">
+          Or
+          {{ " " }}
+          <RouterLink
+            to="/register/owner"
+            class="font-medium text-indigo-600 hover:text-indigo-500"
+            >create an owner account</RouterLink
           >
         </p>
       </div>
@@ -52,22 +61,86 @@
               <ErrorMessage name="email" />
             </div>
           </div>
+
           <div>
             <label for="password" class="sr-only">Password</label>
-            <Field
-              id="password"
-              name="password"
-              type="password"
-              autocomplete="current-password"
-              required=""
-              class="relative block w-full appearance-none rounded border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              placeholder="Password"
-            />
-            <div class="text-sm text-red-600">
-              <ErrorMessage name="password" />
+            <div class="relative">
+              <Field
+                id="password"
+                name="password"
+                autocomplete="current-password"
+                required=""
+                class="block w-full appearance-none rounded border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                placeholder="Password"
+                :type="[showPassword ? 'text' : 'password']"
+              >
+              </Field>
+              <div
+                class="absolute inset-y-0 right-0 flex items-center mr-3 cursor-pointer"
+              >
+                <EyeIcon
+                  v-if="showPassword === true"
+                  class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+                  aria-hidden="true"
+                  @click="togglePasswordVisibity"
+                />
+                <EyeSlashIcon
+                  v-else
+                  @click="togglePasswordVisibity"
+                  class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+                  aria-hidden="true"
+                />
+              </div>
             </div>
+            <!--
+            <div class="relative">
+              <div
+                class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="w-5 h-5 text-gray-500 dark:text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  ></path>
+                </svg>
+              </div>
+              <input
+                type="search"
+                id="default-search"
+                class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Search Mockups, Logos..."
+                required
+              />
+            </div>
+            -->
+            <!--
+            <div class="input-group-append">
+              <span class="input-group-text" @click="showPassword = !showPassword">
+                23332
+                <i
+                  class="fa"
+                  :class="[showPassword ? 'fa-eye' : 'fa-eye-slash']"
+                  aria-hidden="true"
+                ></i>
+              </span>
+             
+            </div>
+             -->
+          </div>
+          <div class="text-sm text-red-600">
+            <ErrorMessage name="password" />
           </div>
         </div>
+
         <div class="flex items-center justify-between">
           <div class="flex items-center">
             <input
@@ -111,7 +184,7 @@
 </template>
 
 <script setup>
-import { LockClosedIcon } from "@heroicons/vue/20/solid";
+import { LockClosedIcon, EyeIcon, EyeSlashIcon } from "@heroicons/vue/20/solid";
 import ToastService from "../../services/ToastService";
 import UserAuthService from "../../services/UserAuthService";
 
@@ -141,7 +214,7 @@ export default {
   },
 }
 */
-import { ref, onBeforeUnmount } from "vue";
+import { ref, onBeforeUnmount, reactive } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/useAuth";
 import { useErrorStore } from "../../stores/useError";
@@ -155,12 +228,16 @@ const user = {
   password: "tCruise12?3",
 };
 
+const showPassword = ref(false);
+const togglePasswordVisibity = () => {
+  showPassword.value = !showPassword.value;
+};
 const onSubmit = (credentials) => {
   loading.value = !loading.value;
   useAuthStore()
     .login(credentials)
     .then((response) => {
-      //console.log(response);
+      console.log(response);
       router.push({ name: "home" });
     })
     .catch((err) => {

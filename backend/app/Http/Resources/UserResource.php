@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Application;
 use App\Models\Income;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -27,9 +28,10 @@ class UserResource extends JsonResource
             'created_at' => (string) $this->created_at,
             'updated_at' => (string) $this->updated_at,
             'is_owner' => $this->is_owner,
-            'companies' => $this->companies,
-            'salary' => Income::where('user_id', $this->id)->latest()->first()->amount,
-
+            'companies' => $this->companies  ?? null,
+            'salary' => Income::where('user_id', $this->id)->latest()->first()->amount ?? 0,
+            'applications' => Application::join('companies', 'companies.id', 'applications.company_id')
+                ->where('user_id', $this->id)->get(),
         ];
 
 

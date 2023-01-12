@@ -27,7 +27,8 @@ class CompanyController extends Controller
         //$comapnies = Company::with('employees')->paginate(1);
         return response()->json([
             'status' => true,
-            'companies' => new CompanyCollection(Company::paginate(1))
+            //'companies' => new CompanyCollection(Company::paginate(10))
+            'companies' => CompanyResource::collection(Company::all())
         ], 200);
     }
 
@@ -52,7 +53,7 @@ class CompanyController extends Controller
         return response()->json([
             'status' => true,
             'message' => "Company was created successfully!",
-            'post' =>  new CompanyResource($company)
+            'company' =>  new CompanyResource($company)
         ], 201);
     }
 

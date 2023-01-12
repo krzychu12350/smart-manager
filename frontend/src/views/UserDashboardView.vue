@@ -37,6 +37,7 @@
           </div>
         </div>
         <div
+          v-if="isOwner"
           class="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3"
         >
           <button
@@ -266,11 +267,7 @@
           -->
         </div>
 
-        <section
-          v-if="isOwner"
-          aria-labelledby="timeline-title"
-          class="lg:col-start-3 lg:col-span-1"
-        >
+        <section aria-labelledby="timeline-title" class="lg:col-start-3 lg:col-span-1">
           <div class="bg-white shadow sm:rounded-lg">
             <!--
             <h2 id="timeline-title" class="text-lg font-medium text-gray-900">
@@ -335,7 +332,7 @@
                     Your comapny details.
                   </p>
                 </div>
-                <div>
+                <div v-if="isOwner">
                   <PencilIcon
                     @click="emit('showEditingExistingCompanyModal', companyDataDetails)"
                     class="w-5 h-10 cursor-pointer"
@@ -349,7 +346,6 @@
                   <dt class="text-sm font-medium text-gray-500">Name</dt>
                   <dd class="mt-1 text-sm text-gray-900">
                     {{ companyDataDetails.name }}
-                    Backend Developer
                   </dd>
                 </div>
                 <div class="sm:col-span-1">

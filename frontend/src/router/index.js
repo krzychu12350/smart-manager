@@ -1,10 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '../views/Authentication/LoginView.vue'
-import RegisterView from '../views/Authentication/RegisterView.vue'
+import EmployeeRegisterView from '../views/Authentication/EmployeeRegisterView.vue'
+import OwnerRegisterView from '@/views/Authentication/OwnerRegisterView.vue'
 import RequestPasswordResetView from '@/views/Authentication/RequestPasswordResetView.vue'
 import UpdatePasswordResetView from '@/views/Authentication/UpdatePasswordResetView.vue'
 import UserDashboardView from '@/views/UserDashboardView.vue'
 import ApplicationsManagementView from '@/views/ApplicationsManagementView.vue'
+import CreatingNewCompanyView from '@/views/CreatingNewCompanyView.vue'
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "../stores/useAuth";
 
@@ -41,9 +43,14 @@ const router = createRouter({
       component: () => import('../views/Authentication/LoginView.vue')
     },
     {
-      path: "/register",
-      name: "RegisterView",
-      component: RegisterView,
+      path: "/register/employee",
+      name: "EmployeeRegisterView",
+      component: EmployeeRegisterView,
+    },
+    {
+      path: "/register/owner",
+      name: "OwnerRegisterView",
+      component: OwnerRegisterView,
     },
     {
       path: "/reset-password",
@@ -69,8 +76,14 @@ const router = createRouter({
       path: "/admin/applications",
       component: ApplicationsManagementView,
     },
-
     /*
+    { 
+      path: '/users/:id/company/create', 
+      name: 'products.edit', 
+      component: CreatingNewCompanyView,
+      params: true,
+    },
+  
     {
       path: "/manager/dashboard",
       name: "manager-dashboard",
@@ -102,7 +115,7 @@ router.beforeEach((to, from, next) => {
 
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/login', '/register', '/reset-password', '/change-password/' + to.params.token];
+  const publicPages = ['/login', '/register/employee', '/register/owner', '/reset-password', '/change-password/' + to.params.token];
   const authRequired = !publicPages.includes(to.path);
   //const loggedIn = localStorage.getItem('user');
   if (authRequired && !useAuthStore().loggedIn) {

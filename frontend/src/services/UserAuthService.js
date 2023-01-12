@@ -26,6 +26,7 @@ class UserAuthService {
             surname: user.surname,
             email: user.email,
             password: user.password,
+            is_owner: user.is_owner,
             //password_confirmation: user.password_confirmation
         });
     }
