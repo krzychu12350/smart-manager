@@ -1,4 +1,3 @@
-<!-- This example requires Tailwind CSS v2.0+ -->
 <template>
   <TransitionRoot as="template" :show="open">
     <Dialog as="div" class="fixed z-10 inset-0 overflow-y-auto" @close="open = false">
@@ -18,8 +17,6 @@
             class="fixed inset-0 bg-gray-400 bg-opacity-75 transition-opacity"
           />
         </TransitionChild>
-
-        <!-- This element is to trick the browser into centering the modal contents. -->
         <span
           class="hidden sm:inline-block sm:align-middle sm:h-screen"
           aria-hidden="true"
@@ -52,6 +49,7 @@
               @submit="onSubmit"
               :validation-schema="schema"
               @invalid-submit="onInvalidSubmit"
+              :initial-values="formValues"
               method="POST"
               class="space-y-8 divide-y divide-gray-200"
             >
@@ -72,6 +70,7 @@
                           type="text"
                           name="name"
                           id="name"
+                          v-on:keypress="isLetter($event)"
                           autocomplete="given-name"
                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         />
@@ -93,6 +92,7 @@
                           type="text"
                           name="surname"
                           id="surname"
+                          v-on:keypress="isLetter($event)"
                           autocomplete="family-name"
                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         />
@@ -113,19 +113,16 @@
                         <Field
                           id="position"
                           name="position"
-                          as="select"
-                          type="boolean"
+                          type="text"
+                          as="input"
+                          v-on:keypress="isLetter($event)"
                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         >
-                          <option value="Manager">Manager</option>
-                          <option value="Junior Python Developer">
-                            Junior Python Developer
-                          </option>
                         </Field>
                       </div>
                       <div class="text-sm text-red-600">
                         <ErrorMessage name="position"
-                          >Position is a required field</ErrorMessage
+                          >position is a required field</ErrorMessage
                         >
                       </div>
                     </div>
@@ -139,36 +136,15 @@
                           type="number"
                           name="salary"
                           id="salary"
+                          as="input"
+                          min="1"
+                          v-on:keypress="isDigit($event)"
                           autocomplete="salary-name"
                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         />
                       </div>
                       <div class="text-sm text-red-600">
                         <ErrorMessage name="salary" />
-                      </div>
-                    </div>
-
-                    <div class="sm:col-span-3">
-                      <label
-                        for="country"
-                        class="block text-sm font-medium text-gray-700"
-                      >
-                        Admin
-                      </label>
-                      <div class="mt-1">
-                        <Field
-                          name="is_admin"
-                          as="select"
-                          class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                        >
-                          <option :value="true">Yes</option>
-                          <option :value="false" selected>No</option>
-                        </Field>
-                      </div>
-                      <div class="text-sm text-red-600">
-                        <ErrorMessage name="is_admin"
-                          >Admin is a required field</ErrorMessage
-                        >
                       </div>
                     </div>
                   </div>
@@ -219,7 +195,7 @@ import { useRouter } from "vue-router";
 import { useErrorStore } from "../../../stores/useError";
 
 let open = ref(false);
-const empId = ref(0);
+const empData = ref({});
 const { bus, emit } = useEventsBus();
 
 function toggleModal() {
@@ -234,9 +210,17 @@ function deleteEmployee() {
 watch(
   () => bus.value.get("showEditingExistingEmployeeModal"),
   (val, open) => {
-    empId.value = val[0].employeeId;
-    console.log(empId.value);
+    empData.value = val[0].employee;
+    console.log(empData.value);
     toggleModal();
+    console.log(formValues);
+    // Initial values
+    formValues = {
+      name: empData.value.name,
+      surname: empData.value.surname,
+      position: empData.value.position,
+      salary: empData.value.salary,
+    };
   }
 );
 
@@ -246,10 +230,11 @@ const error = useErrorStore();
 
 const onSubmit = async (newUserData) => {
   console.log(newUserData);
+  newUserData.is_owner = 0;
   UserDataService.update(empId.value, newUserData)
     .then(() => {
       ToastService.showToast("Update complete");
-      router.go();
+      toggleModal();
     })
     .catch((error) => {
       const message =
@@ -261,17 +246,55 @@ const onSubmit = async (newUserData) => {
     });
 };
 
+let formValues = ref();
+
 const schema = yup.object({
-  name: yup.string().required().min(3),
-  surname: yup.string().required().min(3),
-  salary: yup.number().required().min(4),
-  position: yup.string().required(),
-  is_admin: yup.boolean().required(),
+  name: yup.string().required().min(2).max(30),
+  surname: yup.string().required().min(2).max(50),
+  //email: yup.string().required().email(),
+  position: yup.string().required().min(3),
+  salary: yup
+    .number("You have to fill in this field")
+    .transform((value) =>
+      isNaN(value) || value === null || value === undefined ? 0 : value
+    )
+    .required()
+    .min(4),
+  //is_admin: yup.boolean().required(),
+  /*
+  password: yup
+    .string()
+    .required()
+    .min(8)
+    .max(20)
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+      "Password must contain 8 characters, one uppercase, one lowercase, one number and one special case character"
+    ),
+  password_confirmation: yup
+    .string()
+    .required("confirm password is required field")
+    .oneOf([yup.ref("password"), null], "passwords must match"),
+    */
 });
 
 function onInvalidSubmit({ values, errors, results }) {
   console.log(values); // current form values
   console.log(errors); // a map of field names and their first error message
   console.log(results); // a detailed map of field names and their validation results
+}
+
+function isLetter(e) {
+  let char = String.fromCharCode(e.keyCode); // Get the character
+  if (/^[A-Za-z]+$/.test(char)) return true;
+  // Match with regex
+  else e.preventDefault(); // If not match, don't add to input text
+}
+
+function isDigit(e) {
+  let char = String.fromCharCode(e.keyCode); // Get the character
+  if (/^[0-9]+$/.test(char)) return true;
+  // Match with regex
+  else e.preventDefault(); // If not match, don't add to input text
 }
 </script>

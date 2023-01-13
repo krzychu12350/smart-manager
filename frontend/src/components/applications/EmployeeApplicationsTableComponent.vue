@@ -1,87 +1,88 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
-  <div class="mb-4">
-    <label>Filter by Name:</label>
-    <input v-model="filterName" />
-  </div>
+  <div v-if="userApplications.value != 0">
+    <div class="mb-4">
+      <label>Filter by Name:</label>
+      <input v-model="filterName" />
+    </div>
 
-  <div class="z-1 flex flex-col">
-    <div class="-my-3 overflow-x-auto sm:-mx-6 :-mx-8 lg:-mx-8">
-      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-        <div class="shadow overflow-hidden border-t border-gray-200 sm:rounded-t-lg">
-          <VTable
-            sortHeaderClass="flex items-center justify-between w-full"
-            :data="userApplications"
-            class="min-w-full divide-y divide-gray-200"
-            :filters="filters"
-          >
-            <template #head class="bg-gray-50">
-              <tr>
-                <VTh
-                  sortKey="id"
-                  scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  ID
-                </VTh>
+    <div class="z-1 flex flex-col">
+      <div class="-my-3 overflow-x-auto sm:-mx-6 :-mx-8 lg:-mx-8">
+        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+          <div class="shadow overflow-hidden border-t border-gray-200 sm:rounded-t-lg">
+            <VTable
+              sortHeaderClass="flex items-center justify-between w-full"
+              :data="userApplications"
+              class="min-w-full divide-y divide-gray-200"
+              :filters="filters"
+            >
+              <template #head class="bg-gray-50">
+                <tr>
+                  <VTh
+                    sortKey="id"
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    ID
+                  </VTh>
 
-                <VTh
-                  sortKey="name"
-                  scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Company name
-                </VTh>
+                  <VTh
+                    sortKey="name"
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Company name
+                  </VTh>
 
-                <VTh
-                  sortKey="industry"
-                  scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  <VTh
+                    sortKey="industry"
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Company Industry
+                  </VTh>
+                  <VTh
+                    sortKey="city"
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Company location
+                  </VTh>
+                  <VTh
+                    sortKey="created_at"
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Applcation date
+                  </VTh>
+                  <VTh
+                    sortKey="status"
+                    scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Status
+                  </VTh>
+                </tr>
+              </template>
+              <template #body="{ rows }" class="bg-white divide-y">
+                <tr
+                  v-for="applicationDetails in rows"
+                  :key="applicationDetails.guid"
+                  class="bg-white"
                 >
-                  Company Industry
-                </VTh>
-                <VTh
-                  sortKey="city"
-                  scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Company location
-                </VTh>
-                <VTh
-                  sortKey="created_at"
-                  scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Applcation date
-                </VTh>
-                <VTh
-                  sortKey="status"
-                  scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Status
-                </VTh>
-              </tr>
-            </template>
-            <template #body="{ rows }" class="bg-white divide-y">
-              <tr
-                v-for="applicationDetails in rows"
-                :key="applicationDetails.guid"
-                class="bg-white"
-              >
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <div class="flex items-center">
-                    <div class="flex-shrink-0 h-10 w-10">
-                      #{{ applicationDetails.id }}
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <div class="flex items-center">
+                      <div class="flex-shrink-0 h-10 w-10">
+                        #{{ applicationDetails.id }}
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm text-gray-900">
-                    {{ applicationDetails.name }}
-                  </div>
-                </td>
-                <!--
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">
+                      {{ applicationDetails.name }}
+                    </div>
+                  </td>
+                  <!--
                 <td class="px-6 py-4 whitespace-nowrap">
                   <span
                     class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
@@ -90,39 +91,39 @@
                   </span>
                 </td>
                 -->
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <div class="text-sm text-gray-900">
-                    {{ applicationDetails.industry }}
-                  </div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <div class="text-sm text-gray-900">{{ applicationDetails.city }}</div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <div class="text-sm text-gray-900">
-                    {{ moment(applicationDetails.created_at).format("LL") }}
-                  </div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <span
-                    :class="[statusStyles[String(applicationDetails.status)]]"
-                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize"
-                  >
-                    {{ applicationDetails.status }}
-                  </span>
-                </td>
-              </tr>
-            </template>
-          </VTable>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <div class="text-sm text-gray-900">
+                      {{ applicationDetails.industry }}
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <div class="text-sm text-gray-900">{{ applicationDetails.city }}</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <div class="text-sm text-gray-900">
+                      {{ moment(applicationDetails.created_at).format("LL") }}
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <span
+                      :class="[statusStyles[String(applicationDetails.status)]]"
+                      class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize"
+                    >
+                      {{ applicationDetails.status }}
+                    </span>
+                  </td>
+                </tr>
+              </template>
+            </VTable>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div
-    class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 shadow overflow-hidden sm:rounded-b-lg"
-  >
-    <!--
+    <div
+      class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 shadow overflow-hidden sm:rounded-b-lg"
+    >
+      <!--
     <div class="flex flex-1 justify-between sm:hidden">
       <a
         href="#"
@@ -136,27 +137,33 @@
       >
     </div>
         -->
-    <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-      <div>
-        <p class="text-sm text-gray-700">
-          Showing
-          {{ " " }}
-          <span class="font-medium">1</span>
-          {{ " " }}
-          to
-          {{ " " }}
-          <span class="font-medium">10</span>
-          {{ " " }}
-          of
-          {{ " " }}
-          <span class="font-medium">97</span>
-          {{ " " }}
-          results
-        </p>
+      <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+        <div>
+          <p class="text-sm text-gray-700">
+            Showing
+            {{ " " }}
+            <span class="font-medium">1</span>
+            {{ " " }}
+            to
+            {{ " " }}
+            <span class="font-medium">10</span>
+            {{ " " }}
+            of
+            {{ " " }}
+            <span class="font-medium">97</span>
+            {{ " " }}
+            results
+          </p>
+        </div>
       </div>
-    </div>
 
-    <!--<PaginationEmployeesComponent />-->
+      <!--<PaginationEmployeesComponent />-->
+    </div>
+  </div>
+  <div v-if="userApplications.value == 0">
+    <p class="mt-2 text-sm text-gray-700">
+      You are not employed by any company. Apply to your first company.
+    </p>
   </div>
 </template>
 
@@ -188,7 +195,7 @@ const getAllUserApplications = async (page = 1) => {
   UserDataService.get(userId, page)
     .then(async (res) => {
       userApplications.value = await res.data.employee.applications;
-
+      console.log(userApplications.value.length);
       //pagination.value = await res.data.employees.pagination;
       console.log(userApplications);
     })

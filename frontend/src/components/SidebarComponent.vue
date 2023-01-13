@@ -56,26 +56,26 @@
           </div>
           <div class="mt-5 flex-1 h-0 overflow-y-auto">
             <nav class="px-2 space-y-1">
-              <a
-                v-for="item in navigation"
-                :key="item.name"
-                :href="item.href"
-                :class="[
-                  item.current
-                    ? 'bg-indigo-800 text-white'
-                    : 'text-indigo-100 hover:bg-indigo-600',
-                  'group flex items-center px-2 py-2 text-base font-medium rounded-md',
-                ]"
-                :v-if="item.visible_for_owner"
-                @click="setThisAsCurrent(item.name)"
-              >
-                <component
-                  :is="item.icon"
-                  class="mr-4 flex-shrink-0 h-6 w-6 text-indigo-300"
-                  aria-hidden="true"
-                />
-                {{ item.name }}
-              </a>
+              <div v-for="item in navigation" :key="item.name">
+                <a
+                  v-if="item.is_onwner_logged_in"
+                  :href="item.href"
+                  :class="[
+                    item.current
+                      ? 'bg-indigo-800 text-white'
+                      : 'text-indigo-100 hover:bg-indigo-600',
+                    'group flex items-center px-2 py-2 text-base font-medium rounded-md',
+                  ]"
+                  @click="setThisAsCurrent(item.name)"
+                >
+                  <component
+                    :is="item.icon"
+                    class="mr-4 flex-shrink-0 h-6 w-6 text-indigo-300"
+                    aria-hidden="true"
+                  />
+                  {{ item.name }}
+                </a>
+              </div>
             </nav>
           </div>
           <!--
@@ -212,7 +212,7 @@ const navigation = ref([
     is_onwner_logged_in: true,
   },
   {
-    name: "Emoloyees",
+    name: "Employees",
     href: "/admin/employees",
     icon: UsersIcon,
     current: false,

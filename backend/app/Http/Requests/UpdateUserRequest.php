@@ -27,6 +27,8 @@ class UpdateUserRequest extends ApiFormRequest
             'position' => "string",
             'salary' => "integer|min:4",
             'is_owner' => "required|boolean",
+            //'email' => "required|email|unique:users",
+            //'password' => "required|confirmed|min:8|string",
         ];
     }
 }

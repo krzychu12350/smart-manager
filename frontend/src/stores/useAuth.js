@@ -73,14 +73,14 @@ export const useAuthStore = defineStore("auth", {
 
         const userData = await this.fetchUser();
         //console.log(userData.companies[0].id);
-
-      
-
+ 
+        //userData.companies[0].id == 45;
+        const company = (userData.companies[0] === undefined) ? 0 : userData.companies[0];
         const userDataForStoring = {
           user_id: userData.id,
           user_name: userData.name,
           user_surname: userData.surname,
-          user_company_id: userData.companies[0].id,
+          user_company_id: company.id,
           is_owner: userData.is_owner,
         };
      

@@ -16,7 +16,7 @@
           alt="Smart Manager"
         />
         <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-          Sign in to your account
+          Sign up to your account
         </h2>
         <p class="mt-2 text-center text-sm text-gray-600">
           Or
@@ -232,7 +232,14 @@ const schema = yup.object({
   name: yup.string().required().min(6),
   surname: yup.string().required().min(6),
   email: yup.string().required().email(),
-  password: yup.string().required().min(8),
+  password: yup
+    .string()
+    .required()
+    .min(8)
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+      "Password must contain 8 characters, one uppercase, one lowercase, one number and one special case character"
+    ),
   password_confirmation: yup
     .string()
     .oneOf([yup.ref("password"), null], "Passwords must match"),

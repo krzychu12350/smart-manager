@@ -134,13 +134,10 @@
                         <Field
                           id="position"
                           name="position"
-                          as="select"
+                          type="text"
+                          as="input"
                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         >
-                          <option value="Manager">Manager</option>
-                          <option value="Junior Python Developer">
-                            Junior Python Developer
-                          </option>
                         </Field>
                       </div>
                       <div class="text-sm text-red-600">
@@ -167,7 +164,7 @@
                         <ErrorMessage name="salary" />
                       </div>
                     </div>
-
+                    <!--
                     <div class="sm:col-span-3">
                       <label for="admin" class="block text-sm font-medium text-gray-700">
                         Admin
@@ -188,7 +185,7 @@
                         >
                       </div>
                     </div>
-
+                    -->
                     <div class="sm:col-span-4">
                       <label
                         for="password"
@@ -288,15 +285,19 @@ import {
 } from "@headlessui/vue";
 import { ExclamationTriangleIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import useEventsBus from "@/composables/eventBus";
-import UserDataService from "@/services/UserDataService";
+import ComapnyDataService from "@/services/ComapnyDataService";
 import ToastService from "@/services/ToastService";
-
+import { storeToRefs } from "pinia";
+import { useAuthStore } from "../../../stores/useAuth";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 import { useRouter } from "vue-router";
-
+import UserDataService from "@/services/UserDataService";
 import { useErrorStore } from "../../../stores/useError";
+const userStore = useAuthStore();
+const { userData } = storeToRefs(userStore);
 
+const user = userData.value;
 let open = ref(false);
 const empId = ref(0);
 //open.value = true;
@@ -322,7 +323,8 @@ watch(
 const loading = ref(false);
 const router = useRouter();
 const error = useErrorStore();
-const user = {
+let createdUserId = ref();
+const userr = {
   email: "t.cruise@gmail.com",
   password: "tCruise12?3",
 };
@@ -330,12 +332,16 @@ const user = {
 const onSubmit = async (newUserData) => {
   console.log(newUserData);
   //loading.value = !loading.value
-
-  console.log(newUserData);
+  newUserData.is_owner = 0;
   UserDataService.create(newUserData)
-    .then(() => {
+    .then((res) => {
+      console.log(res.data.employee);
+      createdUserId.value = res.data.employee.id;
+
+      assignNewEmployeeToCompany(user.user_company_id, createdUserId.value);
+      toggleModal();
       ToastService.showToast("Employee created");
-      router.go();
+      //router.go();
     })
     .catch((error) => {
       const message =
@@ -347,13 +353,31 @@ const onSubmit = async (newUserData) => {
     });
 };
 
+function assignNewEmployeeToCompany(comapnyId, employeeId) {
+  alert(comapnyId + " " + employeeId);
+
+  return ComapnyDataService.addUserForTheCompany(comapnyId, { user: employeeId })
+    .then((res) => {
+      console.log(res.data);
+      return res.data.company;
+    })
+    .catch((error) => {
+      const message =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+      console.log(message);
+      ToastService.showToast(error.message);
+    });
+}
+
 const schema = yup.object({
   name: yup.string().required().min(2).max(30),
   surname: yup.string().required().min(2).max(50),
   email: yup.string().required().email(),
-  position: yup.string().required(),
+  position: yup.string().required().min(3),
   salary: yup.number().required().min(4),
-  is_admin: yup.boolean().required(),
+  //is_admin: yup.boolean().required(),
   password: yup
     .string()
     .required()
@@ -361,7 +385,7 @@ const schema = yup.object({
     .max(20)
     .matches(
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-      "must contain 8 characters, one uppercase, one lowercase, one number and one special case character"
+      "Password must contain 8 characters, one uppercase, one lowercase, one number and one special case character"
     ),
   password_confirmation: yup
     .string()

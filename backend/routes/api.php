@@ -75,6 +75,9 @@ Route::get('/companies/{company}/users', [CompanyEmployeeController::class, 'ind
 Route::post('/companies/{company}/users', [CompanyEmployeeController::class, 'store']);
 Route::put('/companies/{company}/users', [CompanyEmployeeController::class, 'update']);
 Route::delete('/companies/{company}/users', [CompanyEmployeeController::class, 'destroy']);
+
+
+
 /*
 Route::apiResource('companies', CompanyController::class)
     ->only(['index', 'show']);
@@ -84,6 +87,9 @@ Route::apiResource('employees', UserController::class)
 */
 
 
+Route::get('/testt', function () {
+
+});
 
 
 Route::get('test', function () {

@@ -67,7 +67,9 @@ class AuthController extends Controller
 
         //return $this->respondWithToken($token);
         $currentUser = Auth::user();
-        return response()->json(['status' => true, 'message' => 'You have been logged in successfully', 'authorization' => $this->respondWithToken($token),//'user' => $currentUser,
+        return response()->json(['status' => true,
+            'message' => 'You have been logged in successfully',
+            'authorization' => $this->respondWithToken($token),//'user' => $currentUser,
         ], 200);
     }
 

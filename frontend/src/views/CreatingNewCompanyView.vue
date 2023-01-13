@@ -23,7 +23,7 @@
         class="mt-8 space-y-6"
         method="POST"
       >
-        <h1>rrrrr {{ props.owner_id }}</h1>
+        <!--<h1>rrrrr {{ props.owner_id }}</h1>-->
         <input type="hidden" name="remember" value="true" />
         <div class="rounded-md shadow-sm">
           <div class="mb-4">
@@ -175,7 +175,7 @@ async function createNewCompany(newCompanyData) {
 }
 
 async function assignNewOwnerToItsCompany(comapnyId, ownerId) {
-  alert(comapnyId + " " + ownerId);
+  //alert(comapnyId + " " + ownerId);
 
   return ComapnyDataService.addUserForTheCompany(comapnyId, { user: ownerId })
     .then((res) => {
@@ -209,7 +209,7 @@ function logInNewOwner(credentials) {
 watch(
   () => bus.value.get("passNewOwnerId"),
   (val) => {
-    alert(val[0].id);
+    //alert(val[0].id);
     //console.log(val[0].id);
     newOwnerId.value = val[0].id;
     newOwnerData.value = val[0].new_owner_data;

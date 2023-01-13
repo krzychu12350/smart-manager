@@ -206,9 +206,9 @@
 				</div>
 				<!-- end table-responsive -->
 			<!-- begin invoice-footer -->
-			<div class="invoice-footer mt-5">
+			<div class="invoice-footer mt-2">
 				<p class="text-center">
-				<span class="m-r-10"><i class="fa fa-fw fa-lg fa-globe"></i> {{ $company }}.com </span>
+                    <span class="m-r-10" style="font-size: 12px"><em>Generated using <b>Smart Manager</b></em></span>
 				</p>
 			</div>
 			<!-- end invoice-footer -->

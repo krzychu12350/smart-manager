@@ -116,7 +116,7 @@
                   <PencilIcon
                     @click="
                       emit('showEditingExistingEmployeeModal', {
-                        employeeId: employee.id,
+                        employee: employee,
                       })
                     "
                     class="w-5 h-10 mr-2 cursor-pointer"

@@ -25,7 +25,10 @@
             <h1 class="text-2xl font-bold text-gray-900">
               {{ userData.user_name }} {{ userData.user_surname }}
             </h1>
-            <p class="text-sm font-medium text-gray-500">
+            <p
+              v-if="userDataDetails.value != undefined"
+              class="text-sm font-medium text-gray-500"
+            >
               Owner of
               <a href="#" class="text-gray-900"> {{ companyDataDetails.name }}</a> since
               <time datetime="2020-08-25">
@@ -119,7 +122,7 @@
                     <dd class="mt-1 text-sm text-gray-900">+1 555-555-5555</dd>
                   </div>
                   <div class="sm:col-span-2">
-                    <dt class="text-sm font-medium text-gray-500">About</dt>
+                    <dt class="text-sm font-medium text-gray-500">About me</dt>
                     <dd class="mt-1 text-sm text-gray-900">
                       Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim
                       incididunt cillum culpa consequat. Excepteur qui ipsum aliquip
@@ -440,13 +443,14 @@ const userDataDetails = ref({});
 const { emit } = useEventsBus();
 
 onMounted(() => {
+  alert(userCompanyId.value);
   ComapnyDataService.get(userCompanyId.value)
     .then((res) => {
       companyDataDetails.value = res.data.company;
       console.log(companyDataDetails.value);
     })
     .catch((err) => {
-      console.log(err);
+      //console.log(err);
     });
 
   UserDataService.get(userId)

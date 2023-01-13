@@ -236,8 +236,8 @@ const onSubmit = (credentials) => {
   loading.value = !loading.value;
   useAuthStore()
     .login(credentials)
-    .then((response) => {
-      console.log(response);
+    .then(() => {
+      //console.log(response.data);
       router.push({ name: "home" });
     })
     .catch((err) => {
