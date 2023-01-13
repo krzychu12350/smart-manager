@@ -21,6 +21,6 @@ class IsAdmin
             return $next($request);
         }
 
-        return response()->json(["message" => "Forbidden, You are not admin"], 403);
+        return response()->json(["message" => "Forbidden, You are not owner"], 403);
     }
 }

@@ -35,7 +35,6 @@ class DatabaseSeeder extends Seeder
             IncomeSeeder::class,
             UserSeeder::class,
             ApplicationSeeder::class,
-            PositionSeeder::class,
         ]);
     }
 }

@@ -39,9 +39,4 @@ class Company extends Model
     {
         return $this->belongsTo(Application::class);
     }
-
-    public function positions()
-    {
-        return $this->belongsToMany(Position::class);
-    }
 }

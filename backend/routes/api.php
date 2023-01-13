@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\ApplicationController;
-use App\Http\Controllers\PositionController;
 use App\Models\Company;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -45,11 +44,10 @@ Route::group(['prefix' => 'auth','middleware' => ['auth', 'forceJSON']], functio
     Route::get('/me', [AuthController::class, 'userProfile']);
 
 });
-// show only for common user
-Route::apiResource('users', UserController::class);
-Route::apiResource('companies', CompanyController::class);
-Route::group(['middleware' => ['auth:api', 'forceJSON']], function () {
 
+Route::group(['middleware' => ['auth:api', 'forceJSON']], function () {
+    Route::apiResource('users', UserController::class);
+    Route::apiResource('companies', CompanyController::class);
 
 });
 
@@ -57,84 +55,22 @@ Route::group(['middleware' => ['auth:api', 'admin', 'forceJSON']], function () {
     Route::post('/pdf/employee-evaluation', [PdfDownloadController::class, 'downloadPdfEmployeeMarkReport']);
     Route::post('/pdf/salary', [PdfDownloadController::class, 'downloadPdfSalaryReport']);
 
+    // show only for common user
+    //Route::apiResource('users', UserController::class);
+    //Route::apiResource('companies', CompanyController::class);
 
-
-    Route::apiResource('positions', PositionController::class);
-
-
-
-
-
-
-
-
-});
-Route::apiResource('applications', ApplicationController::class);
-Route::get('/companies/{company}/applications', [ApplicationController::class, 'getCompanyApplications']);
-Route::get('/companies/{company}/users', [CompanyEmployeeController::class, 'index']);
-Route::post('/companies/{company}/users', [CompanyEmployeeController::class, 'store']);
-Route::put('/companies/{company}/users', [CompanyEmployeeController::class, 'update']);
-Route::delete('/companies/{company}/users', [CompanyEmployeeController::class, 'destroy']);
+    Route::apiResource('applications', ApplicationController::class);
+    Route::get('/companies/{company}/applications', [ApplicationController::class, 'getCompanyApplications']);
+    Route::get('/companies/{company}/users', [CompanyEmployeeController::class, 'index']);
+    Route::post('/companies/{company}/users', [CompanyEmployeeController::class, 'store']);
+    Route::put('/companies/{company}/users', [CompanyEmployeeController::class, 'update']);
+    Route::delete('/companies/{company}/users', [CompanyEmployeeController::class, 'destroy']);
 
 
 
-/*
-Route::apiResource('companies', CompanyController::class)
-    ->only(['index', 'show']);
-Route::apiResource('employees', UserController::class)
-    ->only(['index', 'show']);
-  //Route::post('books/{book}/ratings', 'RatingController@store');
-*/
-
-
-Route::get('/testt', function () {
-
-});
-
-
-Route::get('test', function () {
-
-    //return Company::with('employees')->where('id', 1)->get()->groupBy('employees.position');
-       // with('companies')->where('id', 1)->get();
-    /*
-    return User::with(['companies' => function($query) {
-        $query->where('companies.id', 1)->get();
-    }])->get();*/
-
-    //return Company::find(1)->employees()->get()->groupBy('position');
-    //$employees = Company::find(1)->employees()->withAvg('salaries as salary', 'salary')->get()->groupBy('position');
-    //return Company::find(1)->withAvg('employees', 'salary')->groupBy('employees.position')->get();
-   // return Company::find(1)->withAvg('employees', 'salary')->get()->groupBy('employees.position');
-
-    /*
-    return Company::where('id', 1)->with(['employees' => function ($row) {
-       return $row->get()->groupBy('position');
-    }])->get();
-    */
-
-    //$employees = User::whereRelation('companies', 'companies.id', '=', 1)->groupBy('position')->avg('salary');
-    $employees = User::whereRelation('companies', 'companies.id', '=', 1)->groupBy('position')->avg('salary');
-
-    $employees = User::whereRelation('companies', 'companies.id', '=', 1)->get()->groupBy('position');
-    $valuesByGroups = $employees->map(function ($row) {
-        return ['avg' => $row->avg('salary'), 'min' => $row->min('salary'), 'max' => $row->max('salary')];
-    });
-    return $valuesByGroups;
-        //->get()->avg('salary');
-
-    //return Company::find(1)->employees()->get()->groupBy('position');
 });
 
 
 
 
-/*
- * https://laracasts.com/discuss/channels/laravel/best-practice-for-crud-updating-an-existing-belongstomany-in-api
-    GET 	/api/companies/:id/employees 	retrieve all Employees  of a Company
-    GET 	/api/employees/:id/companies	retrieve all Companies of an User
-    POST 	/api/companies/:id/employees 	add User for a Company
-    PUT 	/api/companies/:id/employees 	update User's Company
-    DELETE 	/api/companies/:id/employees 	remove User from  a Company
-
-*/
 
