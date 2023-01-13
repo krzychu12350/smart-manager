@@ -32,7 +32,7 @@ class CompanyEmployeeController extends Controller
             'status' => true,
             //'employees' => $company->employees()->get()
             //'companies' => new CompanyCollection(Company::paginate(10))
-            'employees' => new UserCollection($company->employees()->paginate(10))
+            'employees' => new UserCollection($company->employees()->paginate(2))
         ], 200);
     }
 

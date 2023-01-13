@@ -105,23 +105,23 @@
 
                     <div class="sm:col-span-3">
                       <label
-                        for="position"
+                        for="salary"
                         class="block text-sm font-medium text-gray-700"
                       >
                         Salary
                       </label>
                       <div class="mt-1">
                         <Field
-                          id="industry"
-                          name="industry"
+                          id="salary"
+                          name="salary"
                           type="text"
                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         >
                         </Field>
                       </div>
                       <div class="text-sm text-red-600">
-                        <ErrorMessage name="industry"
-                          >Company industry is a required field</ErrorMessage
+                        <ErrorMessage name="salary"
+                          >Salary field is a required field</ErrorMessage
                         >
                       </div>
                     </div>
@@ -146,15 +146,15 @@
                     -->
                     <div class="sm:col-span-3">
                       <label
-                        for="country"
+                        for="position"
                         class="block text-sm font-medium text-gray-700"
                       >
                         Position
                       </label>
                       <div class="mt-1">
                         <Field
-                          id="description"
-                          name="description"
+                          id="position"
+                          name="position"
                           as="textarea"
                           type="textarea"
                           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
@@ -163,8 +163,8 @@
                         </Field>
                       </div>
                       <div class="text-sm text-red-600">
-                        <ErrorMessage name="description"
-                          >About company is required</ErrorMessage
+                        <ErrorMessage name="position"
+                          >Position field is required</ErrorMessage
                         >
                       </div>
                     </div>
@@ -213,7 +213,7 @@ import ToastService from "@/services/ToastService";
 import { Form, Field, ErrorMessage, useForm } from "vee-validate";
 import { useRouter } from "vue-router";
 import { useErrorStore } from "../../../stores/useError";
-import ComapnyDataService from "@/services/ComapnyDataService";
+import UserDataService from "../../../services/UserDataService";
 
 const currentUserData = ref();
 
@@ -239,6 +239,7 @@ watch(
   () => bus.value.get("showEditingExistingUserModal"),
   (val) => {
     currentUserData.value = val[0];
+    
     //console.log(currentUserData.value);
     //test = String(currentCompanyData.value.city);
     //console.log(test);
@@ -246,8 +247,8 @@ watch(
     formValues = {
       name: String(currentUserData.value.name),
       surname: String(currentUserData.value.surname),
-      industry: String(currentUserData.value.industry),
-      description: String(currentUserData.value.description),
+      salary: String(currentUserData.value.salary),
+      position: String(currentUserData.value.position),
     };
     toggleModal();
 
@@ -259,14 +260,15 @@ const loading = ref(false);
 const router = useRouter();
 const error = useErrorStore();
 
-const onSubmit = async (companyUpdatedData) => {
-  //console.log(companyUpdatedData, currentCompanyData.value.id);
-
-  ComapnyDataService.update(currentCompanyData.value.id, companyUpdatedData)
+const onSubmit = async (employeeUpdatedData) => {
+  console.log(employeeUpdatedData, currentUserData.value.id);
+  employeeUpdatedData.is_owner = 1;
+  UserDataService.update(currentUserData.value.id, employeeUpdatedData)
     .then(async (res) => {
-      //console.log(res.data.message);
+      console.log(res.data);
       toggleModal();
       await ToastService.showToast(res.data.message);
+      emit('refreshUserDetails');
       //router.go();
     })
     .catch((error) => {
@@ -277,13 +279,14 @@ const onSubmit = async (companyUpdatedData) => {
       console.log(message);
       ToastService.showToast(error.message);
     });
+    
 };
 
 const schema = yup.object({
-  name: yup.string().required().min(4, "Company name must be at least 4 characters"),
-  surname: yup.string().required().min(3),
-  industry: yup.string().required().min(4),
-  description: yup.string().required().min(3),
+  name: yup.string().required("Name field is required").min(1),
+  surname: yup.string().required("Surname field is required").min(1),
+  salary: yup.number().required().min(4),
+  position: yup.string().required().min(3),
 
   /*
     company_name: String(currentCompanyData.value.name),

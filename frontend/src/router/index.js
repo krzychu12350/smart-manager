@@ -76,6 +76,7 @@ const router = createRouter({
       path: "/admin/applications",
       component: ApplicationsManagementView,
     },
+ 
     /*
     { 
       path: '/users/:id/company/create', 

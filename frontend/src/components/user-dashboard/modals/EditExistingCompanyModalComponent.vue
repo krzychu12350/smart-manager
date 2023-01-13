@@ -265,6 +265,7 @@ const onSubmit = async (companyUpdatedData) => {
       toggleModal();
       await ToastService.showToast(res.data.message);
       //router.go();
+      emit('refreshCompanyDetails');
     })
     .catch((error) => {
       const message =

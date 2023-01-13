@@ -231,10 +231,11 @@ const error = useErrorStore();
 const onSubmit = async (newUserData) => {
   console.log(newUserData);
   newUserData.is_owner = 0;
-  UserDataService.update(empId.value, newUserData)
+  UserDataService.update(empData.value.id, newUserData)
     .then(() => {
-      ToastService.showToast("Update complete");
+      ToastService.showToast("User data was updated successfully");
       toggleModal();
+      emit("refreshEmployeesTable");
     })
     .catch((error) => {
       const message =
@@ -286,7 +287,7 @@ function onInvalidSubmit({ values, errors, results }) {
 
 function isLetter(e) {
   let char = String.fromCharCode(e.keyCode); // Get the character
-  if (/^[A-Za-z]+$/.test(char)) return true;
+  if (/^[A-Za-z ]+$/.test(char)) return true;
   // Match with regex
   else e.preventDefault(); // If not match, don't add to input text
 }

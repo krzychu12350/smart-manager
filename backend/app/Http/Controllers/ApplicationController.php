@@ -17,6 +17,20 @@ class ApplicationController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
+    public function index(): \Illuminate\Http\JsonResponse
+    {
+        $applications = Application::all()->paginate(2);
+        return response()->json([
+            'status' => true,
+            'applications' => new ApplicationCollection($applications)
+        ], 200);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getCompanyApplications(Company $company): \Illuminate\Http\JsonResponse
     {
         // dd($company->id);
@@ -74,11 +88,14 @@ class ApplicationController extends Controller
     public function update(UpdateApplicationRequest $request, Application $application)
     {
         $application->update($request->validated());
+        if($request->status == "accepted") {
+            //dd("accepted");
+            $company = Company::findOrFail($application->company_id);
 
-        $company = Company::findOrFail($application->company_id);
-        //dd($application);
-        $company->employees()->syncWithoutDetaching($application->user_id);
-        //$application->delete();
+            $company->employees()->syncWithoutDetaching($application->user_id);
+            //$application->delete();
+        }
+
 
         return response()->json([
             'status' => true,

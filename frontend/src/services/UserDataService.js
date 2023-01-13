@@ -1,8 +1,8 @@
 import api from "./api";
 
 class UserDataService {
-  async getAll(page) {
-    return api.get("/users?page=" + page);
+  async getAll() {
+    return api.get("/users");
   }
 
   async get(id) {

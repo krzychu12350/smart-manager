@@ -130,10 +130,10 @@
                 </dl>
                 <button
                   type="button"
-                  @click="emit('showEmployeeEvaluationForm', { employee: activeOption })"
+                  @click="addEmployeeToCompany(activeOption.id)"
                   class="mt-6 w-full rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 >
-                  Make the evaluation
+                  Add to company
                 </button>
               </div>
             </div>
@@ -175,42 +175,25 @@ import {
 } from "@headlessui/vue";
 import UserDataService from "@/services/UserDataService";
 import useEventsBus from "@/composables/eventBus";
+import ComapnyDataService from "../../../services/ComapnyDataService";
 import { storeToRefs } from "pinia";
-import { useAuthStore } from "../../stores/useAuth";
+import { useAuthStore } from "../../../stores/useAuth";
+import ToastService from "../../../services/ToastService";
+
 const { bus, emit } = useEventsBus();
 const recent = [];
-/*
-export default {
-  components: {
-    ChevronRightIcon,
-    Combobox,
-    ComboboxInput,
-    ComboboxOptions,
-    ComboboxOption,
-    Dialog,
-    DialogOverlay,
-    //SearchIcon,
-    TransitionChild,
-    TransitionRoot,
-    UsersIcon,
-  },
 
-  setup() {
-    */
 const employees = ref([]);
 
 const getAllEmployees = () => {
   return UserDataService.getAll()
     .then((res) => {
       //employees.value = res.data.employees;
-      const userStore = useAuthStore();
-      const { userData } = storeToRefs(userStore);
-      const userCompanyId = userData.value.user_company_id;
-      employees.value = res.data.employees;
-      //employees.value = res.data.employees.filter((e) => e.companies[0].id === 2);
+      employees.value = res.data.employees.filter(
+        (e) => e.companies.length === 0 && e.is_owner === 0
+      );
       console.log(employees.value);
     })
-
     .catch((error) => {
       console.log(error.response.data);
     });
@@ -233,8 +216,27 @@ function toggleSearchBox() {
   //console.log(open.value);
 }
 
+function addEmployeeToCompany(employeeId) {
+  alert(employeeId);
+  const userStore = useAuthStore();
+  const { userData } = storeToRefs(userStore);
+  const userCompanyId = userData.value.user_company_id;
+  alert(userCompanyId);
+
+  ComapnyDataService.addUserForTheCompany(userCompanyId, { user: employeeId })
+    .then((res) => {
+      //console.log(res.data);
+      ToastService.showToast("Employee was assigned to your company successfully");
+    })
+    .catch((error) => {
+      console.log(error.response.data);
+    });
+
+  toggleSearchBox();
+}
+
 watch(
-  () => bus.value.get("showEmployeesSearchEngine"),
+  () => bus.value.get("showAddingEmployeeToCompanyModal"),
   () => {
     toggleSearchBox();
   }
@@ -244,17 +246,17 @@ const onSelect = (person) => {
   window.location = person.url;
 };
 /*
-return {
-  open,
-  query,
-  recent,
-  filteredPeople,
-  onSelect(person) {
-    window.location = person.url;
-  },
-};
-/*
-  },
-};
-*/
+  return {
+    open,
+    query,
+    recent,
+    filteredPeople,
+    onSelect(person) {
+      window.location = person.url;
+    },
+  };
+  /*
+    },
+  };
+  */
 </script>

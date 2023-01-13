@@ -26,7 +26,7 @@ class UserController extends Controller
     public function index()
     {
         $employees = User::query()->paginate(1);
-        $employees2 = new UserCollection(User::filter()->paginate(8));
+        $employees2 = UserResource::collection(User::all());
         return response()->json([
             'status' => true,
             'employees' => $employees2

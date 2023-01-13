@@ -180,7 +180,8 @@
     />
     <!--<PaginationEmployeesComponent />-->
   </div>
-  <CreateNewEmployeeModalComponent />
+  <!--<CreateNewEmployeeModalComponent />-->
+  <AddingEmployeeToCompanyComponent></AddingEmployeeToCompanyComponent>
   <EditExistingEmployeeModalComponent />
 </template>
 
@@ -191,6 +192,7 @@ import { useRouter } from "vue-router";
 import useEventsBus from "@/composables/eventBus";
 import ComapnyDataService from "@/services/ComapnyDataService";
 import CreateNewEmployeeModalComponent from "./modals/CreateNewEmployeeModalComponent.vue";
+import AddingEmployeeToCompanyComponent from "./modals/AddingEmployeeToCompanyComponent.vue";
 import EditExistingEmployeeModalComponent from "./modals/EditExistingEmployeeModalComponent.vue";
 import PaginationEmployeesComponent from "@/components/employees/PaginationEmployeesComponent.vue";
 import { TailwindPagination } from "laravel-vue-pagination";
@@ -210,7 +212,7 @@ let filterName = ref("");
 const getAllEmployees = async (page = 1) => {
   ComapnyDataService.getAllCompanyEmployees(user.user_company_id, page)
     .then(async (res) => {
-      employees.value = await res.data.employees.data;
+      employees.value = await res.data.employees.data.filter((e) => e.is_owner != 1);
       pagination.value = await res.data.employees.pagination;
       console.log(res.data);
     })
