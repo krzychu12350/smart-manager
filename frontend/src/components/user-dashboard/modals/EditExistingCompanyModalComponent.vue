@@ -163,9 +163,7 @@
                         </Field>
                       </div>
                       <div class="text-sm text-red-600">
-                        <ErrorMessage name="description"
-                          >About company is required</ErrorMessage
-                        >
+                        <ErrorMessage name="description"></ErrorMessage>
                       </div>
                     </div>
                   </div>
@@ -265,7 +263,7 @@ const onSubmit = async (companyUpdatedData) => {
       toggleModal();
       await ToastService.showToast(res.data.message);
       //router.go();
-      emit('refreshCompanyDetails');
+      emit("refreshCompanyDetails");
     })
     .catch((error) => {
       const message =
@@ -278,10 +276,23 @@ const onSubmit = async (companyUpdatedData) => {
 };
 
 const schema = yup.object({
-  name: yup.string().required().min(4, "Company name must be at least 4 characters"),
-  city: yup.string().required().min(3),
-  industry: yup.string().required().min(4),
-  description: yup.string().required().min(3),
+  name: yup
+    .string()
+    .required("Company name is a required field")
+    .max(50, "Company name must be at most 50 characters"),
+  city: yup
+    .string()
+    .required("Company location is a required field")
+    .max(50, "Company location must be at most 50 characters"),
+  industry: yup
+    .string()
+    .required("Company industry is a required field")
+    .max(50, "Company industry must be at most 50 characters"),
+  description: yup
+    .string()
+    .required("Company description is a required field")
+    .min(10, "Company description must be at least 10 characters")
+    .max(255, "Company description must be at most 255 characters"),
 
   /*
     company_name: String(currentCompanyData.value.name),

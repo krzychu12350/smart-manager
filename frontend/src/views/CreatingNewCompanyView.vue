@@ -12,7 +12,7 @@
       <div>
         <img class="mx-auto h-12 w-auto" src="../assets/logo.png" alt="Smart Manager" />
         <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
-          Add your first company
+          Add your company
         </h2>
         <p class="mt-2 text-center text-sm text-gray-600">Type in your company details</p>
       </div>
