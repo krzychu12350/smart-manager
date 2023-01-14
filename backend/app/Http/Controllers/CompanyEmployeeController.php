@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CompanyUserRequest;
+use App\Http\Requests\AddUserToCompanyRequest;
 use App\Http\Resources\CompanyResource;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
@@ -39,11 +39,11 @@ class CompanyEmployeeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param CompanyUserRequest $request
+     * @param AddUserToCompanyRequest $request
      * @param Company $company
      * @return JsonResponse
      */
-    public function store(CompanyUserRequest $request, Company $company)
+    public function store(AddUserToCompanyRequest $request, Company $company)
     {
         //dd($request['employees']);
         $employeesIds = $request->only('user');
@@ -72,11 +72,11 @@ class CompanyEmployeeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param CompanyUserRequest $request
+     * @param AddUserToCompanyRequest $request
      * @param Company $company
      * @return JsonResponse
      */
-    public function update(CompanyUserRequest $request, Company $company)
+    public function update(AddUserToCompanyRequest $request, Company $company)
     {
         $company->employees()->sync($request['employees']);
 
@@ -89,11 +89,11 @@ class CompanyEmployeeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param CompanyUserRequest $request
+     * @param AddUserToCompanyRequest $request
      * @param Company $company
      * @return JsonResponse
      */
-    public function destroy(CompanyUserRequest $request, Company $company)
+    public function destroy(AddUserToCompanyRequest $request, Company $company)
     {
         $company->employees()->detach($request['employees']);
 

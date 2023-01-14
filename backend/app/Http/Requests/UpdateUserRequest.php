@@ -22,13 +22,11 @@ class UpdateUserRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            'name' => "string",
-            'surname' => "string",
-            'position' => "string",
-            'salary' => "integer|min:4",
-            'is_owner' => "required|boolean",
-            //'email' => "required|email|unique:users",
-            //'password' => "required|confirmed|min:8|string",
+            'name' => "required|string|min:2|max:30",
+            'surname' => "required|string|min:2|max:30",
+            'position' => "required|string|min:2|max:30",
+            'salary' => "required|integer|min:4",
+            'is_owner' => "required|boolean|digits_between:0,1",
         ];
     }
 }

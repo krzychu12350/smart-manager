@@ -25,8 +25,13 @@ class SalaryPdfRequest extends ApiFormRequest
     {
         return [
             "company" => "required|integer",
-            "date_from" => "required|string",
-            "date_to" => "required|string"
+            "date_from" => [
+                'date_format:Y-m-d'
+            ],
+            "date_to" =>  [
+                'date_format:Y-m-d',
+                'after:date_from'
+            ]
         ];
     }
 }

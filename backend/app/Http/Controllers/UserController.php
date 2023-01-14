@@ -33,30 +33,7 @@ class UserController extends Controller
         ], 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function store(StoreUserRequest $request)
-    {
-        $employee = User::create($request->validated());
-        /*
-        $company = Company::create([
-            'name' => $request->name,
-            'city' => $request->city,
-            'industry' => $request->industry,
-            'description' => $request->description,
-        ]);
-        */
 
-        return response()->json([
-            'status' => true,
-            'message' => "User was created successfully.",
-            'employee' => new UserResource($employee)
-        ], 201);
-    }
 
     /**
      * Display the specified resource.

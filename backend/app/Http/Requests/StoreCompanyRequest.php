@@ -22,10 +22,10 @@ class StoreCompanyRequest extends ApiFormRequest
     public function rules()
     {
         return [
-            'name' => "required|max:70",
-            'city' => "required|max:70",
-            'industry' => "required|max:70",
-            'description' => "required|min:10",
+            'name' => "required|string|max:50",
+            'city' => "required|string|max:50",
+            'industry' => "required|string|max:50",
+            'description' => "required|string|min:10|max:255",
         ];
     }
 }
