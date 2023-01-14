@@ -3,10 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCompanyRequest;
-use App\Http\Resources\ApplicationCollection;
-use App\Http\Resources\CompanyCollection;
-use App\Models\User;
-use Illuminate\Http\Request;
 use App\Models\Company;
 use App\Http\Resources\CompanyResource;
 
@@ -24,10 +20,8 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //$comapnies = Company::with('employees')->paginate(1);
         return response()->json([
             'status' => true,
-            //'companies' => new CompanyCollection(Company::paginate(10))
             'companies' => CompanyResource::collection(Company::all())
         ], 200);
     }
@@ -35,32 +29,24 @@ class CompanyController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(StoreCompanyRequest $request)
     {
         $company = Company::create($request->validated());
-        /*
-        $company = Company::create([
-            'name' => $request->name,
-            'city' => $request->city,
-            'industry' => $request->industry,
-            'description' => $request->description,
-        ]);
-        */
 
         return response()->json([
             'status' => true,
             'message' => "Company was created successfully!",
-            'company' =>  new CompanyResource($company)
+            'company' => new CompanyResource($company)
         ], 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(Company $company)
@@ -80,20 +66,6 @@ class CompanyController extends Controller
      */
     public function update(StoreCompanyRequest $request, Company $company)
     {
-        // check if currently authenticated user is the owner of the book
-        /*
-        if ($request->user()->id !== $book->user_id) {
-            return response()->json(['error' => 'You can only edit your own books.'], 403);
-        }
-
-
-        $company->update($request->only([
-            'name',
-            'city',
-            'industry',
-            'description',
-        ]));
-        */
         $company->update($request->validated());
         return response()->json([
             'status' => true,
@@ -105,18 +77,13 @@ class CompanyController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Company $company)
     {
         $company->delete();
 
-        return response()->json([
-            'status' => true,
-            'message' => "Company was deleted successfully!",
-        ], 200);
-        //or 204 status
+        return response()->json([], 204);
     }
-
 }

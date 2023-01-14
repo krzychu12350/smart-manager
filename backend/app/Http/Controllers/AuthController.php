@@ -23,50 +23,17 @@ use Illuminate\Auth\Events\PasswordReset;
 class AuthController extends Controller
 {
     /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //$this->middleware('auth:api', ['except' => ['login', 'register']]);
-    }
-
-    /**
      * Get a JWT via given credentials.
      * @return JsonResponse
      */
     public function login(LoginUserRequest $request): JsonResponse
     {
-        /*
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required|string|min:8'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Invalid Inputs',
-                'error' => $validator->errors()
-            ], 422);
-        }
-
-        if (!$token = auth('api')->attempt($validator->validated())) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Invalid email or password',
-            ], 400);
-        }*/
-
         $credentials = $request->only(['email', 'password']);
 
         if (!$token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Invalid email or password'], 401);
         }
 
-        //return $this->respondWithToken($token);
-        $currentUser = Auth::user();
         return response()->json(['status' => true,
             'message' => 'You have been logged in successfully',
             'authorization' => $this->respondWithToken($token),//'user' => $currentUser,
@@ -92,33 +59,19 @@ class AuthController extends Controller
      */
     public function register(RegisterUserRequest $request): JsonResponse
     {
-        /*
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'surname' => 'required',
-            'email' => 'required|string|email|max:100|unique:users',
-            'password' => 'required',
+        $employee = User::create([
+            'name' => $request->name,
+            'surname' => $request->surname,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'is_owner' => $request->is_owner,
         ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Invalid inputs',
-                'error' => $validator->errors()
-            ], 401);
-        }
-
-        */
-        //dd($request->all());
-
-        $employee = User::create(['name' => $request->name, 'surname' => $request->surname,
-            'email' => $request->email, 'password' => bcrypt($request->password),
-            'is_owner'=> $request->is_owner
-            ]);
 
         return response()->json([
             'status' => true,
             'message' => 'You have been successfully registered',
-            'employee' => $employee], 201);
+            'employee' => $employee
+        ], 201);
     }
 
     /**
@@ -129,9 +82,14 @@ class AuthController extends Controller
     {
         try {
             auth('api')->logout();
-            return response()->json(['status' => true, 'message' => 'You have been logged out successfully'], 200);
+            return response()->json([
+                'status' => true,
+                'message' => 'You have been logged out successfully'], 200);
         } catch (Exception $e) {
-            return response()->json(['status' => false, 'message' => 'Sorry, we cannot logout'], 500);
+            return response()->json([
+                'status' => false,
+                'message' => 'Sorry, we cannot logout'],
+                500);
         }
     }
 
@@ -151,36 +109,54 @@ class AuthController extends Controller
      */
     public function userProfile()
     {
-       $currentUser =  new UserResource(Auth::user());
+        $currentUser = new UserResource(Auth::user());
         return response()->json(['status' => true, 'user' => $currentUser], 200);
     }
 
-    /** * Send password reset link.  */
+    /**
+     * Send password reset link.
+     */
     public function sendPasswordResetLink(Request $request)
     {
         //dd($request);
         return $this->sendResetLinkEmail($request);
     }
 
-    /** * Handle reset password  */
+    /**
+     * Handle reset password
+     */
     public function callResetPassword(Request $request)
     {
         return $this->reset($request);
     }
 
-    /** * Get the response for a successful password reset link. * * @param Request $request * @param  string  $response * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse */
+    /**
+     * Get the response for a successful password reset link.
+     * @param Request $request
+     * @param string $response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     **/
     protected function sendResetLinkResponse(Request $request, $response)
     {
         return response()->json(['message' => 'Password reset email sent.', 'data' => $response]);
     }
 
-    /** * Get the response for a failed password reset link. * * @param Request $request * @param  string  $response * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse */
+    /**
+     * Get the response for a failed password reset link.
+     * @param Request $request
+     * @param string $response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     **/
     protected function sendResetLinkFailedResponse(Request $request, $response)
     {
         return response()->json(['message' => 'Email could not be sent to this email address.']);
     }
 
-    /** * Reset the given user's password. * * @param CanResetPassword $user * @param  string  $password * @return void */
+    /** * Reset the given user's password.
+     * @param CanResetPassword $user
+     * @param string $password
+     * @return void
+     **/
     protected function resetPassword($user, $password)
     {
         $user->password = Hash::make($password);
@@ -188,13 +164,22 @@ class AuthController extends Controller
         event(new PasswordReset($user));
     }
 
-    /** * Get the response for a successful password reset. * * @param Request $request * @param  string  $response * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse */
+    /**
+     * Get the response for a successful password reset.
+     * @param Request $request * @param  string  $response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     **/
     protected function sendResetResponse(Request $request, $response)
     {
         return response()->json(['message' => 'Password reset successfully.']);
     }
 
-    /** * Get the response for a failed password reset. * * @param Request $request * @param  string  $response * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse */
+    /**
+     * Get the response for a failed password reset.
+     * @param Request $request
+     * @param string $response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     **/
     protected function sendResetFailedResponse(Request $request, $response)
     {
         return response()->json(['message' => 'Failed, Invalid Token.']);

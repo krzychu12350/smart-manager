@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-use App\Http\Resources\CompanyResource;
-use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Models\Income;
 use App\Models\User;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -25,15 +21,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        $employees = User::query()->paginate(1);
-        $employees2 = UserResource::collection(User::all());
+        $employees = UserResource::collection(User::all());
+
         return response()->json([
             'status' => true,
-            'employees' => $employees2
+            'employees' => $employees
         ], 200);
     }
-
-
 
     /**
      * Display the specified resource.
@@ -58,20 +52,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-       // dd($user->id);
-        /*
-        $employee->update($request->only([
-            "name',
-            'surname',
-            'position',
-            'salary",
-            'email',
-            'is_admin'
-        ]));
-        */
-        //dd($request->validated());
         $user->update($request->validated());
-
 
         Income::create([
             'user_id' => $user->id,
@@ -95,11 +76,6 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return response()->json([
-            'status' => true,
-            'message' => "User was deleted successfully!",
-        ], 204);
+        return response()->json([], 204);
     }
-
-
 }

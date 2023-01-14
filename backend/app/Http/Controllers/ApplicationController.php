@@ -8,7 +8,6 @@ use App\Http\Resources\ApplicationCollection;
 use App\Http\Resources\ApplicationResource;
 use App\Models\Application;
 use App\Models\Company;
-use Illuminate\Http\Request;
 
 class ApplicationController extends Controller
 {
@@ -20,6 +19,7 @@ class ApplicationController extends Controller
     public function index(): \Illuminate\Http\JsonResponse
     {
         $applications = Application::all()->paginate(2);
+
         return response()->json([
             'status' => true,
             'applications' => new ApplicationCollection($applications)
@@ -33,7 +33,6 @@ class ApplicationController extends Controller
      */
     public function getCompanyApplications(Company $company): \Illuminate\Http\JsonResponse
     {
-        // dd($company->id);
         $applications = Application::where('company_id', $company->id)->get();
 
         return response()->json([
@@ -51,31 +50,12 @@ class ApplicationController extends Controller
     public function store(StoreApplicationRequest $request)
     {
         $application = Application::create($request->validated());
-        /*
-        $company = Company::create([
-            'name' => $request->name,
-            'city' => $request->city,
-            'industry' => $request->industry,
-            'description' => $request->description,
-        ]);
-        */
 
         return response()->json([
             'status' => true,
             'message' => "Application was created successfully!",
             'application' => new ApplicationResource($application)
         ], 201);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Models\Application $application
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Application $application)
-    {
-        //
     }
 
     /**
@@ -88,14 +68,10 @@ class ApplicationController extends Controller
     public function update(UpdateApplicationRequest $request, Application $application)
     {
         $application->update($request->validated());
-        if($request->status == "accepted") {
-            //dd("accepted");
+        if ($request->status == "accepted") {
             $company = Company::findOrFail($application->company_id);
-
             $company->employees()->syncWithoutDetaching($application->user_id);
-            //$application->delete();
         }
-
 
         return response()->json([
             'status' => true,

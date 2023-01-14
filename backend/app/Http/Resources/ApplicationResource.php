@@ -11,7 +11,7 @@ class ApplicationResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
@@ -20,9 +20,8 @@ class ApplicationResource extends JsonResource
             'id' => $this->id,
             'status' => $this->status,
             'application_date' => $this->created_at,
-            'company' =>  CompanyResource::collection(Company::where('id', $this->company_id)->get()),
+            'company' => CompanyResource::collection(Company::where('id', $this->company_id)->get()),
             'user' => UserResource::collection(User::where('id', $this->user_id)->get())
-
         ];
     }
 }

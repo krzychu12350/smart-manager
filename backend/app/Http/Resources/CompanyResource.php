@@ -9,7 +9,7 @@ class CompanyResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
@@ -20,8 +20,8 @@ class CompanyResource extends JsonResource
             'city' => $this->city,
             'industry' => $this->industry,
             'description' => $this->description,
-            'created_at' => (string) $this->created_at,
-            'updated_at' => (string) $this->updated_at,
+            'created_at' => (string)$this->created_at,
+            'updated_at' => (string)$this->updated_at,
             'positions' => $this->positions,
         ];
     }

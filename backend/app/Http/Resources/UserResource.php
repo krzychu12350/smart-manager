@@ -26,15 +26,14 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'position' => $this->position,
             //'salary' => $this->salary,
-            'created_at' => (string) $this->created_at,
-            'updated_at' => (string) $this->updated_at,
+            'created_at' => (string)$this->created_at,
+            'updated_at' => (string)$this->updated_at,
             'is_owner' => $this->is_owner,
-            'companies' => $this->companies  ?? null,
+            'companies' => $this->companies ?? null,
             'salary' => Income::where('user_id', $this->id)->latest()->first()->amount ?? 0,
             'applications' => Application::join('companies', 'companies.id', 'applications.company_id')
                 ->where('user_id', $this->id)->get(),
         ];
-
 
 
     }
