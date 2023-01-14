@@ -104,10 +104,7 @@
                     </div>
 
                     <div class="sm:col-span-3">
-                      <label
-                        for="salary"
-                        class="block text-sm font-medium text-gray-700"
-                      >
+                      <label for="salary" class="block text-sm font-medium text-gray-700">
                         Salary
                       </label>
                       <div class="mt-1">
@@ -198,7 +195,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, onMounted, inject } from "vue";
 import {
   Dialog,
   DialogOverlay,
@@ -239,7 +236,7 @@ watch(
   () => bus.value.get("showEditingExistingUserModal"),
   (val) => {
     currentUserData.value = val[0];
-    
+
     //console.log(currentUserData.value);
     //test = String(currentCompanyData.value.city);
     //console.log(test);
@@ -256,19 +253,23 @@ watch(
   }
 );
 
-const loading = ref(false);
+const $loading = inject("$loading");
+const fullPage = ref(true);
+
 const router = useRouter();
 const error = useErrorStore();
 
 const onSubmit = async (employeeUpdatedData) => {
   console.log(employeeUpdatedData, currentUserData.value.id);
+  const loader = $loading.show();
   employeeUpdatedData.is_owner = 1;
   UserDataService.update(currentUserData.value.id, employeeUpdatedData)
     .then(async (res) => {
       console.log(res.data);
       toggleModal();
       await ToastService.showToast(res.data.message);
-      emit('refreshUserDetails');
+      emit("refreshUserDetails");
+      loader.hide();
       //router.go();
     })
     .catch((error) => {
@@ -279,7 +280,6 @@ const onSubmit = async (employeeUpdatedData) => {
       console.log(message);
       ToastService.showToast(error.message);
     });
-    
 };
 
 const schema = yup.object({

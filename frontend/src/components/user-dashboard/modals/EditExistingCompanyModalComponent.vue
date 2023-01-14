@@ -196,7 +196,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, inject } from "vue";
 import {
   Dialog,
   DialogOverlay,
@@ -212,6 +212,9 @@ import { Form, Field, ErrorMessage, useForm } from "vee-validate";
 import { useRouter } from "vue-router";
 import { useErrorStore } from "../../../stores/useError";
 import ComapnyDataService from "@/services/ComapnyDataService";
+
+const $loading = inject("$loading");
+const fullPage = ref(true);
 
 const currentCompanyData = ref();
 
@@ -256,7 +259,7 @@ const error = useErrorStore();
 
 const onSubmit = async (companyUpdatedData) => {
   //console.log(companyUpdatedData, currentCompanyData.value.id);
-
+  const loader = $loading.show();
   ComapnyDataService.update(currentCompanyData.value.id, companyUpdatedData)
     .then(async (res) => {
       //console.log(res.data.message);
@@ -264,6 +267,7 @@ const onSubmit = async (companyUpdatedData) => {
       await ToastService.showToast(res.data.message);
       //router.go();
       emit("refreshCompanyDetails");
+      loader.hide();
     })
     .catch((error) => {
       const message =

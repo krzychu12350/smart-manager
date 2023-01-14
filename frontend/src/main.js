@@ -9,7 +9,8 @@ import App from './App.vue'
 import router from './router'
 import VueTailwindDatepicker from 'vue-tailwind-datepicker'
 import './assets/main.css'
-import VuePdf from 'vue3-pdfjs'
+import {LoadingPlugin} from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/css/index.css';
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
@@ -24,9 +25,22 @@ const app = createApp(App)
 
 app.use(pinia)
 //app.use(auth)
+app.use(LoadingPlugin, {
+      // options
+    // Pass props by their camelCased names
+    canCancel: false, // default false
+    color: "#4338ca",
+    loader: "spinner",
+    width: 64,
+    height: 64,
+    backgroundColor: "#ffffff",
+    opacity: 0.5,
+    zIndex: 999,
+}, {
+    // slots
+});
 app.use(VueTailwindDatepicker)
 app.use(router)
 app.use(VueAxios, axios)
 app.use(SmartTable)
-app.use(VuePdf)
 app.mount('#app')

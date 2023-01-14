@@ -156,7 +156,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from "vue";
+import { computed, ref, watch, inject } from "vue";
 //import { SearchIcon } from "@heroicons/vue/24/solid/";
 import {
   MagnifyingGlassIcon,
@@ -179,6 +179,9 @@ import ComapnyDataService from "../../../services/ComapnyDataService";
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "../../../stores/useAuth";
 import ToastService from "../../../services/ToastService";
+
+const $loading = inject("$loading");
+const fullPage = ref(true);
 
 const { bus, emit } = useEventsBus();
 const recent = [];
@@ -217,16 +220,19 @@ function toggleSearchBox() {
 }
 
 function addEmployeeToCompany(employeeId) {
-  alert(employeeId);
+  //alert(employeeId);
+  const loader = $loading.show();
   const userStore = useAuthStore();
   const { userData } = storeToRefs(userStore);
   const userCompanyId = userData.value.user_company_id;
-  alert(userCompanyId);
+  //alert(userCompanyId);
 
-  ComapnyDataService.addUserForTheCompany(userCompanyId, { user: employeeId })
+  ComapnyDataService.addUserForTheCompany(userCompanyId, employeeId)
     .then((res) => {
       //console.log(res.data);
+
       ToastService.showToast("Employee was assigned to your company successfully");
+      loader.hide();
     })
     .catch((error) => {
       console.log(error.response.data);

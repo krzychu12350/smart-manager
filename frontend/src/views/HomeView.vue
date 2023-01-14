@@ -268,10 +268,7 @@
           </div>
         </div>
         <div class="grid grid-cols-4 gap-4">
-          <div
-            v-for="company in userCompanies"
-            class="bg-white shadow sm:rounded-lg"
-          >
+          <div v-for="company in userCompanies" class="bg-white shadow sm:rounded-lg">
             <div class="px-4 py-5 sm:px-6">
               <div class="flex justify-between">
                 <div>
@@ -279,7 +276,7 @@
                     id="applicant-information-title"
                     class="text-lg leading-6 font-medium text-gray-900"
                   >
-                  {{ company.name }}
+                    {{ company.name }}
                   </h2>
                   <p class="mt-1 max-w-2xl text-sm text-gray-500">
                     {{ company.name }} information details.
@@ -287,7 +284,7 @@
                 </div>
               </div>
             </div>
-          
+
             <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
               <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
                 <div class="sm:col-span-1">

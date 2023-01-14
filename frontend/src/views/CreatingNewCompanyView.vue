@@ -112,7 +112,7 @@
 <script setup>
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
-import { ref, onBeforeUnmount, watch, onMounted } from "vue";
+import { ref, onBeforeUnmount, watch, inject } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../stores/useAuth";
 import { useErrorStore } from "../stores/useError";
@@ -123,7 +123,9 @@ import useEventsBus from "@/composables/eventBus";
 
 const { bus } = useEventsBus();
 //const credentials = ref({});
-const loading = ref(false);
+const $loading = inject("$loading");
+const fullPage = ref(true);
+
 const router = useRouter();
 const error = useErrorStore();
 let newOwnerId = ref();
@@ -134,6 +136,7 @@ const props = defineProps(["owner_id", "owner_credentails"]);
 console.log(props.owner_id);
 
 const onSubmit = async (newCompanyData) => {
+  const loader = $loading.show();
   console.log(props.owner_credentails);
   //loading.value = !loading.value;
   console.log(newCompanyData);
@@ -147,6 +150,7 @@ const onSubmit = async (newCompanyData) => {
   };
   console.log(newOwnerCredentails);
   logInNewOwner(newOwnerCredentails);
+  loader.hide();
   //router.push("/login");
 };
 

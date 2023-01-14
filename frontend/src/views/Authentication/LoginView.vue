@@ -214,13 +214,16 @@ export default {
   },
 }
 */
-import { ref, onBeforeUnmount, reactive } from "vue";
+import { ref, onBeforeUnmount, reactive, inject } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/useAuth";
 import { useErrorStore } from "../../stores/useError";
+import { useLoading } from "vue-loading-overlay";
 
 //const credentials = ref({});
-const loading = ref(false);
+const $loading = inject("$loading");
+const fullPage = ref(true);
+
 const router = useRouter();
 const error = useErrorStore();
 const user = {
@@ -233,26 +236,32 @@ const togglePasswordVisibity = () => {
   showPassword.value = !showPassword.value;
 };
 const onSubmit = (credentials) => {
-  loading.value = !loading.value;
+  const loader = $loading.show();
+
   useAuthStore()
     .login(credentials)
     .then(() => {
       //console.log(response.data);
+
       router.push({ name: "home" });
+      loader.hide();
     })
     .catch((err) => {
-      loading.value = !loading.value;
+      loader.hide();
       console.log(err);
       ToastService.showToast("Invalid email or password");
     });
 };
 
 const schema = yup.object({
-  email: yup.string().required('Email is a required field').email('Email must be a valid email'),
+  email: yup
+    .string()
+    .required("Email is a required field")
+    .email("Email must be a valid email"),
   password: yup
     .string()
-    .required('Password is a required field')
-    .min(8, 'Password must be at least 8 characters')
+    .required("Password is a required field")
+    .min(8, "Password must be at least 8 characters"),
 });
 
 function onInvalidSubmit({ values, errors, results }) {

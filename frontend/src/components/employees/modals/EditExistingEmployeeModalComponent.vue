@@ -177,7 +177,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, inject } from "vue";
 import {
   Dialog,
   DialogOverlay,
@@ -224,18 +224,22 @@ watch(
   }
 );
 
-const loading = ref(false);
+const $loading = inject("$loading");
+const fullPage = ref(true);
+
 const router = useRouter();
 const error = useErrorStore();
 
 const onSubmit = async (newUserData) => {
   console.log(newUserData);
+  const loader = $loading.show();
   newUserData.is_owner = 0;
   UserDataService.update(empData.value.id, newUserData)
     .then(() => {
       ToastService.showToast("User data was updated successfully");
       toggleModal();
       emit("refreshEmployeesTable");
+      loader.hide();
     })
     .catch((error) => {
       const message =

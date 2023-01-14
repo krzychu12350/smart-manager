@@ -152,7 +152,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watch, onMounted } from "vue";
+import { computed, ref, watch, onMounted, inject } from "vue";
 //import { SearchIcon } from "@heroicons/vue/24/solid/";
 import CompanyDataService from "../../services/ComapnyDataService";
 import {
@@ -177,6 +177,9 @@ import { storeToRefs } from "pinia";
 import { useAuthStore } from "../../stores/useAuth";
 import ApplicationDataService from "../../services/ApplicationDataService";
 import ToastService from "@/services/ToastService";
+
+const $loading = inject("$loading");
+const fullPage = ref(true);
 
 const { bus, emit } = useEventsBus();
 const recent = [];
@@ -203,6 +206,7 @@ export default {
     */
 
 const applyToCompany = (companyId) => {
+  const loader = $loading.show();
   console.log(companyId, userId);
   toggleSearchBox();
   const newApplicationData = {
@@ -213,6 +217,7 @@ const applyToCompany = (companyId) => {
   ApplicationDataService.create(newApplicationData)
     .then(async (res) => {
       //console.log(await res.data.message);
+      loader.hide();
       ToastService.showToast("Your application was send to company successfully");
     })
 

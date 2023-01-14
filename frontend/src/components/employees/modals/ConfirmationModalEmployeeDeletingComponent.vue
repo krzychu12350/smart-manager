@@ -58,15 +58,13 @@
               </div>
               <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                 <DialogTitle as="h3" class="text-lg leading-6 font-medium text-gray-900">
-                  Deactivate account
+                  Dismissal of an employee
 
                   <slot name="dialog-title"></slot>
                 </DialogTitle>
                 <div class="mt-2">
                   <p class="text-sm text-gray-500">
-                    Are you sure you want to deactivate your account? All of your data
-                    will be permanently removed from our servers forever. This action
-                    cannot be undone.
+                    Are you sure you want to dismissal of the employee?
 
                     <slot name="dialog-description"></slot>
                   </p>
@@ -101,7 +99,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, inject } from "vue";
 import {
   Dialog,
   DialogOverlay,
@@ -113,6 +111,16 @@ import { ExclamationTriangleIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import useEventsBus from "@/composables/eventBus";
 import UserDataService from "@/services/UserDataService";
 import ToastService from "@/services/ToastService";
+import ComapnyDataService from "../../../services/ComapnyDataService";
+import { storeToRefs } from "pinia";
+import { useAuthStore } from "../../../stores/useAuth";
+
+const $loading = inject("$loading");
+const fullPage = ref(true);
+
+const userStore = useAuthStore();
+const { userData } = storeToRefs(userStore);
+const companyId = userData.value.user_company_id;
 
 let open = ref(false);
 const empId = ref(0);
@@ -128,16 +136,17 @@ function deleteEmployee() {
 }
 */
 
-const deleteEmployee = async (id) => {
-  // alert("id usera " + id);
+const deleteEmployee = async (userId) => {
+  //alert("id usera " + id);
   toggleModal();
-  UserDataService.delete(id)
+  const loader = $loading.show();
+  await ComapnyDataService.removeUserFromTheCompany(companyId, userId)
     .then((res) => {
-      console.log(res);
+      console.log(res.data);
       //employees.value.splice(index, 1);
-
-      ToastService.showToast("Employee was deleted successfully");
+      ToastService.showToast("Employee has been fired successfully");
       emit("refreshEmployeesTable");
+      loader.hide();
       //console.log(employees);
     })
     .catch((error) => {

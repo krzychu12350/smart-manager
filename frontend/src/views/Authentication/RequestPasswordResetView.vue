@@ -75,44 +75,6 @@
 </template>
 
 <script setup>
-/*
-import { LockClosedIcon } from '@heroicons/vue/20/solid'
-import ToastService from "../services/ToastService";
-import UserAuthService from '../services/UserAuthService';
-import router from '../router';
-export default {
-  setup () {
-  },
-  methods: {
-    showToast() {
-    
-      
-    },
-    handleRegister() {
-      const newUser = {
-        name: "Adam",
-        surname: "Craft",
-        email: "a.craft@gmail.com",
-        password: "acraft123?!23"
-      };
-      const response = UserAuthService.register(newUser)
-        .then(response => {
-          ToastService.showToast(response.data.message)
-          return response.data;
-          //console.log(response.data);
-        })
-        .catch(e => {
-          console.log(e);
-        });
-
-        router.push('/login')
-    }
-  },
-  mounted() {
-  },
-}
-*/
-
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 import { ref, onBeforeUnmount } from "vue";

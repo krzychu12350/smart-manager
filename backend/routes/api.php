@@ -52,8 +52,8 @@ Route::group(['middleware' => ['cors', 'forceJSON']], function () {
             Route::post('/pdf/salary', [PdfDownloadController::class, 'downloadPdfSalaryReport']);
             Route::get('/companies/{company}/applications', [ApplicationController::class, 'getCompanyApplications']);
             Route::get('/companies/{company}/users', [CompanyEmployeeController::class, 'index']);
-            Route::put('/companies/{company}/users', [CompanyEmployeeController::class, 'update']);
-            Route::delete('/companies/{company}/users', [CompanyEmployeeController::class, 'destroy']);
+            Route::put('/companies/{company}/users/{user}', [CompanyEmployeeController::class, 'update']);
+            Route::delete('/companies/{company}/users/{user}', [CompanyEmployeeController::class, 'destroy']);
         });
     });
 });

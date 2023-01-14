@@ -29,8 +29,12 @@ class CompanyDataService {
     return api.get(`/companies/${id}/users?page=` + page);
   }
 
-  addUserForTheCompany(id, data) {
-    return api.post(`/companies/${id}/users`, data);
+  addUserForTheCompany(companyId, userId) {
+    return api.put(`/companies/${companyId}/users/${userId}`);
+  }
+
+  removeUserFromTheCompany(companyId, userId) {
+    return api.delete(`/companies/${companyId}/users/${userId}`);
   }
 }
 

@@ -188,7 +188,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, watch } from "vue";
+import { ref, reactive, onMounted, watch, inject } from "vue";
 import { PencilIcon, TrashIcon } from "@heroicons/vue/24/outline";
 import { useRouter } from "vue-router";
 import useEventsBus from "@/composables/eventBus";
@@ -198,6 +198,9 @@ import { storeToRefs } from "pinia";
 import ApplicationActionMenuComponent from "./ApplicationActionMenuComponent.vue";
 import ToastService from "../../services/ToastService";
 import moment from "moment";
+
+const $loading = inject("$loading");
+const fullPage = ref(true);
 
 const router = useRouter();
 const { emit, bus } = useEventsBus();
@@ -234,8 +237,10 @@ const statusStyles = reactive({
 });
 
 const updateApplicationStatus = async (applicationId, status) => {
+  const loader = $loading.show();
   return ApplicationDataService.update(applicationId, status)
     .then(async (res) => {
+      loader.hide();
       return res.data.message;
     })
 

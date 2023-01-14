@@ -178,15 +178,16 @@ export default {
 
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
-import { ref, onBeforeUnmount } from "vue";
+import { ref, onBeforeUnmount, inject } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/useAuth";
 import { useErrorStore } from "../../stores/useError";
 import UserAuthService from "../../services/UserAuthService";
 import ToastService from "../../services/ToastService";
 
-//const credentials = ref({});
-const loading = ref(false);
+const $loading = inject("$loading");
+const fullPage = ref(true);
+
 const router = useRouter();
 const error = useErrorStore();
 const user = {
@@ -196,7 +197,7 @@ const user = {
 
 const onSubmit = async (newUserData) => {
   //loading.value = !loading.value;
-
+  const loader = $loading.show();
   newUserData.is_owner = 0;
   console.log(newUserData);
 
@@ -204,6 +205,7 @@ const onSubmit = async (newUserData) => {
     .then((res) => {
       console.log(res);
       ToastService.showToast(res.data.message);
+      loader.hide();
       router.push("/login");
     })
     .catch((error) => {

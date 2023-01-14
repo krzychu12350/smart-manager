@@ -1549,7 +1549,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, inject } from "vue";
 import {
   Dialog,
   DialogOverlay,
@@ -1567,6 +1567,9 @@ import { storeToRefs } from "pinia";
 import { useAuthStore } from "../../../stores/useAuth";
 import PdfDataService from "@/services/PdfDataService";
 import api from "@/services/api";
+
+const $loading = inject("$loading");
+const fullPage = ref(true);
 
 const userStore = useAuthStore();
 const { userData } = storeToRefs(userStore);
@@ -1608,12 +1611,13 @@ const countOverallRating = (formData) => {
 
 function generateEmployeeEvaulationPDF(data) {
   console.log(data);
-
+  const loader = $loading.show();
   PdfDataService.getEmployeeEvaluationPDF(data)
     .then((response) => {
       if (response.status == 200) {
         let blob = new Blob([response.data], { type: "application/pdf" });
         let fileURL = window.URL.createObjectURL(blob);
+        loader.hide();
         window.open(fileURL, "_self");
       }
     })
@@ -1667,7 +1671,10 @@ const schema = yup.object({
   job_knowledge: yup.number().required(),
   productivity: yup.number().required(),
   punctuality: yup.number().required(),
-  reviewer_comment: yup.string().min(8, 'Additional remarks  must be at least 8 characters').max(255, 'Additional remarks must be at most 255 characters'),
+  reviewer_comment: yup
+    .string()
+    .min(8, "Additional remarks  must be at least 8 characters")
+    .max(255, "Additional remarks must be at most 255 characters"),
   technical_skills: yup.number().required(),
   work_consistency: yup.number().required(),
   work_quality: yup.number().required(),

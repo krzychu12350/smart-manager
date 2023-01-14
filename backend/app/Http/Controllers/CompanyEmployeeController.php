@@ -6,6 +6,7 @@ use App\Http\Requests\AddUserToCompanyRequest;
 use App\Http\Resources\CompanyResource;
 use App\Http\Resources\UserCollection;
 use App\Models\Company;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 
 class CompanyEmployeeController extends Controller
@@ -20,17 +21,18 @@ class CompanyEmployeeController extends Controller
     {
         return response()->json([
             'status' => true,
-            'employees' => new UserCollection($company->employees()->paginate(2))
+            'employees' => new UserCollection($company->employees()->paginate(10))
         ], 200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param AddUserToCompanyRequest $request
      * @param Company $company
+     * @param User $user
      * @return JsonResponse
      */
+    /*
     public function store(AddUserToCompanyRequest $request, Company $company)
     {
         $company->employees()->syncWithoutDetaching($request->validated());
@@ -39,19 +41,19 @@ class CompanyEmployeeController extends Controller
             'status' => true,
             'message' => "Employees was assigned to the company successfully",
             'company' => new CompanyResource($company)
-        ], 201);
+        ], 200);
     }
+    */
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param AddUserToCompanyRequest $request
      * @param Company $company
+     * @param User $user
      * @return JsonResponse
      */
-    public function update(AddUserToCompanyRequest $request, Company $company)
+    public function update(Company $company, User $user)
     {
-        $company->employees()->sync($request['employees']);
+        $company->employees()->syncWithoutDetaching($user);
 
         return response()->json([
             'status' => true,
@@ -62,13 +64,13 @@ class CompanyEmployeeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param AddUserToCompanyRequest $request
      * @param Company $company
+     * @param User $user
      * @return JsonResponse
      */
-    public function destroy(AddUserToCompanyRequest $request, Company $company)
+    public function destroy(Company $company, User $user)
     {
-        $company->employees()->detach($request['employees']);
+        $company->employees()->detach($user);
 
         return response()->json([], 204);
     }

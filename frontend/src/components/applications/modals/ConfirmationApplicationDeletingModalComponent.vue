@@ -99,7 +99,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from "vue";
+import { ref, watch, onMounted, inject } from "vue";
 import {
   Dialog,
   DialogOverlay,
@@ -111,6 +111,9 @@ import { ExclamationTriangleIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import useEventsBus from "@/composables/eventBus";
 import ApplicationDataService from "../../../services/ApplicationDataService";
 import ToastService from "@/services/ToastService";
+
+const $loading = inject("$loading");
+const fullPage = ref(true);
 
 let open = ref(false);
 const appId = ref(0);
@@ -129,7 +132,7 @@ function deleteEmployee() {
 const deleteApplication = async (id) => {
   //alert("id app " + id);
   toggleModal();
-
+  const loader = $loading.show();
   ApplicationDataService.delete(id)
     .then((res) => {
       console.log(res);
@@ -137,6 +140,7 @@ const deleteApplication = async (id) => {
 
       ToastService.showToast("Application was deleted successfully");
       emit("refreshApplicationTable");
+      loader.hide();
       //console.log(employees);
     })
     .catch((error) => {

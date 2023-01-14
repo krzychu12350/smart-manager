@@ -128,7 +128,7 @@
   </Dashboard>
 </template>
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, inject } from "vue";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 import Dashboard from "../components/DashboardBaseComponent.vue";
@@ -136,6 +136,9 @@ import PdfDataService from "../services/PdfDataService";
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "@/stores/useAuth";
 import UserDataService from "@/services/UserDataService";
+
+const $loading = inject("$loading");
+const fullPage = ref(true);
 
 const userStore = useAuthStore();
 const { userData } = storeToRefs(userStore);
@@ -187,6 +190,7 @@ const generateSalaryReport = async () => {
 };
 */
 const onSubmit = async (newUserData) => {
+  const loader = $loading.show();
   requestPayload.value = JSON.stringify({
     company: loggedInOwner.user_company_id,
     date_from: dateInterval.value[0],
@@ -201,6 +205,7 @@ const onSubmit = async (newUserData) => {
         let fileURL = window.URL.createObjectURL(blob);
         window.open(fileURL, "_self");
       }
+      loader.hide();
     })
     .catch((error) => {
       console.log(error);

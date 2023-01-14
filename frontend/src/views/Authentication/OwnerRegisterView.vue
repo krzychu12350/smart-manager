@@ -177,7 +177,7 @@ export default {
 
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
-import { ref, onBeforeUnmount, onMounted } from "vue";
+import { ref, onBeforeUnmount, inject } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/useAuth";
 import { useErrorStore } from "../../stores/useError";
@@ -186,6 +186,8 @@ import ToastService from "../../services/ToastService";
 import CreatingNewCompanyView from "@/views/CreatingNewCompanyView.vue";
 import useEventsBus from "@/composables/eventBus";
 
+const $loading = inject("$loading");
+const fullPage = ref(true);
 const { emit } = useEventsBus();
 //const credentials = ref({});
 const loading = ref(false);
@@ -201,6 +203,7 @@ const user = {
 
 const onSubmit = async (newUserData) => {
   //loading.value = !loading.value;
+  const loader = $loading.show();
   console.log(newUserData);
   newUserData.is_owner = 1;
   console.log(newUserData.password_confirmation);
@@ -216,6 +219,7 @@ const onSubmit = async (newUserData) => {
 
       //console.log(registeredOwnerId.value);
       isOwnerRegistered.value = true;
+      loader.hide();
       //router.push("/login");
     })
     .catch((error) => {
