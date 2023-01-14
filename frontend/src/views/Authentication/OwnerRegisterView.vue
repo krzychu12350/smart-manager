@@ -203,7 +203,7 @@ const onSubmit = async (newUserData) => {
   //loading.value = !loading.value;
   console.log(newUserData);
   newUserData.is_owner = 1;
-  console.log(newUserData.password_confirmation)
+  console.log(newUserData.password_confirmation);
   registeredOwnerData.value = newUserData;
   console.log(newUserData);
 
@@ -231,20 +231,29 @@ const onSubmit = async (newUserData) => {
 };
 
 const schema = yup.object({
-  name: yup.string().required('Name is a required field').min(2, 'Name must be at least 2 characters'),
-  surname: yup.string().required('Surname is a required field').min(2, 'Surname must be at least 2 characters'),
-  email: yup.string().required('Email is a required field').email('Email must be a valid email'),
+  name: yup
+    .string()
+    .required("Name is a required field")
+    .min(2, "Name must be at least 2 characters"),
+  surname: yup
+    .string()
+    .required("Surname is a required field")
+    .min(2, "Surname must be at least 2 characters"),
+  email: yup
+    .string()
+    .required("Email is a required field")
+    .email("Email must be a valid email"),
   password: yup
     .string()
-    .required('Password is a required field')
+    .required("Password is a required field")
     .matches(
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
       "Password must contain 8 characters, one uppercase, one lowercase, one number and one special case character"
     ),
-    password_confirmation: yup
+  password_confirmation: yup
     .string()
-    .required('Password confirmation is a required field')
-    //.oneOf([yup.ref('password')], 'Your passwords do not match.')
+    .required("Password confirmation is a required field")
+    .oneOf([yup.ref("password")], "Your passwords do not match."),
 });
 
 function onInvalidSubmit({ values, errors, results }) {
