@@ -2,6 +2,8 @@
   <Dashboard>
     <template v-slot:subpage-content>
       <section id="owner-section" v-if="isOwner == 1">
+        <StatsCardsComponent></StatsCardsComponent>
+        <!--
         <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
           <div class="sm:flex sm:items-center">
             <div class="sm:flex-auto">
@@ -13,7 +15,7 @@
             </div>
           </div>
           <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            <!-- Card -->
+            
             <div
               v-for="card in cards"
               :key="card.name"
@@ -55,6 +57,7 @@
             </div>
           </div>
         </div>
+        -->
         <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
           <div class="sm:flex sm:items-center">
             <div class="sm:flex-auto">
@@ -334,32 +337,14 @@ import { useAuthStore } from "../stores/useAuth";
 import { ref, onMounted, reactive } from "vue";
 import UserDataService from "../services/UserDataService";
 import moment from "moment";
+import StatsCardsComponent from "../components/home-view-components/StatsCardsComponent.vue";
+
 const userStore = useAuthStore();
 const { userData } = storeToRefs(userStore);
 const isOwner = userData.value.is_owner;
 const userId = userData.value.user_id;
 const userCompanies = ref();
 const employeeCounter = ref(0);
-
-onMounted(() => {
-  console.log(userId);
-  UserDataService.get(userId)
-    .then((res) => {
-      userCompanies.value = res.data.employee.companies;
-      console.log(userCompanies.value);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
-
-const cards = [
-  { name: "Account balance", href: "#", icon: XMarkIcon, amount: "$30,659.45" },
-  { name: "Account balance", href: "#", icon: XMarkIcon, amount: "$30,659.45" },
-  { name: "Account balance", href: "#", icon: XMarkIcon, amount: "$30,659.45" },
-  { name: "Account balance", href: "#", icon: XMarkIcon, amount: "$30,659.45" },
-  // More items...
-];
 
 const transactions = [
   {
@@ -408,23 +393,5 @@ const statusStyles = {
   success: "bg-green-100 text-green-800",
   processing: "bg-yellow-100 text-yellow-800",
   failed: "bg-gray-100 text-gray-800",
-};
-
-const getAllEmployees = () => {
-  return UserDataService.getAll()
-    .then((res) => {
-      //employees.value = res.data.employees;
-      const userStore = useAuthStore();
-      const { userData } = storeToRefs(userStore);
-      const userCompanyId = userData.value.user_company_id;
-      employeeCounter.value = res.data.employees;
-      Object.keys(member).length;
-      //employees.value = res.data.employees.filter((e) => e.companies[0].id === 2);
-      console.log(employees.value);
-    })
-
-    .catch((error) => {
-      console.log(error.response.data);
-    });
 };
 </script>

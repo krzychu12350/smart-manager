@@ -178,10 +178,10 @@ async function createNewCompany(newCompanyData) {
     });
 }
 
-async function assignNewOwnerToItsCompany(comapnyId, ownerId) {
+async function assignNewOwnerToItsCompany(companyId, ownerId) {
   //alert(comapnyId + " " + ownerId);
 
-  return ComapnyDataService.addUserForTheCompany(comapnyId, { user: ownerId })
+  return ComapnyDataService.addUserForTheCompany(companyId, ownerId)
     .then((res) => {
       console.log(res.data);
       return res.data.company;

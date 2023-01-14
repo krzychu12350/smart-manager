@@ -28,7 +28,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::group(['middleware' => ['cors', 'forceJSON']], function () {
     Route::apiResource('companies', CompanyController::class)->only(['store']);
-    Route::post('/companies/{company}/users', [CompanyEmployeeController::class, 'store']);
+    //Route::post('/companies/{company}/users', [CompanyEmployeeController::class, 'store']);
+    Route::put('/companies/{company}/users/{user}', [CompanyEmployeeController::class, 'update']);
     Route::group(['prefix' => 'auth'], function () {
         Route::post('/login', [AuthController::class, 'login']);
         Route::post('/register', [AuthController::class, 'register']);
