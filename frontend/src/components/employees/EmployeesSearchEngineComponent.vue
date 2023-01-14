@@ -208,7 +208,7 @@ const getAllEmployees = () => {
       const userCompanyId = userData.value.user_company_id;
       employees.value = res.data.employees;
       //employees.value = res.data.employees.filter((e) => e.companies[0].id === 2);
-      console.log(employees.value);
+      //console.log(employees.value);
     })
 
     .catch((error) => {

@@ -67,26 +67,58 @@ const isOwner = userData.value.is_owner;
 const userCompanyId = userData.value.user_company_id;
 const userCompanies = ref();
 let employeeCounter = ref(0);
+let applicationsCounter = ref(0);
+let maxSalary = ref(0);
+let minSalary = ref(0);
 
 onMounted(() => {
   //console.log(userId);
   UserDataService.getAll()
     .then((res) => {
       const allEmployees = res.data.employees;
-      console.log(allEmployees);
-      const companyEmployees = allEmployees.map((e) => {
+      //console.log(allEmployees);
+      const companyEmployeess = allEmployees.map((e) => {
         e.companies.map((c) => {
-          if (c.id === userCompanyId) {
-            //console.log(c);
+          if (e.is_owner === 0 && c.id === userCompanyId) {
             employeeCounter.value += 1;
-            //return c;
+
+            //console.log(c);
+            //employeeCounter.value += 1;
+            //return (employeeCounter += 1);
+          }
+        });
+        e.applications.map((a) => {
+          if (a.company_id === userCompanyId) {
+            applicationsCounter.value += 1;
+            //console.log(applicationsCounter);
+            //employeeCounter.value += 1;
+            //return (employeeCounter += 1);
           }
         });
       });
 
-      userCompanies.value = allEmployees;
+      const companyEmployees = allEmployees.filter(function (e) {
+        return e.is_owner === 0 && e.companies.some((c) => c.id === userCompanyId);
+      });
 
-      console.log(userCompanies.value);
+      maxSalary.value = Math.max(...companyEmployees.map((e) => e.salary));
+      minSalary.value = Math.min(...companyEmployees.map((e) => e.salary));
+      //console.log(maxSalary, minSalary);
+      /*
+      const test = Arrays.allEmployees.filter()
+        ...e.map((e) => {
+          e.companies.map((c) => {
+            if (e.is_owner === 0 && c.id === userCompanyId) e.salary;
+          });
+        })
+      );
+      console.log(test);
+*/
+      //console.log(employeeCounter.value);
+
+      // userCompanies.value = allEmployees;
+
+      //console.log(userCompanies.value);
     })
     .catch((err) => {
       console.log(err);
@@ -98,20 +130,25 @@ const cards = [
     name: "Employees",
     href: "/admin/employees",
     icon: UsersIcon,
-    amount: employeeCounter.value,
+    amount: employeeCounter,
   },
-  { name: "Applications", href: "/admin/applications", icon: InboxIcon, amount: "20" },
+  {
+    name: "Applications",
+    href: "/admin/applications",
+    icon: InboxIcon,
+    amount: applicationsCounter,
+  },
   {
     name: "Highest salary",
     href: "/admin/employees",
     icon: BanknotesIcon,
-    amount: "$5000",
+    amount: maxSalary,
   },
   {
     name: "Lowest salary",
     href: "/admin/employees",
     icon: BanknotesIcon,
-    amount: "$3000",
+    amount: minSalary,
   },
   // More items...
 ];

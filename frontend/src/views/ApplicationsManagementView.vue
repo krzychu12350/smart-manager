@@ -9,8 +9,7 @@
                 Application managment view
               </h1>
               <p class="mt-2 text-sm text-gray-700">
-                A list of all the employees in your company including their name, title,
-                email and role etc.
+                A list of all the applications of candidates for your company
               </p>
             </div>
           </div>

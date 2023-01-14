@@ -1,8 +1,19 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
-  <div class="mb-4">
-    <label>Filter by Name:</label>
-    <input v-model="filterName" />
+  <div class="mb-4 w-48">
+    <label for="email" class="block text-sm font-medium text-gray-700"
+      >Filter by candidate surname</label
+    >
+    <div class="mt-1">
+      <input
+        type="text"
+        name="name"
+        id="name"
+        v-model="filterName"
+        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+        placeholder="candidate surname"
+      />
+    </div>
   </div>
 
   <div class="flex flex-col">
@@ -155,21 +166,7 @@
         -->
     <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
       <div>
-        <p class="text-sm text-gray-700">
-          Showing
-          {{ " " }}
-          <span class="font-medium">1</span>
-          {{ " " }}
-          to
-          {{ " " }}
-          <span class="font-medium">10</span>
-          {{ " " }}
-          of
-          {{ " " }}
-          <span class="font-medium">97</span>
-          {{ " " }}
-          results
-        </p>
+        <p class="text-sm text-gray-700">{{ pagination.per_page }} records per page</p>
       </div>
     </div>
 
@@ -223,7 +220,7 @@ const getAllEmployees = async (page = 1) => {
 };
 
 const filters = {
-  name: { value: filterName, keys: ["name"] },
+  name: { value: filterName, keys: ["surname"] },
 };
 console.log(filters.name.value);
 onMounted(() => {

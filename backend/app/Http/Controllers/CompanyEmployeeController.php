@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AddUserToCompanyRequest;
-use App\Http\Resources\CompanyResource;
 use App\Http\Resources\UserCollection;
 use App\Models\Company;
 use App\Models\User;
@@ -21,7 +19,7 @@ class CompanyEmployeeController extends Controller
     {
         return response()->json([
             'status' => true,
-            'employees' => new UserCollection($company->employees()->paginate(10))
+            'employees' => new UserCollection($company->employees()->paginate(2))
         ], 200);
     }
 

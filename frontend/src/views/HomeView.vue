@@ -59,18 +59,19 @@
         </div>
         -->
         <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
-          <div class="sm:flex sm:items-center">
+          <div class="sm:flex sm:items-center mb-6">
             <div class="sm:flex-auto">
-              <h1 class="text-xl font-semibold text-gray-900">Recent applications</h1>
+              <h1 class="text-xl font-semibold text-gray-900">Latest applications</h1>
               <p class="mt-2 text-sm text-gray-700">
-                A list of all the employees in your company including their name, title,
-                email and role etc.
+                A list of lastest applications for your company
               </p>
             </div>
           </div>
+          <LatestEmployeeApplicationsTableComponent></LatestEmployeeApplicationsTableComponent>
         </div>
+
         <!-- Activity list (smallest breakpoint only) -->
-        <div class="shadow sm:hidden">
+        <!--<div class="shadow sm:hidden">
           <ul
             role="list"
             class="mt-2 divide-y divide-gray-200 overflow-hidden shadow sm:hidden"
@@ -126,9 +127,9 @@
             </div>
           </nav>
         </div>
-
+        -->
         <!-- Activity table (small breakpoint and up) -->
-        <div class="hidden sm:block">
+        <!--  <div class="hidden sm:block">
           <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col mt-2">
               <div
@@ -213,7 +214,7 @@
                     </tr>
                   </tbody>
                 </table>
-                <!-- Pagination -->
+               
                 <nav
                   class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
                   aria-label="Pagination"
@@ -253,7 +254,9 @@
               </div>
             </div>
           </div>
+   
         </div>
+               -->
       </section>
 
       <section
@@ -338,6 +341,7 @@ import { ref, onMounted, reactive } from "vue";
 import UserDataService from "../services/UserDataService";
 import moment from "moment";
 import StatsCardsComponent from "../components/home-view-components/StatsCardsComponent.vue";
+import LatestEmployeeApplicationsTableComponent from "../components/home-view-components/LatestEmployeeApplicationsTableComponent.vue";
 
 const userStore = useAuthStore();
 const { userData } = storeToRefs(userStore);

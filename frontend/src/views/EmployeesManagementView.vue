@@ -12,8 +12,8 @@
           <h1 class="text-xl font-semibold text-gray-900">Employees</h1>
 
           <p v-if="!isAdmin" class="mt-2 text-sm text-gray-700">
-            A list of all the employees in your company including their name, title, email
-            and role etc.
+            A list of all the employees in your company including their name, positions
+            and salary
           </p>
         </div>
       </div>

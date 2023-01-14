@@ -1,15 +1,26 @@
 <!-- This example requires Tailwind CSS v2.0+ -->
 <template>
   <div v-if="userApplications.value != 0">
-    <div class="mb-4">
-      <label>Filter by Name:</label>
-      <input v-model="filterName" />
+    <div class="mb-4 w-48">
+      <label for="email" class="block text-sm font-medium text-gray-700"
+        >Filter by comapny name</label
+      >
+      <div class="mt-1">
+        <input
+          type="text"
+          name="name"
+          id="name"
+          v-model="filterName"
+          class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+          placeholder="company name"
+        />
+      </div>
     </div>
 
     <div class="z-1 flex flex-col">
       <div class="-my-3 overflow-x-auto sm:-mx-6 :-mx-8 lg:-mx-8">
         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-          <div class="shadow overflow-hidden border-t border-gray-200 sm:rounded-t-lg">
+          <div class="shadow overflow-hidden border-t border-gray-200 sm:rounded-lg">
             <VTable
               sortHeaderClass="flex items-center justify-between w-full"
               :data="userApplications"
@@ -119,11 +130,11 @@
         </div>
       </div>
     </div>
-
+    <!--
     <div
       class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 shadow overflow-hidden sm:rounded-b-lg"
     >
-      <!--
+    
     <div class="flex flex-1 justify-between sm:hidden">
       <a
         href="#"
@@ -156,10 +167,8 @@
           </p>
         </div>
       </div>
-    -->
-      <!--<PaginationEmployeesComponent />-->
     </div>
-  </div>
+  --></div>
   <div v-if="userApplications.value == 0">
     <p class="mt-2 text-sm text-gray-700">
       You are not employed by any company. Apply to your first company.

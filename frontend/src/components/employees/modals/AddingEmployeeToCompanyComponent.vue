@@ -195,7 +195,7 @@ const getAllEmployees = () => {
       employees.value = res.data.employees.filter(
         (e) => e.companies.length === 0 && e.is_owner === 0
       );
-      console.log(employees.value);
+      //console.log(employees.value);
     })
     .catch((error) => {
       console.log(error.response.data);

@@ -1,26 +1,4 @@
 <template>
-  <!--
-  <div class="mb-4">
-    <label>Filter by Name:</label>
-    <input v-model="filterName" />
-  </div>
-  -->
-  <div class="mb-4 w-48">
-    <label for="email" class="block text-sm font-medium text-gray-700"
-      >Filter by candidate surname</label
-    >
-    <div class="mt-1">
-      <input
-        type="text"
-        name="name"
-        id="name"
-        v-model="filterName"
-        class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-        placeholder="candidate surname"
-      />
-    </div>
-  </div>
-
   <div class="z-1 flex flex-col">
     <div class="-my-3 overflow-x-auto sm:-mx-6 :-mx-8 lg:-mx-8">
       <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -63,12 +41,6 @@
                 >
                   Status
                 </VTh>
-                <th
-                  scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Actions
-                </th>
               </tr>
             </template>
             <template #body="{ rows }" class="bg-white divide-y">
@@ -97,7 +69,7 @@
                     {{ application.user[0].position }}
                   </div>
                 </td>
-                -->
+                                -->
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   <div class="text-sm text-gray-900">
                     {{ moment(application.application_date).format("LL") }}
@@ -111,46 +83,6 @@
                     {{ application.status }}
                   </span>
                 </td>
-                <td
-                  class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-600 font-medium flex items-center"
-                >
-                  <!--
-                  <router-link
-                    :to="{ name: 'home' }"
-                    class="text-sm text-green-600 hover:text-indigo-900 mr-2"
-                  >
-                
-                  </router-link>
-               
-                  <router-link
-                    :to="{ name: 'home' }"
-                    class="text-sm text-red-600 hover:text-indigo-900"
-                   
-                  >
-                  
-                  </router-link>
-                 
-                  <PencilIcon
-                    @click="
-                      emit('showEditingExistingEmployeeModal', {
-                        employeeId: employee.id,
-                      })
-                    "
-                    class="w-5 h-10"
-                  />
-                  -->
-                  <ApplicationActionMenuComponent
-                    :applicationId="application.id"
-                  ></ApplicationActionMenuComponent>
-                  <TrashIcon
-                    @click="
-                      emit('showApplicationDeletingConfirmationModal', {
-                        applicationId: application.id,
-                      })
-                    "
-                    class="w-5 h-10 ml-2 cursor-pointer"
-                  />
-                </td>
               </tr>
             </template>
           </VTable>
@@ -162,7 +94,7 @@
   <div
     class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 shadow overflow-hidden sm:rounded-b-lg"
   >
- 
+   
     <div class="flex flex-1 justify-between sm:hidden">
       <a
         href="#"
@@ -175,16 +107,12 @@
         >Next</a
       >
     </div>
+ 
+    <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between"></div>
 
-    <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-      <div>
-        <p class="text-sm text-gray-700">Page 1 of 10</p>
-      </div>
-    </div>
-
-
-  </div>-->
-</template>
+  
+  </div>
+--></template>
 
 <script setup>
 import { ref, reactive, onMounted, watch, inject } from "vue";
@@ -194,7 +122,7 @@ import useEventsBus from "@/composables/eventBus";
 import ApplicationDataService from "../../services/ApplicationDataService";
 import { useAuthStore } from "../../stores/useAuth";
 import { storeToRefs } from "pinia";
-import ApplicationActionMenuComponent from "./ApplicationActionMenuComponent.vue";
+import ApplicationActionMenuComponent from "../applications/ApplicationActionMenuComponent.vue";
 import ToastService from "../../services/ToastService";
 import moment from "moment";
 
