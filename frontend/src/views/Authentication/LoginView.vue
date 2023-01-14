@@ -248,8 +248,11 @@ const onSubmit = (credentials) => {
 };
 
 const schema = yup.object({
-  email: yup.string().required().email(),
-  password: yup.string().required().min(8),
+  email: yup.string().required('Email is a required field').email('Email must be a valid email'),
+  password: yup
+    .string()
+    .required('Password is a required field')
+    .min(8, 'Password must be at least 8 characters')
 });
 
 function onInvalidSubmit({ values, errors, results }) {

@@ -218,10 +218,23 @@ watch(
 );
 
 const schema = yup.object({
-  company_name: yup.string().required("Company name is a required field").min(3),
-  location: yup.string().required("Company location is a required field").min(3),
-  industry: yup.string().required("Company industry is a required field").min(3),
-  about_company: yup.string().required("Company description is a required field").min(12),
+  company_name: yup
+    .string()
+    .required("Company name is a required field")
+    .max(50, "Company name must be at most 50 characters"),
+  location: yup
+    .string()
+    .required("Company location is a required field")
+    .max(50, "Company location must be at most 50 characters"),
+  industry: yup
+    .string()
+    .required("Company industry is a required field")
+    .max(50, "Company industry must be at most 50 characters"),
+  about_company: yup
+    .string()
+    .required("Company description is a required field")
+    .min(10, "Company description must be at least 10 characters")
+    .max(255, "Company description must be at most 255 characters"),
 });
 
 function onInvalidSubmit({ values, errors, results }) {

@@ -227,13 +227,21 @@ const onSubmit = async (newUserData) => {
 };
 
 const schema = yup.object({
-  name: yup.string().required().min(6),
-  surname: yup.string().required().min(6),
-  email: yup.string().required().email(),
+  name: yup
+    .string()
+    .required("Name is a required field")
+    .min(2, "Name must be at least 2 characters"),
+  surname: yup
+    .string()
+    .required("Surname is a required field")
+    .min(2, "Surname must be at least 2 characters"),
+  email: yup
+    .string()
+    .required("Email is a required field")
+    .email("Email must be a valid email"),
   password: yup
     .string()
-    .required()
-    .min(8)
+    .required("Password is a required field")
     .matches(
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
       "Password must contain 8 characters, one uppercase, one lowercase, one number and one special case character"

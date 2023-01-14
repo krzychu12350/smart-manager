@@ -162,7 +162,10 @@ const onSubmit = async (email) => {
 };
 
 const schema = yup.object({
-  email: yup.string().required().email(),
+  email: yup
+    .string()
+    .required("Email is a required field")
+    .email("Email must be a valid email"),
 });
 
 function onInvalidSubmit({ values, errors, results }) {

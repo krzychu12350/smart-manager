@@ -203,8 +203,17 @@ const schema = yup.object({
   password_confirmation: yup.string(),
 */
 
-  email: yup.string().required().email(),
-  password: yup.string().required().min(8),
+  email: yup
+    .string()
+    .required("Email is a required field")
+    .email("Email must be a valid email"),
+  password: yup
+    .string()
+    .required("Password is a required field")
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+      "Password must contain 8 characters, one uppercase, one lowercase, one number and one special case character"
+    ),
   password_confirmation: yup
     .string()
     .oneOf([yup.ref("password"), null], "Passwords must match"),

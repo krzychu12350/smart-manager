@@ -1667,7 +1667,7 @@ const schema = yup.object({
   job_knowledge: yup.number().required(),
   productivity: yup.number().required(),
   punctuality: yup.number().required(),
-  reviewer_comment: yup.string().min(8),
+  reviewer_comment: yup.string().min(8, 'Additional remarks  must be at least 8 characters').max(255, 'Additional remarks must be at most 255 characters'),
   technical_skills: yup.number().required(),
   work_consistency: yup.number().required(),
   work_quality: yup.number().required(),

@@ -26,8 +26,8 @@ class UserAuthService {
             surname: user.surname,
             email: user.email,
             password: user.password,
+            password_confirmation: user.password_confirmation,
             is_owner: user.is_owner,
-            //password_confirmation: user.password_confirmation
         });
     }
 
@@ -46,7 +46,8 @@ class UserAuthService {
         const response = await api.post('/auth/change-password', {
             email: updatePasswordData.email,
             token: token,
-            password: updatePasswordData.password
+            password: updatePasswordData.password,
+            password_confirmation: updatePasswordData.password_confirmation
         });
         return response.data;
     }

@@ -250,33 +250,28 @@ const onSubmit = async (newUserData) => {
 let formValues = ref();
 
 const schema = yup.object({
-  name: yup.string().required().min(2).max(30),
-  surname: yup.string().required().min(2).max(50),
-  //email: yup.string().required().email(),
-  position: yup.string().required().min(3),
+  name: yup
+    .string()
+    .required("Name is a required field")
+    .min(2, "Name must be at least 2 characters")
+    .max(30, "Name must be at most 30 characters"),
+  surname: yup
+    .string()
+    .required("Surname is a required field")
+    .min(2, "Surname must be at least 2 characters")
+    .max(30, "Surname must be at most 30 characters"),
+  position: yup
+    .string()
+    .required("Position is a required field")
+    .min(2, "Position must be at least 2 characters")
+    .max(30, "Position must be at most 30 characters"),
   salary: yup
-    .number("You have to fill in this field")
+    .number()
+    .required("Salary is a required field")
     .transform((value) =>
       isNaN(value) || value === null || value === undefined ? 0 : value
     )
-    .required()
-    .min(4),
-  //is_admin: yup.boolean().required(),
-  /*
-  password: yup
-    .string()
-    .required()
-    .min(8)
-    .max(20)
-    .matches(
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-      "Password must contain 8 characters, one uppercase, one lowercase, one number and one special case character"
-    ),
-  password_confirmation: yup
-    .string()
-    .required("confirm password is required field")
-    .oneOf([yup.ref("password"), null], "passwords must match"),
-    */
+    .min(4, "Salary must be at least 4 digits"),
 });
 
 function onInvalidSubmit({ values, errors, results }) {
