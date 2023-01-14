@@ -115,11 +115,15 @@
                   </div>
                   <div class="sm:col-span-1">
                     <dt class="text-sm font-medium text-gray-500">Current Salary</dt>
-                    <dd class="mt-1 text-sm text-gray-900">${{ userDataDetails.salary }} </dd>
+                    <dd class="mt-1 text-sm text-gray-900">
+                      ${{ userDataDetails.salary }}
+                    </dd>
                   </div>
                   <div class="sm:col-span-1">
                     <dt class="text-sm font-medium text-gray-500">Position</dt>
-                    <dd class="mt-1 text-sm text-gray-900">{{ userDataDetails.position }}</dd>
+                    <dd class="mt-1 text-sm text-gray-900">
+                      {{ userDataDetails.position }}
+                    </dd>
                   </div>
                   <!--
                   <div class="sm:col-span-2">
@@ -135,16 +139,16 @@
                   -->
                 </dl>
               </div>
-             
             </div>
           </section>
-
-       
         </div>
 
-        <section aria-labelledby="timeline-title" class="lg:col-start-3 lg:col-span-1">
+        <section
+          v-if="isOwner"
+          aria-labelledby="timeline-title"
+          class="lg:col-start-3 lg:col-span-1"
+        >
           <div class="bg-white shadow sm:rounded-lg">
-        
             <div class="px-4 py-5 sm:px-6">
               <div class="flex justify-between">
                 <div>
@@ -158,7 +162,7 @@
                     Your comapny details.
                   </p>
                 </div>
-                <div v-if="isOwner">
+                <div>
                   <PencilIcon
                     @click="emit('showEditingExistingCompanyModal', companyDataDetails)"
                     class="w-5 h-10 cursor-pointer"
@@ -289,9 +293,8 @@ function getComapnyDetails() {
 }
 
 onMounted(() => {
-  getComapnyDetails();
+  if (isOwner === 1) getComapnyDetails();
   getUserDetails();
-
 });
 
 const user = {
