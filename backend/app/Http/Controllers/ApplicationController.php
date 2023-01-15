@@ -47,7 +47,7 @@ class ApplicationController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(StoreApplicationRequest $request)
+    public function store(StoreApplicationRequest $request): \Illuminate\Http\JsonResponse
     {
         $application = Application::create($request->validated());
 

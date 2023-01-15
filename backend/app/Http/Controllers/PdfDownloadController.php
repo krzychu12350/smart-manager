@@ -22,3 +22,5 @@ class PdfDownloadController extends Controller
         return $pdfFile->download('mark-report.pdf');
     }
 }
+
+

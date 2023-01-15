@@ -24,3 +24,4 @@ class IsAdmin
         return response()->json(["message" => "Forbidden, You are not owner"], 403);
     }
 }
+

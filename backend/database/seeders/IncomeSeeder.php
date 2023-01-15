@@ -2,11 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Application;
-use App\Models\Company;
 use App\Models\Income;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class IncomeSeeder extends Seeder
@@ -29,3 +26,5 @@ class IncomeSeeder extends Seeder
 
     }
 }
+
+

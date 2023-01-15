@@ -42,18 +42,18 @@ Route::group(['middleware' => ['cors', 'forceJSON']], function () {
         });
     });
     Route::middleware(['auth:api'])->group(function () {
-        Route::apiResource('users', UserController::class)->only(['show']);
+        Route::apiResource('users', UserController::class)->only(['show','update']);
         Route::apiResource('companies', CompanyController::class)->only(['index']);;
         Route::apiResource('applications', ApplicationController::class)->only(['store']);
+
         Route::group(['middleware' => ['admin']], function () {
-            Route::apiResource('users', UserController::class)->except('show');
+            Route::apiResource('users', UserController::class)->except('show','update');
             Route::apiResource('companies', CompanyController::class)->except(['index','store']);
             Route::apiResource('applications', ApplicationController::class)->except('store');
             Route::post('/pdf/employee-evaluation', [PdfDownloadController::class, 'downloadPdfEmployeeMarkReport']);
             Route::post('/pdf/salary', [PdfDownloadController::class, 'downloadPdfSalaryReport']);
             Route::get('/companies/{company}/applications', [ApplicationController::class, 'getCompanyApplications']);
             Route::get('/companies/{company}/users', [CompanyEmployeeController::class, 'index']);
-            Route::put('/companies/{company}/users/{user}', [CompanyEmployeeController::class, 'update']);
             Route::delete('/companies/{company}/users/{user}', [CompanyEmployeeController::class, 'destroy']);
         });
     });

@@ -4,19 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RegisterUserRequest;
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use Exception;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 use App\Models\User;
-
-use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\PasswordReset;
 
@@ -36,7 +30,7 @@ class AuthController extends Controller
 
         return response()->json(['status' => true,
             'message' => 'You have been logged in successfully',
-            'authorization' => $this->respondWithToken($token),//'user' => $currentUser,
+            'authorization' => $this->respondWithToken($token),
         ], 200);
     }
 

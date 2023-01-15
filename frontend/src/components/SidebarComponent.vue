@@ -215,7 +215,7 @@ const navigation = ref([
     name: "Employees",
     href: "/admin/employees",
     icon: UsersIcon,
-    current: false,
+    current: true,
     is_onwner_logged_in: isUserOwner,
   },
   //{ name: "Projects", href: "#", icon: FolderIcon, current: false },
