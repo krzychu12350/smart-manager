@@ -1,4 +1,3 @@
-<!-- This example requires Tailwind CSS v2.0+ -->
 <template>
   <TransitionRoot as="template" :show="open">
     <Dialog as="div" class="fixed z-10 inset-0 overflow-y-auto" @close="open = false">
@@ -18,8 +17,6 @@
             class="fixed inset-0 bg-gray-400 bg-opacity-75 transition-opacity"
           />
         </TransitionChild>
-
-        <!-- This element is to trick the browser into centering the modal contents. -->
         <span
           class="hidden sm:inline-block sm:align-middle sm:h-screen"
           aria-hidden="true"
@@ -164,28 +161,7 @@
                         <ErrorMessage name="salary" />
                       </div>
                     </div>
-                    <!--
-                    <div class="sm:col-span-3">
-                      <label for="admin" class="block text-sm font-medium text-gray-700">
-                        Admin
-                      </label>
-                      <div class="mt-1">
-                        <Field
-                          name="is_admin"
-                          as="select"
-                          class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                        >
-                          <option :value="true">Yes</option>
-                          <option :value="false" selected>No</option>
-                        </Field>
-                      </div>
-                      <div class="text-sm text-red-600">
-                        <ErrorMessage name="is_admin"
-                          >admin is a required field</ErrorMessage
-                        >
-                      </div>
-                    </div>
-                    -->
+
                     <div class="sm:col-span-4">
                       <label
                         for="password"
@@ -247,26 +223,6 @@
                 </div>
               </div>
             </Form>
-            <!--
-            <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-             
-              <button
-                type="button"
-                class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
-                @click="deleteEmployee(empId)"
-              >
-                Delete
-              </button>
-
-              <button
-                type="button"
-                class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
-                @click="open = false"
-              >
-                Cancel
-              </button>
-            </div>
-            -->
           </div>
         </TransitionChild>
       </div>
@@ -300,17 +256,11 @@ const { userData } = storeToRefs(userStore);
 const user = userData.value;
 let open = ref(false);
 const empId = ref(0);
-//open.value = true;
 const { bus, emit } = useEventsBus();
 
 function toggleModal() {
   open.value = !open.value;
 }
-/*
-function deleteEmployee() {
-  alert("works");
-}
-*/
 
 watch(
   () => bus.value.get("showCreatingNewEmployeeModal"),
@@ -319,7 +269,6 @@ watch(
   }
 );
 
-//const credentials = ref({});
 const loading = ref(false);
 const router = useRouter();
 const error = useErrorStore();
@@ -330,18 +279,14 @@ const userr = {
 };
 
 const onSubmit = async (newUserData) => {
-  console.log(newUserData);
-  //loading.value = !loading.value
   newUserData.is_owner = 0;
   UserDataService.create(newUserData)
     .then((res) => {
-      console.log(res.data.employee);
       createdUserId.value = res.data.employee.id;
 
       assignNewEmployeeToCompany(user.user_company_id, createdUserId.value);
       toggleModal();
       ToastService.showToast("Employee created");
-      //router.go();
     })
     .catch((error) => {
       const message =
@@ -358,7 +303,6 @@ function assignNewEmployeeToCompany(comapnyId, employeeId) {
 
   return ComapnyDataService.addUserForTheCompany(comapnyId, { user: employeeId })
     .then((res) => {
-      console.log(res.data);
       return res.data.company;
     })
     .catch((error) => {
@@ -397,7 +341,6 @@ function onInvalidSubmit({ values, errors, results }) {
   console.log(values); // current form values
   console.log(errors); // a map of field names and their first error message
   console.log(results); // a detailed map of field names and their validation results
-  //console.log(email);
 }
 
 onBeforeUnmount(() => error.$reset());

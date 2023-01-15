@@ -1,58 +1,13 @@
 <template>
   <Dashboard>
     <template v-slot:subpage-content>
-      <!-- Page header -->
       <div
         class="min-w-8xl mx-auto px-4 sm:px-6 md:flex md:items-center md:justify-between lg:min-w-8xl lg:px-8"
-      >
-        <!--
-        <div class="flex items-center space-x-5">
-          <div class="flex-shrink-0">
-            <div class="relative">
-              <img
-                class="h-16 w-16 rounded-full"
-                src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80"
-                alt=""
-              />
-              <span
-                class="absolute inset-0 shadow-inner rounded-full"
-                aria-hidden="true"
-              />
-            </div>
-          </div>
-          <div>
-            <h1 class="text-2xl font-bold text-gray-900">Ricardo Cooper</h1>
-            <p class="text-sm font-medium text-gray-500">
-              Owner of <a href="#" class="text-gray-900">Google</a> since
-              <time datetime="2020-08-25">August 25, 2020</time>
-            </p>
-          </div>
-        </div>
-      
-        <div
-          class="mt-6 flex flex-col-reverse justify-stretch space-y-4 space-y-reverse sm:flex-row-reverse sm:justify-end sm:space-x-reverse sm:space-y-0 sm:space-x-3 md:mt-0 md:flex-row md:space-x-3"
-        >
-          <button
-            type="button"
-            class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
-          >
-            Browse employees
-          </button>
-          <button
-            type="button"
-            class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none"
-          >
-            Generate raports
-          </button>
-        </div>
-        -->
-      </div>
-
+      ></div>
       <div
         class="min-w-8xl mx-auto grid grid-cols-1 gap-6 sm:px-6 lg:min-w-8xl lg:grid-flow-col-dense lg:grid-cols-3"
       >
         <div class="space-y-6 lg:col-start-1 lg:col-span-2">
-          <!-- Description list-->
           <section aria-labelledby="applicant-information-title">
             <Form
               @submit="onSubmit"
@@ -78,7 +33,6 @@
                   <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-1">
                     <div class="sm:col-span-1">
                       <dt class="text-sm font-medium text-gray-500">Period</dt>
-                      <!--<dd class="mt-1 text-sm text-gray-900">Backend Developer</dd>-->
                       <vue-tailwind-datepicker
                         :disable-date="dDate"
                         :formatter="formatter"
@@ -165,30 +119,7 @@ onMounted(() => {
       console.log(err);
     });
 });
-/*
-const generateSalaryReport = async () => {
-  //alert("test");
 
-  requestPayload.value = JSON.stringify({
-    company: loggedInOwner.user_company_id,
-    date_from: dateInterval.value[0],
-    date_to: dateInterval.value[1],
-  });
-  console.log(requestPayload.value);
-
-  PdfDataService.getSalaryReport(requestPayload.value)
-    .then((response) => {
-      if (response.status == 200) {
-        let blob = new Blob([response.data], { type: "application/pdf" });
-        let fileURL = window.URL.createObjectURL(blob);
-        window.open(fileURL, "_self");
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-*/
 const onSubmit = async (newUserData) => {
   const loader = $loading.show();
   requestPayload.value = JSON.stringify({

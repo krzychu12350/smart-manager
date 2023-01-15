@@ -137,49 +137,10 @@
 </template>
 
 <script setup>
-/*
-import { LockClosedIcon } from '@heroicons/vue/20/solid'
-import ToastService from "../services/ToastService";
-import UserAuthService from '../services/UserAuthService';
-import router from '../router';
-export default {
-  setup () {
-  },
-  methods: {
-    showToast() {
-
-
-    },
-    handleRegister() {
-      const newUser = {
-        name: "Adam",
-        surname: "Craft",
-        email: "a.craft@gmail.com",
-        password: "acraft123?!23"
-      };
-      const response = UserAuthService.register(newUser)
-        .then(response => {
-          ToastService.showToast(response.data.message)
-          return response.data;
-          //console.log(response.data);
-        })
-        .catch(e => {
-          console.log(e);
-        });
-
-        router.push('/login')
-    }
-  },
-  mounted() {
-  },
-}
-*/
-
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 import { ref, onBeforeUnmount, inject } from "vue";
 import { useRouter } from "vue-router";
-import { useAuthStore } from "../../stores/useAuth";
 import { useErrorStore } from "../../stores/useError";
 import UserAuthService from "../../services/UserAuthService";
 import ToastService from "../../services/ToastService";
@@ -189,20 +150,14 @@ import useEventsBus from "@/composables/eventBus";
 const $loading = inject("$loading");
 const fullPage = ref(true);
 const { emit } = useEventsBus();
-//const credentials = ref({});
-const loading = ref(false);
+
 let isOwnerRegistered = ref(false);
 let registeredOwnerId = ref(0);
 let registeredOwnerData = ref();
 const router = useRouter();
 const error = useErrorStore();
-const user = {
-  email: "t.cruise@gmail.com",
-  password: "tCruise12?3",
-};
 
 const onSubmit = async (newUserData) => {
-  //loading.value = !loading.value;
   const loader = $loading.show();
   console.log(newUserData);
   newUserData.is_owner = 1;
@@ -212,15 +167,10 @@ const onSubmit = async (newUserData) => {
 
   UserAuthService.register(newUserData)
     .then((res) => {
-      console.log(res);
       ToastService.showToast(res.data.message);
-
       registeredOwnerId.value = res.data.employee.id;
-
-      //console.log(registeredOwnerId.value);
       isOwnerRegistered.value = true;
       loader.hide();
-      //router.push("/login");
     })
     .catch((error) => {
       const message =
@@ -261,10 +211,9 @@ const schema = yup.object({
 });
 
 function onInvalidSubmit({ values, errors, results }) {
-  //console.log(values); // current form values
-  //console.log(errors); // a map of field names and their first error message
-  //console.log(results); // a detailed map of field names and their validation results
-  //console.log(email);
+  console.log(values); // current form values
+  console.log(errors); // a map of field names and their first error message
+  console.log(results); // a detailed map of field names and their validation results
 }
 
 onBeforeUnmount(() => error.$reset());

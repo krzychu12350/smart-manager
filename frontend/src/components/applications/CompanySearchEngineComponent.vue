@@ -155,7 +155,6 @@
 
 <script setup>
 import { computed, ref, watch, onMounted, inject } from "vue";
-//import { SearchIcon } from "@heroicons/vue/24/solid/";
 import CompanyDataService from "../../services/ComapnyDataService";
 import {
   MagnifyingGlassIcon,
@@ -190,28 +189,9 @@ const recent = [];
 const userStore = useAuthStore();
 const { userData } = storeToRefs(userStore);
 const userId = userData.value.user_id;
-/*
-export default {
-  components: {
-    ChevronRightIcon,
-    Combobox,
-    ComboboxInput,
-    ComboboxOptions,
-    ComboboxOption,
-    Dialog,
-    DialogOverlay,
-    //SearchIcon,
-    TransitionChild,
-    TransitionRoot,
-    UsersIcon,
-  },
-
-  setup() {
-    */
 
 const applyToCompany = (companyId) => {
   const loader = $loading.show();
-  console.log(companyId, userId);
   toggleSearchBox();
   const newApplicationData = {
     status: "in progress",
@@ -220,7 +200,6 @@ const applyToCompany = (companyId) => {
   };
   ApplicationDataService.create(newApplicationData)
     .then(async (res) => {
-      //console.log(await res.data.message);
       loader.hide();
       ToastService.showToast("Your application was send to company successfully");
     })
@@ -236,9 +215,7 @@ const getAllComapnies = async (page = 1) => {
   return CompanyDataService.getAll(page)
     .then((res) => {
       companies.value = res.data.companies;
-      console.log(companies.value);
     })
-
     .catch((error) => {
       console.log(error);
     });
@@ -254,14 +231,12 @@ const filteredCompanies = computed(() =>
   query.value === ""
     ? []
     : companies.value.filter((company) => {
-        //console.log(company);
         return company.name.toLowerCase().includes(query.value.toLowerCase());
       })
 );
 
 function toggleSearchBox() {
   open.value = !open.value;
-  //console.log(open.value);
 }
 
 watch(
@@ -274,18 +249,4 @@ watch(
 const onSelect = (company) => {
   window.location = company.url;
 };
-/*
-return {
-  open,
-  query,
-  recent,
-  filteredCompanies,
-  onSelect(company) {
-    window.location = company.url;
-  },
-};
-/*
-  },
-};
-*/
 </script>

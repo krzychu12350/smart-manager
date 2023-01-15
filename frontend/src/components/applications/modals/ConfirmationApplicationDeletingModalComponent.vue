@@ -1,4 +1,3 @@
-<!-- This example requires Tailwind CSS v2.0+ -->
 <template>
   <TransitionRoot as="template" :show="open">
     <Dialog as="div" class="fixed z-10 inset-0 overflow-y-auto" @close="open = false">
@@ -19,7 +18,6 @@
           />
         </TransitionChild>
 
-        <!-- This element is to trick the browser into centering the modal contents. -->
         <span
           class="hidden sm:inline-block sm:align-middle sm:h-screen"
           aria-hidden="true"
@@ -72,9 +70,6 @@
               </div>
             </div>
             <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-              <!--
-              <slot name="dialog-action-confirm"></slot>
-              -->
               <button
                 type="button"
                 class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
@@ -111,37 +106,24 @@ import { ExclamationTriangleIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import useEventsBus from "@/composables/eventBus";
 import ApplicationDataService from "../../../services/ApplicationDataService";
 import ToastService from "@/services/ToastService";
-
 const $loading = inject("$loading");
 const fullPage = ref(true);
-
 let open = ref(false);
 const appId = ref(0);
-//open.value = true;
 const { bus, emit } = useEventsBus();
 
 function toggleModal() {
   open.value = !open.value;
 }
-/*
-function deleteEmployee() {
-  alert("works");
-}
-*/
 
 const deleteApplication = async (id) => {
-  //alert("id app " + id);
   toggleModal();
   const loader = $loading.show();
   ApplicationDataService.delete(id)
     .then((res) => {
-      console.log(res);
-      //employees.value.splice(index, 1);
-
       ToastService.showToast("Application was deleted successfully");
       emit("refreshApplicationTable");
       loader.hide();
-      //console.log(employees);
     })
     .catch((error) => {
       console.log(error);

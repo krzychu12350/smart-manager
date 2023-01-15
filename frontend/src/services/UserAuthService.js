@@ -1,4 +1,3 @@
-import axios from "../plugins/axios";
 import api from "./api";
 import TokenService from "./TokenService";
 
@@ -8,10 +7,9 @@ class UserAuthService {
             email: user.email,
             password: user.password
         });
-        if (response.data.authorization.access_token)
-            console.log(response);
-            //TokenService.setUser(response.data);
-            console.log(response.data.authorization.access_token)
+        //if (response.data.authorization.access_token)
+            //console.log(response);
+            //console.log(response.data.authorization.access_token)
         return response.data;
     }
 

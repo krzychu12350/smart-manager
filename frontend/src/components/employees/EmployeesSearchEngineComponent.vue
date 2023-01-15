@@ -160,7 +160,6 @@
 
 <script setup>
 import { computed, ref, watch } from "vue";
-//import { SearchIcon } from "@heroicons/vue/24/solid/";
 import {
   MagnifyingGlassIcon,
   ChevronRightIcon,
@@ -184,38 +183,17 @@ import VueAvatar from "@webzlodimir/vue-avatar";
 import "@webzlodimir/vue-avatar/dist/style.css";
 const { bus, emit } = useEventsBus();
 const recent = [];
-/*
-export default {
-  components: {
-    ChevronRightIcon,
-    Combobox,
-    ComboboxInput,
-    ComboboxOptions,
-    ComboboxOption,
-    Dialog,
-    DialogOverlay,
-    //SearchIcon,
-    TransitionChild,
-    TransitionRoot,
-    UsersIcon,
-  },
 
-  setup() {
-    */
 const employees = ref([]);
 
 const getAllEmployees = () => {
   return UserDataService.getAll()
     .then((res) => {
-      //employees.value = res.data.employees;
       const userStore = useAuthStore();
       const { userData } = storeToRefs(userStore);
       const userCompanyId = userData.value.user_company_id;
       employees.value = res.data.employees;
-      //employees.value = res.data.employees.filter((e) => e.companies[0].id === 2);
-      //console.log(employees.value);
     })
-
     .catch((error) => {
       console.log(error.response.data);
     });
@@ -228,14 +206,12 @@ const filteredPeople = computed(() =>
   query.value === ""
     ? []
     : employees.value.filter((person) => {
-        //console.log(person);
         return person.name.toLowerCase().includes(query.value.toLowerCase());
       })
 );
 
 function toggleSearchBox() {
   open.value = !open.value;
-  //console.log(open.value);
 }
 
 watch(
@@ -248,18 +224,4 @@ watch(
 const onSelect = (person) => {
   window.location = person.url;
 };
-/*
-return {
-  open,
-  query,
-  recent,
-  filteredPeople,
-  onSelect(person) {
-    window.location = person.url;
-  },
-};
-/*
-  },
-};
-*/
 </script>

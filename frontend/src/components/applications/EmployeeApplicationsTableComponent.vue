@@ -1,4 +1,3 @@
-<!-- This example requires Tailwind CSS v2.0+ -->
 <template>
   <div v-if="userApplications.value != 0">
     <div class="mb-4 w-48">
@@ -93,15 +92,7 @@
                       {{ applicationDetails.name }}
                     </div>
                   </td>
-                  <!--
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span
-                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
-                  >
-                    Active
-                  </span>
-                </td>
-                -->
+
                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     <div class="text-sm text-gray-900">
                       {{ applicationDetails.industry }}
@@ -130,45 +121,7 @@
         </div>
       </div>
     </div>
-    <!--
-    <div
-      class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 shadow overflow-hidden sm:rounded-b-lg"
-    >
-    
-    <div class="flex flex-1 justify-between sm:hidden">
-      <a
-        href="#"
-        class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-        >Previous</a
-      >
-      <a
-        href="#"
-        class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-        >Next</a
-      >
-    </div>
-   
-      <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-        <div>
-          <p class="text-sm text-gray-700">
-            Showing
-            {{ " " }}
-            <span class="font-medium">1</span>
-            {{ " " }}
-            to
-            {{ " " }}
-            <span class="font-medium">10</span>
-            {{ " " }}
-            of
-            {{ " " }}
-            <span class="font-medium">97</span>
-            {{ " " }}
-            results
-          </p>
-        </div>
-      </div>
-    </div>
-  --></div>
+  </div>
   <div v-if="userApplications.value == 0">
     <p class="mt-2 text-sm text-gray-700">
       You are not employed by any company. Apply to your first company.
@@ -188,14 +141,10 @@ import ApplicationActionMenuComponent from "./ApplicationActionMenuComponent.vue
 import ToastService from "../../services/ToastService";
 import moment from "moment";
 
-const router = useRouter();
-const { emit, bus } = useEventsBus();
-
 const userStore = useAuthStore();
 const { userData } = storeToRefs(userStore);
 const user = userData.value;
 const userId = user.user_id;
-
 const userApplications = ref([]);
 const pagination = ref({});
 let filterName = ref("");
@@ -204,11 +153,7 @@ const getAllUserApplications = async (page = 1) => {
   UserDataService.get(userId, page)
     .then(async (res) => {
       userApplications.value = await res.data.employee.applications;
-      console.log(userApplications.value.length);
-      //pagination.value = await res.data.employees.pagination;
-      console.log(userApplications);
     })
-
     .catch((error) => {
       console.log(error.response.data);
     });
@@ -217,6 +162,7 @@ const getAllUserApplications = async (page = 1) => {
 const filters = {
   name: { value: filterName, keys: ["name"] },
 };
+
 const statusStyles = reactive({
   accepted: "bg-green-100 text-green-800",
   "in progress": "bg-yellow-100 text-yellow-800",

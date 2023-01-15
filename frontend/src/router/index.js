@@ -10,8 +10,6 @@ import CreatingNewCompanyView from '@/views/CreatingNewCompanyView.vue'
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "../stores/useAuth";
 
-
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -23,23 +21,17 @@ const router = createRouter({
     {
       path: '/admin/employees',
       name: 'admin-employees',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
+
       component: () => import('../views/EmployeesManagementView.vue')
     },
     {
       path: '/admin/reports',
       name: 'admin-reports',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import('../views/ReportGeneratingView.vue')
     },
     {
       path: "/login",
       name: "LoginView",
-      //component: LoginView,
       component: () => import('../views/Authentication/LoginView.vue')
     },
     {
@@ -63,10 +55,8 @@ const router = createRouter({
       component: UpdatePasswordResetView,
       params: true,
       beforeEnter: (to, from) => {
-        // reject the navigation
         return true;
       },
-      
     },
     {
       path: "/admin/my-profile",
@@ -77,63 +67,18 @@ const router = createRouter({
       component: ApplicationsManagementView,
     },
  
-    /*
-    { 
-      path: '/users/:id/company/create', 
-      name: 'products.edit', 
-      component: CreatingNewCompanyView,
-      params: true,
-    },
-  
-    {
-      path: "/manager/dashboard",
-      name: "manager-dashboard",
-      component: ManagerDashboard,
-    },
-        
-    {
-      path: "/employee/dashboard",
-      name: "employee-dashboard",
-      component: ManagerDashboard,
-    },
-  
-    {
-      path: "/admin/employees",
-      name: "EmployeesManagementView",
-      component: EmployeesManagementView,
-    },
-    */
+   
   ]
 })
-/*
-router.beforeEach((to, from, next) => {
-  if (to.meta.requireAuth && !useAuthStore().loggedIn)
-    next({ name: "accounts-login" });
-  else next();
-});
-*/
-
-
 
 router.beforeEach((to, from, next) => {
   const publicPages = ['/login', '/register/employee', '/register/owner', '/reset-password', '/change-password/' + to.params.token];
   const authRequired = !publicPages.includes(to.path);
-  //const loggedIn = localStorage.getItem('user');
   if (authRequired && !useAuthStore().loggedIn) {
       next('/login');
   } else {
       next();
   }
 });
-/*
-router.beforeEach((to, from, next) => {
-  const userStore = useAuthStore();
-  const { userData } = storeToRefs(userStore);
-  const loggedInOwner = userData.value;
-  console.log(loggedInOwner.is_owner);
 
-  if (!loggedInOwner.is_owner == 1) router.push({ path: '/' });
-  else next()
-})
-*/
 export default router

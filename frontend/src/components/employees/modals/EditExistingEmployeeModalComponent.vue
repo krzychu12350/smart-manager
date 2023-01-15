@@ -201,19 +201,12 @@ const { bus, emit } = useEventsBus();
 function toggleModal() {
   open.value = !open.value;
 }
-/*
-function deleteEmployee() {
-  alert("works");
-}
-*/
 
 watch(
   () => bus.value.get("showEditingExistingEmployeeModal"),
   (val, open) => {
     empData.value = val[0].employee;
-    console.log(empData.value);
     toggleModal();
-    console.log(formValues);
     // Initial values
     formValues = {
       name: empData.value.name,
@@ -231,7 +224,6 @@ const router = useRouter();
 const error = useErrorStore();
 
 const onSubmit = async (newUserData) => {
-  console.log(newUserData);
   const loader = $loading.show();
   newUserData.is_owner = 0;
   UserDataService.update(empData.value.id, newUserData)

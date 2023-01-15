@@ -1,4 +1,3 @@
-<!-- This example requires Tailwind CSS v2.0+ -->
 <template>
   <TransitionRoot as="template" :show="open">
     <Dialog as="div" class="fixed z-10 inset-0 overflow-y-auto" @close="open = false">
@@ -19,7 +18,6 @@
           />
         </TransitionChild>
 
-        <!-- This element is to trick the browser into centering the modal contents. -->
         <span
           class="hidden sm:inline-block sm:align-middle sm:h-screen"
           aria-hidden="true"
@@ -72,9 +70,6 @@
               </div>
             </div>
             <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-              <!--
-              <slot name="dialog-action-confirm"></slot>
-              -->
               <button
                 type="button"
                 class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
@@ -109,7 +104,6 @@ import {
 } from "@headlessui/vue";
 import { ExclamationTriangleIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import useEventsBus from "@/composables/eventBus";
-import UserDataService from "@/services/UserDataService";
 import ToastService from "@/services/ToastService";
 import ComapnyDataService from "../../../services/ComapnyDataService";
 import { storeToRefs } from "pinia";
@@ -124,30 +118,20 @@ const companyId = userData.value.user_company_id;
 
 let open = ref(false);
 const empId = ref(0);
-//open.value = true;
 const { bus, emit } = useEventsBus();
 
 function toggleModal() {
   open.value = !open.value;
 }
-/*
-function deleteEmployee() {
-  alert("works");
-}
-*/
 
 const deleteEmployee = async (userId) => {
-  //alert("id usera " + id);
   toggleModal();
   const loader = $loading.show();
   await ComapnyDataService.removeUserFromTheCompany(companyId, userId)
     .then((res) => {
-      console.log(res.data);
-      //employees.value.splice(index, 1);
       ToastService.showToast("Employee has been fired successfully");
       emit("refreshEmployeesTable");
       loader.hide();
-      //console.log(employees);
     })
     .catch((error) => {
       console.log(error);
@@ -157,18 +141,9 @@ const deleteEmployee = async (userId) => {
 watch(
   () => bus.value.get("showDeleteConfirmationModal"),
   (val, open) => {
-    //console.log(val[0].employeeId);
     empId.value = val[0].employeeId;
     toggleModal();
-    //console.log(open[0]);
-    // destruct the parameters
     const [sidebarCollapsedBus] = val ?? [];
-    //open = sidebarCollapsedBus.name;
-    //open = sidebarCollapsedBus;
-    //console.log("emitted" + sidebarCollapsedBus);
-    //open.value = true;
-    //open[0] = true;
-    //open = true;
   }
 );
 </script>

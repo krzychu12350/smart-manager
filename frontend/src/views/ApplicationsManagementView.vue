@@ -51,10 +51,6 @@ import { ref, defineAsyncComponent } from "vue";
 import Dashboard from "../components/DashboardBaseComponent.vue";
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "../stores/useAuth";
-//import ApplicationsTableComponent from "../components/applications/ApplicationsTableComponent.vue";
-//import ConfirmationApplicationDeletingModalComponent from "../components/applications/modals/ConfirmationApplicationDeletingModalComponent.vue";
-//import EmployeeApplicationsTableComponent from "@/components/applications/EmployeeApplicationsTableComponent ";
-import SearchBoxTriggerComponent from "@/components/employees/SearchBoxTriggerComponent.vue";
 import CompanySearchEngineComponent from "../components/applications/CompanySearchEngineComponent.vue";
 import useEventsBus from "@/composables/eventBus";
 
@@ -72,5 +68,5 @@ const EmployeeApplicationsTableComponent = defineAsyncComponent(() =>
 const userStore = useAuthStore();
 const { userData } = storeToRefs(userStore);
 const isUserOwner = ref(userData.value.is_owner);
-const { bus, emit } = useEventsBus();
+const { emit } = useEventsBus();
 </script>

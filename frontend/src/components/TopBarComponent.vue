@@ -1,11 +1,5 @@
 <template>
   <header class="sticky top-0 z-10 flex-shrink-0 flex h-16 bg-white shadow">
-    <!-- @click="sidebarOpen = true"-->
-    <!--
-    <div class="mx-auto max-w-7xl py-4 px-4 sm:px-6 lg:px-8">
-      <h1 class="text-xl font-bold tracking-tight text-gray-900">Applications</h1>
-    </div>
-    -->
     <button
       type="button"
       class="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
@@ -15,25 +9,7 @@
       <Bars3BottomRightIcon class="h-6 w-6" aria-hidden="true" />
     </button>
     <div class="flex-1 px-4 flex justify-between">
-      <div class="flex-1 flex">
-        <!--
-        <form class="w-full flex md:ml-0" action="#" method="GET">
-          <label for="search-field" class="sr-only">Search</label>
-          <div class="relative w-full text-gray-400 focus-within:text-gray-600">
-            <div class="absolute inset-y-0 left-0 flex items-center pointer-events-none">
-              <MagnifyingGlassIcon class="h-5 w-5" aria-hidden="true" />
-            </div>
-            <input
-              id="search-field"
-              class="block w-full h-full pl-8 pr-3 py-2 border-transparent text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-0 focus:border-transparent sm:text-sm"
-              placeholder="Search"
-              type="search"
-              name="search"
-            />
-          </div>
-        </form>
-           -->
-      </div>
+      <div class="flex-1 flex"></div>
       <div class="ml-4 flex items-center md:ml-6">
         <button
           type="button"
@@ -50,13 +26,7 @@
               class="max-w-xs bg-white flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               <span class="sr-only">Open user menu</span>
-              <!--
-              <img
-                class="h-8 w-8 rounded-full"
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                alt=""
-              />
-              -->
+
               <vue-avatar
                 class=""
                 :username="user.user_name + user.user_surname"
@@ -101,13 +71,6 @@
                   >Sign out</a
                 >
               </MenuItem>
-              <!--
-                const userNavigation = [
-  { name: "Your Profile", href: "#" },
-  { name: "Settings", href: "#" },
-  { name: "Sign out", href: "#" },
-];
-                -->
             </MenuItems>
           </transition>
         </Menu>
@@ -117,15 +80,12 @@
 </template>
 <script>
 import {
-  // BellIcon,
   CalendarIcon,
   ChartBarIcon,
   FolderIcon,
   HomeIcon,
   InboxIcon,
-  //MenuAlt2Icon,
   UsersIcon,
-  //XIcon,
   MagnifyingGlassIcon,
   Bars3BottomRightIcon,
 } from "@heroicons/vue/24/outline";
@@ -137,13 +97,6 @@ import { useAuthStore } from "../stores/useAuth";
 import { useRouter } from "vue-router";
 import useEventsBus from "@/composables/eventBus";
 
-/*
-const userNavigation = [
-  { name: "Your Profile", href: "#" },
-  { name: "Settings", href: "#" },
-  { name: "Sign out", href: "#" },
-];
-*/
 export default {
   components: {
     Menu,
@@ -160,10 +113,7 @@ export default {
     const router = useRouter();
     const { emit } = useEventsBus();
     const user = userData.value;
-    //const user = userStore.user;
     return {
-      //userNavigation,
-      //user,
       emit,
       user,
     };
@@ -175,20 +125,13 @@ export default {
     };
   },
   mounted() {
-    //console.log("testtt");
     const userStore = useAuthStore();
-    //console.log(userStore.user);
-
-    //alert('geegge');
   },
   methods: {
     handleLogout() {
-      //alert('wffww')
-      //loading.value = !loading.value;
       useAuthStore()
         .logout()
         .then(() => this.$router.push("/login"));
-      //.catch(() => (loading.value = !loading.value));
     },
   },
 };

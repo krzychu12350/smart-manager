@@ -55,21 +55,7 @@
                     {{ application.user[0].name }} {{ application.user[0].surname }}
                   </div>
                 </td>
-                <!--
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span
-                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
-                  >
-                    Active
-                  </span>
-                </td>
 
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <div class="text-sm text-gray-900">
-                    {{ application.user[0].position }}
-                  </div>
-                </td>
-                                -->
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   <div class="text-sm text-gray-900">
                     {{ moment(application.application_date).format("LL") }}
@@ -90,29 +76,7 @@
       </div>
     </div>
   </div>
-  <!--
-  <div
-    class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 shadow overflow-hidden sm:rounded-b-lg"
-  >
-   
-    <div class="flex flex-1 justify-between sm:hidden">
-      <a
-        href="#"
-        class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-        >Previous</a
-      >
-      <a
-        href="#"
-        class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-        >Next</a
-      >
-    </div>
- 
-    <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between"></div>
-
-  
-  </div>
---></template>
+</template>
 
 <script setup>
 import { ref, reactive, onMounted, watch, inject } from "vue";
@@ -145,8 +109,6 @@ const getAllApplications = async (page = 1) => {
   ApplicationDataService.getAll(userCompanyId, page)
     .then(async (res) => {
       applications.value = await res.data.applications;
-      //pagination.value = await res.data.employees.pagination;
-      console.log(applications.value);
     })
 
     .catch((error) => {
@@ -183,7 +145,6 @@ onMounted(() => {
 watch(
   () => bus.value.get("refreshApplicationTable"),
   (data) => {
-    //alert("refresh users");
     getAllApplications();
   }
 );
@@ -192,12 +153,9 @@ watch(
   () => bus.value.get("updateApplicationStatus"),
   async (data) => {
     const applicationId = data[0].applicationId;
-    console.log(data[0].applicationId, data[0].status);
-
     const messageFromAPI = await updateApplicationStatus(data[0].applicationId, {
       status: data[0].status,
     });
-    console.log(messageFromAPI);
     ToastService.showToast(messageFromAPI);
     getAllApplications();
   }

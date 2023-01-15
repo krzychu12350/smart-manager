@@ -1,4 +1,3 @@
-<!-- This example requires Tailwind CSS v2.0+ -->
 <template>
   <TransitionRoot as="template" :show="open">
     <Dialog as="div" class="fixed z-10 inset-0 overflow-y-auto" @close="open = false">
@@ -18,8 +17,6 @@
             class="fixed inset-0 bg-gray-400 bg-opacity-75 transition-opacity"
           />
         </TransitionChild>
-
-        <!-- This element is to trick the browser into centering the modal contents. -->
         <span
           class="hidden sm:inline-block sm:align-middle sm:h-screen"
           aria-hidden="true"
@@ -1554,15 +1551,10 @@ const countOverallRating = (formData) => {
   const allMarks = Object.values(formData);
   allMarks.pop();
   allMarks.map(Number);
-  //let sum = allMarks.reduce((partialSum, a) => partialSum + parseInt(a), 0);
-  console.log(allMarks);
-
   var numberArray = [];
-  allMarks.forEach((ele) => numberArray.push(+ele)); // Print the array of numbers
-  console.log(numberArray);
+  allMarks.forEach((ele) => numberArray.push(+ele));
   const sum = numberArray.reduce((a, b) => parseInt(a) + parseInt(b), 0);
   const avg = sum / numberArray.length || 0;
-  console.log(`The sum is: ${sum}. The average is: ${avg}.`);
   if (avg < 2) {
     return 1;
   } else if (avg >= 2 && avg < 3) {
@@ -1575,7 +1567,6 @@ const countOverallRating = (formData) => {
 };
 
 function generateEmployeeEvaulationPDF(data) {
-  console.log(data);
   const loader = $loading.show();
   PdfDataService.getEmployeeEvaluationPDF(data)
     .then((response) => {
@@ -1589,38 +1580,17 @@ function generateEmployeeEvaulationPDF(data) {
     .catch((error) => {
       console.log(error);
     });
-  /*
-  api
-    .post("/pdf/salary", data, {
-      responseType: "blob",
-    })
-    .then((response) => {
-      if (response.status == 200) {
-        let blob = new Blob([response.data], { type: "application/pdf" });
-        let fileURL = window.URL.createObjectURL(blob);
-        window.open(fileURL, "_self");
-      }
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-    */
 }
 
 const onSubmit = async (formData) => {
-  console.log(formData);
-  console.log(employee);
   const ownerAndEmployeeData = {
     reviewer_id: loggedInOwner.user_id,
     company_id: loggedInOwner.user_company_id,
     employee_id: employee.value.id,
     overall_rating: countOverallRating(formData),
   };
-
-  //overall_rating
-  console.log(ownerAndEmployeeData);
   const requestPayload = { ...formData, ...ownerAndEmployeeData };
-  console.log(requestPayload);
+
   generateEmployeeEvaulationPDF(requestPayload);
 };
 
@@ -1656,7 +1626,6 @@ watch(
   () => bus.value.get("showEmployeeEvaluationForm"),
   (data) => {
     employee.value = data[0].employee;
-    console.log(employee.value);
     toggleModal();
   }
 );

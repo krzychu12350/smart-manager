@@ -1,12 +1,4 @@
 <template>
-  <!--
-    This example requires updating your template:
-
-    ```
-    <html class="h-full bg-gray-50">
-    <body class="h-full">
-    ```
-  -->
   <div class="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
     <div class="w-full max-w-md space-y-8">
       <div>
@@ -107,49 +99,10 @@
 </template>
 
 <script setup>
-/*
-import { LockClosedIcon } from '@heroicons/vue/20/solid'
-import ToastService from "../services/ToastService";
-import UserAuthService from '../services/UserAuthService';
-import router from '../router';
-export default {
-  setup () {
-  },
-  methods: {
-    showToast() {
-    
-      
-    },
-    handleRegister() {
-      const newUser = {
-        name: "Adam",
-        surname: "Craft",
-        email: "a.craft@gmail.com",
-        password: "acraft123?!23"
-      };
-      const response = UserAuthService.register(newUser)
-        .then(response => {
-          ToastService.showToast(response.data.message)
-          return response.data;
-          //console.log(response.data);
-        })
-        .catch(e => {
-          console.log(e);
-        });
-
-        router.push('/login')
-    }
-  },
-  mounted() {
-  },
-}
-*/
-
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 import { ref, onBeforeUnmount, inject } from "vue";
 import { useRouter } from "vue-router";
-import { useAuthStore } from "../../stores/useAuth";
 import { useErrorStore } from "../../stores/useError";
 import UserAuthService from "../../services/UserAuthService";
 import ToastService from "../../services/ToastService";
@@ -169,12 +122,8 @@ const user = {
 const onSubmit = async (resetPasswordData) => {
   const loader = $loading.show();
   const token = route.params.token;
-  //loading.value = !loading.value;
-  console.log(route.params.token);
-
   UserAuthService.passwordResetUpdate(resetPasswordData, token)
     .then((res) => {
-      console.log(res);
       ToastService.showToast(res.data);
       loader.hide();
       router.push("/login");
@@ -184,28 +133,11 @@ const onSubmit = async (resetPasswordData) => {
         (error.response && error.response.data && error.response.data.message) ||
         error.message ||
         error.toString();
-      //console.log(message);
       ToastService.showToast(message);
     });
-
-  /*
-  useAuthStore()
-    .login(credentials)
-    .then((response) => {
-      console.log(response)
-      router.push({name:'home'})
-    })
-    .catch(() => (loading.value = !loading.value));
-    */
 };
 
 const schema = yup.object({
-  /*
-  email: yup.string().required(),
-  password: yup.string().required(),
-  password_confirmation: yup.string(),
-*/
-
   email: yup
     .string()
     .required("Email is a required field")
@@ -223,10 +155,9 @@ const schema = yup.object({
 });
 
 function onInvalidSubmit({ values, errors, results }) {
-  //console.log(values); // current form values
-  //console.log(errors); // a map of field names and their first error message
-  //console.log(results); // a detailed map of field names and their validation results
-  //console.log(email);
+  console.log(values); // current form values
+  console.log(errors); // a map of field names and their first error message
+  console.log(results); // a detailed map of field names and their validation results
 }
 
 onBeforeUnmount(() => error.$reset());

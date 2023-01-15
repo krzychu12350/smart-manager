@@ -5,8 +5,6 @@ const setup = () => {
     axiosInstance.interceptors.request.use(
         (config) => {
             const token = localStorage.getItem("token");
-            //const userStore = useAuthStore()
-            //console.log(userStore)
             if (token) {
                 config.headers["Authorization"] = 'Bearer ' + token;
             }
@@ -44,7 +42,7 @@ const setup = () => {
                             refreshToken: TokenService.getLocalRefreshToken(),
                         });
                         const { access_token } = rs.data.authorization;
-                        //store.dispatch('auth/refreshToken', accessToken);
+                  
                         TokenService.updateLocalAccessToken(access_token);
                         return axiosInstance(originalConfig);
                     } catch (_error) {
@@ -57,4 +55,5 @@ const setup = () => {
     );
     
 };
+
 export default setup;

@@ -1,22 +1,12 @@
 <template>
   <Dashboard>
     <template v-slot:subpage-content>
-      <!--<h1>My profile</h1>-->
-
-      <!-- Page header -->
       <div
         class="min-w-8xl mx-auto px-4 sm:px-6 md:flex md:items-center md:justify-between lg:min-w-8xl lg:px-8"
       >
         <div class="flex items-center space-x-5">
           <div class="flex-shrink-0">
             <div class="relative">
-              <!--
-              <img
-                class="h-16 w-16 rounded-full"
-                src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80"
-                alt=""
-              />
-              -->
               <vue-avatar
                 class=""
                 :username="userData.user_name + userData.user_surname"
@@ -76,17 +66,6 @@
           <!-- Description list-->
           <section aria-labelledby="applicant-information-title">
             <div class="bg-white shadow sm:rounded-lg">
-              <!--
-              <div class="px-4 py-5 sm:px-6">
-                <h2
-                  id="applicant-information-title"
-                  class="text-lg leading-6 font-medium text-gray-900"
-                >
-                  Your Information
-                </h2>
-                <p class="mt-1 max-w-2xl text-sm text-gray-500">Your personal details.</p>
-              </div>
-              -->
               <div class="px-4 py-5 sm:px-6">
                 <div class="flex justify-between">
                   <div>
@@ -134,18 +113,6 @@
                       {{ userDataDetails.position }}
                     </dd>
                   </div>
-                  <!--
-                  <div class="sm:col-span-2">
-                    <dt class="text-sm font-medium text-gray-500">About me</dt>
-                    <dd class="mt-1 text-sm text-gray-900">
-                      Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim
-                      incididunt cillum culpa consequat. Excepteur qui ipsum aliquip
-                      consequat sint. Sit id mollit nulla mollit nostrud in ea officia
-                      proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit
-                      deserunt qui eu.
-                    </dd>
-                  </div>
-                  -->
                 </dl>
               </div>
             </div>
@@ -213,16 +180,6 @@
                 </div>
               </dl>
             </div>
-            <!--
-            <div class="mt-6 flex flex-col justify-stretch">
-              <button
-                type="button"
-                class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-              >
-                Advance to offer
-              </button>
-            </div>
-              -->
           </div>
         </section>
       </div>
@@ -239,31 +196,7 @@ import EditExistingUserModalComponent from "../components/user-dashboard/modals/
 import { PencilIcon } from "@heroicons/vue/24/outline";
 import VueAvatar from "@webzlodimir/vue-avatar";
 import "@webzlodimir/vue-avatar/dist/style.css";
-/*
-import
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-  Popover,
-  PopoverButton,
-  PopoverOverlay,
-  PopoverPanel,
-  TransitionChild,
-  TransitionRoot,
- @headlessui/vue";
- */
-import {
-  // ArrowNarrowLeftIcon,
-  CheckIcon,
-  // HomeIcon,
-  PaperClipIcon,
-  QuestionMarkCircleIcon,
-  //SearchIcon,
-  //ThumbUpIcon,
-  UserIcon,
-} from "@heroicons/vue/24/solid";
-//import { BellIcon, MenuIcon, XIcon } from "@heroicons/vue/24/outline";
+
 import ComapnyDataService from "../services/ComapnyDataService";
 import UserDataService from "../services/UserDataService";
 import { storeToRefs } from "pinia";
@@ -297,9 +230,7 @@ function getComapnyDetails() {
       companyDataDetails.value = res.data.company;
       console.log(companyDataDetails.value);
     })
-    .catch((err) => {
-      //console.log(err);
-    });
+    .catch((err) => {});
 }
 
 onMounted(() => {
@@ -307,113 +238,13 @@ onMounted(() => {
   getUserDetails();
 });
 
-const user = {
-  name: "Whitney Francis",
-  email: "whitney@example.com",
-  imageUrl:
-    "https://images.unsplash.com/photo-1517365830460-955ce3ccd263?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80",
-};
-const navigation = [
-  { name: "Dashboard", href: "#" },
-  { name: "Jobs", href: "#" },
-  { name: "Applicants", href: "#" },
-  { name: "Company", href: "#" },
-];
-const breadcrumbs = [
-  { name: "Jobs", href: "#", current: false },
-  { name: "Front End Developer", href: "#", current: false },
-  { name: "Applicants", href: "#", current: true },
-];
-const userNavigation = [
-  { name: "Your Profile", href: "#" },
-  { name: "Settings", href: "#" },
-  { name: "Sign out", href: "#" },
-];
-const attachments = [
-  { name: "resume_front_end_developer.pdf", href: "#" },
-  { name: "coverletter_front_end_developer.pdf", href: "#" },
-];
-
-const eventTypes = {
-  applied: { icon: UserIcon, bgColorClass: "bg-gray-400" },
-  advanced: { icon: UserIcon, bgColorClass: "bg-blue-500" },
-  completed: { icon: CheckIcon, bgColorClass: "bg-green-500" },
-};
-const timeline = [
-  {
-    id: 1,
-    type: eventTypes.applied,
-    content: "Applied to",
-    target: "Front End Developer",
-    date: "Sep 20",
-    datetime: "2020-09-20",
-  },
-  {
-    id: 2,
-    type: eventTypes.advanced,
-    content: "Advanced to phone screening by",
-    target: "Bethany Blake",
-    date: "Sep 22",
-    datetime: "2020-09-22",
-  },
-  {
-    id: 3,
-    type: eventTypes.completed,
-    content: "Completed phone screening with",
-    target: "Martha Gardner",
-    date: "Sep 28",
-    datetime: "2020-09-28",
-  },
-  {
-    id: 4,
-    type: eventTypes.advanced,
-    content: "Advanced to interview by",
-    target: "Bethany Blake",
-    date: "Sep 30",
-    datetime: "2020-09-30",
-  },
-  {
-    id: 5,
-    type: eventTypes.completed,
-    content: "Completed interview with",
-    target: "Katherine Snyder",
-    date: "Oct 4",
-    datetime: "2020-10-04",
-  },
-];
-const comments = [
-  {
-    id: 1,
-    name: "Leslie Alexander",
-    date: "4d ago",
-    imageId: "1494790108377-be9c29b29330",
-    body:
-      "Ducimus quas delectus ad maxime totam doloribus reiciendis ex. Tempore dolorem maiores. Similique voluptatibus tempore non ut.",
-  },
-  {
-    id: 2,
-    name: "Michael Foster",
-    date: "4d ago",
-    imageId: "1519244703995-f4e0f30006d5",
-    body:
-      "Et ut autem. Voluptatem eum dolores sint necessitatibus quos. Quis eum qui dolorem accusantium voluptas voluptatem ipsum. Quo facere iusto quia accusamus veniam id explicabo et aut.",
-  },
-  {
-    id: 3,
-    name: "Dries Vincent",
-    date: "4d ago",
-    imageId: "1506794778202-cad84cf45f1d",
-    body:
-      "Expedita consequatur sit ea voluptas quo ipsam recusandae. Ab sint et voluptatem repudiandae voluptatem et eveniet. Nihil quas consequatur autem. Perferendis rerum et.",
-  },
-];
-
 watch(
   () => bus.value.get("refreshCompanyDetails"),
   () => {
     getComapnyDetails();
   }
 );
+
 watch(
   () => bus.value.get("refreshUserDetails"),
   () => {

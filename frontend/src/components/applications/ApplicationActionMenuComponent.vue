@@ -1,4 +1,3 @@
-<!-- This example requires Tailwind CSS v2.0+ -->
 <template>
   <Menu as="div" class="relative inline-block text-left">
     <div>
@@ -64,5 +63,4 @@ import { EllipsisHorizontalIcon } from "@heroicons/vue/24/solid";
 import useEventsBus from "@/composables/eventBus";
 const { emit } = useEventsBus();
 const props = defineProps(["applicationId"]);
-console.log(props.applicationId);
 </script>

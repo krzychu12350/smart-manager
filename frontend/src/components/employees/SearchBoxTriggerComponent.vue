@@ -28,10 +28,8 @@
 <script setup>
 import Hotkeys from "vue-hotkeys-rt";
 import useEventsBus from "@/composables/eventBus";
-const { emit, bus } = useEventsBus();
+const { emit } = useEventsBus();
 function onTriggeredEventHandler(payload) {
-  console.log(`You have pressed CMD (CTRL) + ${payload.keyString}`);
-  //alert(`You have pressed CMD (CTRL) + ${payload.keyString}`);
   emit("showEmployeesSearchEngine");
 }
 </script>

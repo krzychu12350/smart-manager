@@ -78,38 +78,14 @@
               </div>
             </nav>
           </div>
-          <!--
-          <div class="flex-shrink-0 flex border-t border-indigo-800 p-4">
-            <a href="#" class="flex-shrink-0 w-full group block">
-              <div class="flex items-center">
-                <div>
-                  <img
-                    class="inline-block h-9 w-9 rounded-full"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
-                  />
-                </div>
-                <div class="ml-3">
-                  <p class="text-sm font-medium text-white">Tom Cook</p>
-                  <p class="text-xs font-medium text-indigo-200 group-hover:text-white">
-                    View profile
-                  </p>
-                </div>
-              </div>
-            </a>
-          </div>
-          -->
         </div>
       </TransitionChild>
-      <div class="flex-shrink-0 w-14" aria-hidden="true">
-        <!-- Dummy element to force sidebar to shrink to fit close icon -->
-      </div>
+      <div class="flex-shrink-0 w-14" aria-hidden="true"></div>
     </Dialog>
   </TransitionRoot>
 
   <!-- Static sidebar for desktop -->
   <div class="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
-    <!-- Sidebar component, swap this element with another sidebar if you like -->
     <div class="flex flex-col flex-grow pt-5 bg-indigo-700 overflow-y-auto">
       <div class="flex items-center flex-shrink-0 px-4">
         <RouterLink
@@ -143,56 +119,21 @@
           </div>
         </nav>
       </div>
-      <!--
-      <div class="flex-shrink-0 flex border-t border-indigo-800 p-4">
-        <a href="#" class="flex-shrink-0 w-full group block">
-          <div class="flex items-center">
-            <div>
-              <img
-                class="inline-block h-9 w-9 rounded-full"
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                alt=""
-              />
-            </div>
-            <div class="ml-3">
-              <p class="text-sm font-medium text-white">Tom Cook</p>
-              <p class="text-xs font-medium text-indigo-200 group-hover:text-white">
-                View profile
-              </p>
-            </div>
-          </div>
-        </a>
-      </div>
-      -->
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, watch, computed, reactive } from "vue";
+import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from "@headlessui/vue";
 import {
-  Dialog,
-  DialogOverlay,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-  TransitionChild,
-  TransitionRoot,
-} from "@headlessui/vue";
-import {
-  BellIcon,
-  CalendarIcon,
   ChartBarIcon,
-  FolderIcon,
   HomeIcon,
   InboxIcon,
-  //MenuAlt2Icon,
   UsersIcon,
-  //XIcon,
   XMarkIcon,
 } from "@heroicons/vue/24/outline";
-//import { SearchIcon } from '@heroicons/vue/24/solid'
+
 import useEventsBus from "@/composables/eventBus";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
@@ -208,18 +149,16 @@ const navigation = ref([
     name: "Dashboard",
     href: "/",
     icon: HomeIcon,
-    current: false,
+    current: true,
     is_onwner_logged_in: true,
   },
   {
     name: "Employees",
     href: "/admin/employees",
     icon: UsersIcon,
-    current: true,
+    current: false,
     is_onwner_logged_in: isUserOwner,
   },
-  //{ name: "Projects", href: "#", icon: FolderIcon, current: false },
-  //{ name: "Calendar", href: "#", icon: CalendarIcon, current: false },
   {
     name: "Applications",
     href: "/admin/applications",
@@ -240,35 +179,13 @@ const adults = computed(() => {
   return navigation.filter((item) => item.visible_for_owner === true);
 });
 
-//console.log(adults);
-
 const setThisAsCurrent = async (name) => {
-  //await router.push(to);
-
   const currentTab = navigation.value.filter((item) => {
-    //filter.current = true;
-    //return item.name === "Dashboard";
-    //console.log(item.name === "Dashboard");
-    //console.log(name);
     item.current = false;
-    //console.log((item.current = false));
     return item.name === name;
-    //return (items.name = "Reports");
-    //return test;
   });
 
-  //currentTab[0].current == true;
-  //current = !current;
-
-  //this.navigation[3].current = !this.navigation[3].current;
-  //console.log(this.navigation[3]);
-  // console.log(currentTab);
   currentTab[0].current = !currentTab[0].current;
-
-  //this.navigation[3].current = !this.navigation[3].current;
-  // currentTab[0].current = !currentTab[0].current;
-  // console.log(currentTab[0].current);
-  //setTimeout(router.push(to), 1000000);
 };
 
 const userNavigation = ref([
@@ -278,7 +195,7 @@ const userNavigation = ref([
 ]);
 
 const sidebarOpen = ref(false);
-//open.value = true;
+
 const { emit, bus } = useEventsBus();
 
 function showSidebar() {
@@ -289,59 +206,15 @@ watch(
   () => bus.value.get("showSidebar"),
   (val, open) => {
     showSidebar();
-    //console.log(open[0]);
-    // destruct the parameters
+
     const [sidebarCollapsedBus] = val ?? [];
-    //open = sidebarCollapsedBus.name;
-    //open = sidebarCollapsedBus;
-    //console.log("emitted" + sidebarCollapsedBus);
-    //open.value = true;
-    //open[0] = true;
-    //open = true;
   }
 );
 
 watch(
   () => bus.value.get("routerPush"),
   async (to) => {
-    //console.log(to[0]);
     router.push(to[0].to);
-    //setTimeout(setThisAsCurrent(to[0].name), 20000);
   }
 );
-/*
-export default defineComponent({
-  name: "Sidebar",
-  props: {
-    msg: String,
-  },
-  components: {
-    Dialog,
-    DialogOverlay,
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuItems,
-    TransitionChild,
-    TransitionRoot,
-    BellIcon,
-    XMarkIcon,
-    //MenuAlt2Icon,
-    //SearchIcon,
-    // XIcon,
-  },
-  setup() {
-    const sidebarOpen = ref(true);
-
-    return {
-      navigation,
-      userNavigation,
-      sidebarOpen,
-    };
-  },
-});
-*/
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss"></style>

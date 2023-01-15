@@ -1,4 +1,3 @@
-<!-- This example requires Tailwind CSS v2.0+ -->
 <template>
   <TransitionRoot as="template" :show="open">
     <Dialog as="div" class="fixed z-10 inset-0 overflow-y-auto" @close="open = false">
@@ -18,8 +17,6 @@
             class="fixed inset-0 bg-gray-400 bg-opacity-75 transition-opacity"
           />
         </TransitionChild>
-
-        <!-- This element is to trick the browser into centering the modal contents. -->
         <span
           class="hidden sm:inline-block sm:align-middle sm:h-screen"
           aria-hidden="true"
@@ -122,25 +119,6 @@
                         >
                       </div>
                     </div>
-                    <!--
-                    <div class="sm:col-span-3">
-                      <label for="salary" class="block text-sm font-medium text-gray-700">
-                        Salary
-                      </label>
-                      <div class="mt-1">
-                        <Field
-                          type="number"
-                          name="salary"
-                          id="salary"
-                          autocomplete="salary-name"
-                          class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                        />
-                      </div>
-                      <div class="text-sm text-red-600">
-                        <ErrorMessage name="salary" />
-                      </div>
-                    </div>
-                    -->
                     <div class="sm:col-span-3">
                       <label
                         for="position"
@@ -221,13 +199,7 @@ const { bus, emit } = useEventsBus();
 function toggleModal() {
   open.value = !open.value;
 }
-/*
-function deleteEmployee() {
-  alert("works");
-}
-*/
-//const city = currentCompanyData.value;
-//console.log(currentCompanyData.value.city);
+
 let test = "";
 // Initial values
 let formValues = {};
@@ -236,11 +208,6 @@ watch(
   () => bus.value.get("showEditingExistingUserModal"),
   (val) => {
     currentUserData.value = val[0];
-
-    //console.log(currentUserData.value);
-    //test = String(currentCompanyData.value.city);
-    //console.log(test);
-
     formValues = {
       name: String(currentUserData.value.name),
       surname: String(currentUserData.value.surname),
@@ -248,8 +215,6 @@ watch(
       position: String(currentUserData.value.position),
     };
     toggleModal();
-
-    //alert("test");
   }
 );
 
@@ -260,17 +225,14 @@ const router = useRouter();
 const error = useErrorStore();
 
 const onSubmit = async (employeeUpdatedData) => {
-  console.log(employeeUpdatedData, currentUserData.value.id);
   const loader = $loading.show();
   employeeUpdatedData.is_owner = 1;
   UserDataService.update(currentUserData.value.id, employeeUpdatedData)
     .then(async (res) => {
-      console.log(res.data);
       toggleModal();
       await ToastService.showToast(res.data.message);
       emit("refreshUserDetails");
       loader.hide();
-      //router.go();
     })
     .catch((error) => {
       const message =
@@ -287,13 +249,6 @@ const schema = yup.object({
   surname: yup.string().required("Surname field is required").min(1),
   salary: yup.number().required().min(4),
   position: yup.string().required().min(3),
-
-  /*
-    company_name: String(currentCompanyData.value.name),
-      location: String(currentCompanyData.value.city),
-      comapny_industry: String(currentCompanyData.value.industry),
-      about_company: String(currentCompanyData.value.description),
-      */
 });
 
 function onInvalidSubmit({ values, errors, results }) {

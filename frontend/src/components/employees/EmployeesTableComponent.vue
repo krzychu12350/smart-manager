@@ -1,4 +1,3 @@
-<!-- This example requires Tailwind CSS v2.0+ -->
 <template>
   <div class="mb-4 w-48">
     <label for="email" class="block text-sm font-medium text-gray-700"
@@ -15,7 +14,6 @@
       />
     </div>
   </div>
-
   <div class="flex flex-col">
     <div class="-my-3 overflow-x-auto sm:-mx-6 :-mx-8 lg:-mx-8">
       <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -63,12 +61,6 @@
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="flex items-center">
                     <div class="flex-shrink-0 h-10 w-10">
-                      <!-- <img class="h-10 w-10 rounded-full" :src="person.image" alt="" />
-                      <img
-                        class="h-10 w-10 rounded-full"
-                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60"
-                        alt=""
-                      />-->
                       <vue-avatar
                         class=""
                         :username="employee.name + employee.surname"
@@ -91,15 +83,7 @@
                   <div class="text-sm text-gray-900">{{ employee.position }}</div>
                   <div class="text-sm text-gray-500"></div>
                 </td>
-                <!--
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span
-                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
-                  >
-                    Active
-                  </span>
-                </td>
-                -->
+
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {{ employee.role }}
                   {{ employee.salary }}
@@ -107,22 +91,6 @@
                 <td
                   class="px-6 py-4 whitespace-nowrap text-right text-sm text-gray-600 font-medium flex flex-row"
                 >
-                  <!--
-                  <router-link
-                    :to="{ name: 'home' }"
-                    class="text-sm text-green-600 hover:text-indigo-900 mr-2"
-                  >
-                
-                  </router-link>
-               
-                  <router-link
-                    :to="{ name: 'home' }"
-                    class="text-sm text-red-600 hover:text-indigo-900"
-                   
-                  >
-                  
-                  </router-link>
-                  -->
                   <CalculatorIcon
                     @click="
                       emit('showEmployeeEvaluationForm', {
@@ -157,20 +125,6 @@
   <div
     class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 shadow overflow-hidden sm:rounded-b-lg"
   >
-    <!--
-    <div class="flex flex-1 justify-between sm:hidden">
-      <a
-        href="#"
-        class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-        >Previous</a
-      >
-      <a
-        href="#"
-        class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-        >Next</a
-      >
-    </div>
-        -->
     <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
       <div>
         <p class="text-sm text-gray-700">{{ pagination.per_page }} records per page</p>
@@ -182,9 +136,7 @@
       @pagination-change-page="getAllEmployees"
       :limit="1"
     />
-    <!--<PaginationEmployeesComponent />-->
   </div>
-  <!--<CreateNewEmployeeModalComponent />-->
   <AddingEmployeeToCompanyComponent></AddingEmployeeToCompanyComponent>
   <EditExistingEmployeeModalComponent />
 </template>
@@ -195,10 +147,8 @@ import { PencilIcon, TrashIcon, CalculatorIcon } from "@heroicons/vue/24/outline
 import { useRouter } from "vue-router";
 import useEventsBus from "@/composables/eventBus";
 import ComapnyDataService from "@/services/ComapnyDataService";
-import CreateNewEmployeeModalComponent from "./modals/CreateNewEmployeeModalComponent.vue";
 import AddingEmployeeToCompanyComponent from "./modals/AddingEmployeeToCompanyComponent.vue";
 import EditExistingEmployeeModalComponent from "./modals/EditExistingEmployeeModalComponent.vue";
-import PaginationEmployeesComponent from "@/components/employees/PaginationEmployeesComponent.vue";
 import { TailwindPagination } from "laravel-vue-pagination";
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "../../stores/useAuth";
@@ -220,9 +170,7 @@ const getAllEmployees = async (page = 1) => {
     .then(async (res) => {
       employees.value = await res.data.employees.data.filter((e) => e.is_owner != 1);
       pagination.value = await res.data.employees.pagination;
-      console.log(res.data);
     })
-
     .catch((error) => {
       console.log(error.response.data);
     });
@@ -231,7 +179,7 @@ const getAllEmployees = async (page = 1) => {
 const filters = {
   name: { value: filterName, keys: ["surname"] },
 };
-console.log(filters.name.value);
+
 onMounted(() => {
   getAllEmployees();
 });
@@ -239,7 +187,6 @@ onMounted(() => {
 watch(
   () => bus.value.get("refreshEmployeesTable"),
   () => {
-    //alert("refresh users");
     getAllEmployees();
   }
 );

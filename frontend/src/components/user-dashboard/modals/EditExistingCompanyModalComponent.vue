@@ -1,4 +1,3 @@
-<!-- This example requires Tailwind CSS v2.0+ -->
 <template>
   <TransitionRoot as="template" :show="open">
     <Dialog as="div" class="fixed z-10 inset-0 overflow-y-auto" @close="open = false">
@@ -125,25 +124,6 @@
                         >
                       </div>
                     </div>
-                    <!--
-                    <div class="sm:col-span-3">
-                      <label for="salary" class="block text-sm font-medium text-gray-700">
-                        Salary
-                      </label>
-                      <div class="mt-1">
-                        <Field
-                          type="number"
-                          name="salary"
-                          id="salary"
-                          autocomplete="salary-name"
-                          class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                        />
-                      </div>
-                      <div class="text-sm text-red-600">
-                        <ErrorMessage name="salary" />
-                      </div>
-                    </div>
-                    -->
                     <div class="sm:col-span-3">
                       <label
                         for="country"
@@ -225,13 +205,7 @@ const { bus, emit } = useEventsBus();
 function toggleModal() {
   open.value = !open.value;
 }
-/*
-function deleteEmployee() {
-  alert("works");
-}
-*/
-//const city = currentCompanyData.value;
-//console.log(currentCompanyData.value.city);
+
 let test = "";
 // Initial values
 let formValues = {};
@@ -240,9 +214,6 @@ watch(
   () => bus.value.get("showEditingExistingCompanyModal"),
   (val) => {
     currentCompanyData.value = val[0];
-    //console.log(currentCompanyData.value);
-    //test = String(currentCompanyData.value.city);
-    //console.log(test);
     formValues = {
       name: String(currentCompanyData.value.name),
       city: String(currentCompanyData.value.city),
@@ -258,14 +229,11 @@ const router = useRouter();
 const error = useErrorStore();
 
 const onSubmit = async (companyUpdatedData) => {
-  //console.log(companyUpdatedData, currentCompanyData.value.id);
   const loader = $loading.show();
   ComapnyDataService.update(currentCompanyData.value.id, companyUpdatedData)
     .then(async (res) => {
-      //console.log(res.data.message);
       toggleModal();
       await ToastService.showToast(res.data.message);
-      //router.go();
       emit("refreshCompanyDetails");
       loader.hide();
     })
@@ -297,13 +265,6 @@ const schema = yup.object({
     .required("Company description is a required field")
     .min(10, "Company description must be at least 10 characters")
     .max(255, "Company description must be at most 255 characters"),
-
-  /*
-    company_name: String(currentCompanyData.value.name),
-      location: String(currentCompanyData.value.city),
-      comapny_industry: String(currentCompanyData.value.industry),
-      about_company: String(currentCompanyData.value.description),
-      */
 });
 
 function onInvalidSubmit({ values, errors, results }) {

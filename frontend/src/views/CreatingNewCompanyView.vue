@@ -1,12 +1,4 @@
 <template>
-  <!--
-    This example requires updating your template:
-
-    ```
-    <html class="h-full bg-gray-50">
-    <body class="h-full">
-    ```
-  -->
   <div class="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
     <div class="w-full max-w-md space-y-8">
       <div>
@@ -23,7 +15,6 @@
         class="mt-8 space-y-6"
         method="POST"
       >
-        <!--<h1>rrrrr {{ props.owner_id }}</h1>-->
         <input type="hidden" name="remember" value="true" />
         <div class="rounded-md shadow-sm">
           <div class="mb-4">
@@ -116,7 +107,6 @@ import { ref, onBeforeUnmount, watch, inject } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../stores/useAuth";
 import { useErrorStore } from "../stores/useError";
-import UserAuthService from "../services/UserAuthService";
 import ComapnyDataService from "../services/ComapnyDataService";
 import ToastService from "../services/ToastService";
 import useEventsBus from "@/composables/eventBus";
@@ -179,8 +169,6 @@ async function createNewCompany(newCompanyData) {
 }
 
 async function assignNewOwnerToItsCompany(companyId, ownerId) {
-  //alert(comapnyId + " " + ownerId);
-
   return ComapnyDataService.addUserForTheCompany(companyId, ownerId)
     .then((res) => {
       console.log(res.data);
@@ -199,12 +187,10 @@ function logInNewOwner(credentials) {
   useAuthStore()
     .login(credentials)
     .then((response) => {
-      //console.log(response);
       ToastService.showToast("Your first company was created successfully");
       router.push({ name: "home" });
     })
     .catch((err) => {
-      loading.value = !loading.value;
       console.log(err);
       ToastService.showToast("Invalid email or password");
     });
@@ -213,8 +199,6 @@ function logInNewOwner(credentials) {
 watch(
   () => bus.value.get("passNewOwnerId"),
   (val) => {
-    //alert(val[0].id);
-    //console.log(val[0].id);
     newOwnerId.value = val[0].id;
     newOwnerData.value = val[0].new_owner_data;
     console.log(newOwnerData.value);

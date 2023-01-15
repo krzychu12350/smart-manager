@@ -46,7 +46,6 @@
               @change="query = $event.target.value"
             />
           </div>
-          <!--<button @click="toggleSearchBox()">Deactivate</button>-->
           <div
             v-if="query === '' || filteredPeople.length > 0"
             class="flex divide-x divide-gray-100"
@@ -158,7 +157,6 @@
 
 <script setup>
 import { computed, ref, watch, inject } from "vue";
-//import { SearchIcon } from "@heroicons/vue/24/solid/";
 import {
   MagnifyingGlassIcon,
   ChevronRightIcon,
@@ -186,7 +184,7 @@ import "@webzlodimir/vue-avatar/dist/style.css";
 const $loading = inject("$loading");
 const fullPage = ref(true);
 
-const { bus, emit } = useEventsBus();
+const { bus } = useEventsBus();
 const recent = [];
 
 const employees = ref([]);
@@ -194,11 +192,9 @@ const employees = ref([]);
 const getAllEmployees = () => {
   return UserDataService.getAll()
     .then((res) => {
-      //employees.value = res.data.employees;
       employees.value = res.data.employees.filter(
         (e) => e.companies.length === 0 && e.is_owner === 0
       );
-      //console.log(employees.value);
     })
     .catch((error) => {
       console.log(error.response.data);
@@ -212,28 +208,22 @@ const filteredPeople = computed(() =>
   query.value === ""
     ? []
     : employees.value.filter((person) => {
-        //console.log(person);
         return person.name.toLowerCase().includes(query.value.toLowerCase());
       })
 );
 
 function toggleSearchBox() {
   open.value = !open.value;
-  //console.log(open.value);
 }
 
 function addEmployeeToCompany(employeeId) {
-  //alert(employeeId);
   const loader = $loading.show();
   const userStore = useAuthStore();
   const { userData } = storeToRefs(userStore);
   const userCompanyId = userData.value.user_company_id;
-  //alert(userCompanyId);
 
   ComapnyDataService.addUserForTheCompany(userCompanyId, employeeId)
     .then((res) => {
-      //console.log(res.data);
-
       ToastService.showToast("Employee was assigned to your company successfully");
       loader.hide();
     })
@@ -254,18 +244,4 @@ watch(
 const onSelect = (person) => {
   window.location = person.url;
 };
-/*
-  return {
-    open,
-    query,
-    recent,
-    filteredPeople,
-    onSelect(person) {
-      window.location = person.url;
-    },
-  };
-  /*
-    },
-  };
-  */
 </script>

@@ -1,12 +1,4 @@
 <template>
-  <!--
-    This example requires updating your template:
-
-    ```
-    <html class="h-full bg-gray-50">
-    <body class="h-full">
-    ```
-  -->
   <div class="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
     <div class="w-full max-w-md space-y-8">
       <div>
@@ -92,49 +84,6 @@
                 />
               </div>
             </div>
-            <!--
-            <div class="relative">
-              <div
-                class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none"
-              >
-                <svg
-                  aria-hidden="true"
-                  class="w-5 h-5 text-gray-500 dark:text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  ></path>
-                </svg>
-              </div>
-              <input
-                type="search"
-                id="default-search"
-                class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Search Mockups, Logos..."
-                required
-              />
-            </div>
-            -->
-            <!--
-            <div class="input-group-append">
-              <span class="input-group-text" @click="showPassword = !showPassword">
-                23332
-                <i
-                  class="fa"
-                  :class="[showPassword ? 'fa-eye' : 'fa-eye-slash']"
-                  aria-hidden="true"
-                ></i>
-              </span>
-             
-            </div>
-             -->
           </div>
           <div class="text-sm text-red-600">
             <ErrorMessage name="password" />
@@ -186,63 +135,28 @@
 <script setup>
 import { LockClosedIcon, EyeIcon, EyeSlashIcon } from "@heroicons/vue/20/solid";
 import ToastService from "../../services/ToastService";
-import UserAuthService from "../../services/UserAuthService";
-
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
-/*
-export default {
-  name: "LoginView",
-  setup() {
-  },
-  methods: {
-    showToast() {
-      ToastService.showToast('Test of Toast')
-      router.router.push('')
-    },
-    handleLogin() {
-      const user = {
-        email: "t.cruise@gmail.com",
-        password: "tCruise12?3"
-      };
-      const res = UserAuthService.login(user)
-      console.log(res)
-    }
-  },
-  mounted() {
-    this.handleLogin()
-  },
-}
-*/
 import { ref, onBeforeUnmount, reactive, inject } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "../../stores/useAuth";
 import { useErrorStore } from "../../stores/useError";
-import { useLoading } from "vue-loading-overlay";
 
-//const credentials = ref({});
 const $loading = inject("$loading");
 const fullPage = ref(true);
-
 const router = useRouter();
 const error = useErrorStore();
-const user = {
-  email: "t.cruise@gmail.com",
-  password: "tCruise12?3",
-};
-
 const showPassword = ref(false);
 const togglePasswordVisibity = () => {
   showPassword.value = !showPassword.value;
 };
+
 const onSubmit = (credentials) => {
   const loader = $loading.show();
 
   useAuthStore()
     .login(credentials)
     .then(() => {
-      //console.log(response.data);
-
       router.push({ name: "home" });
       loader.hide();
     })
@@ -265,10 +179,9 @@ const schema = yup.object({
 });
 
 function onInvalidSubmit({ values, errors, results }) {
-  //console.log(values); // current form values
+  console.log(values); // current form values
   console.log(errors); // a map of field names and their first error message
-  //console.log(results); // a detailed map of field names and their validation results
-  //console.log(email);
+  console.log(results); // a detailed map of field names and their validation results
 }
 
 onBeforeUnmount(() => error.$reset());

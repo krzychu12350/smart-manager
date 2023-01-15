@@ -72,27 +72,19 @@ let maxSalary = ref(0);
 let minSalary = ref(0);
 
 onMounted(() => {
-  //console.log(userId);
   UserDataService.getAll()
     .then((res) => {
       const allEmployees = res.data.employees;
-      //console.log(allEmployees);
+
       const companyEmployeess = allEmployees.map((e) => {
         e.companies.map((c) => {
           if (e.is_owner === 0 && c.id === userCompanyId) {
             employeeCounter.value += 1;
-
-            //console.log(c);
-            //employeeCounter.value += 1;
-            //return (employeeCounter += 1);
           }
         });
         e.applications.map((a) => {
           if (a.company_id === userCompanyId) {
             applicationsCounter.value += 1;
-            //console.log(applicationsCounter);
-            //employeeCounter.value += 1;
-            //return (employeeCounter += 1);
           }
         });
       });
@@ -103,22 +95,6 @@ onMounted(() => {
 
       maxSalary.value = Math.max(...companyEmployees.map((e) => e.salary));
       minSalary.value = Math.min(...companyEmployees.map((e) => e.salary));
-      //console.log(maxSalary, minSalary);
-      /*
-      const test = Arrays.allEmployees.filter()
-        ...e.map((e) => {
-          e.companies.map((c) => {
-            if (e.is_owner === 0 && c.id === userCompanyId) e.salary;
-          });
-        })
-      );
-      console.log(test);
-*/
-      //console.log(employeeCounter.value);
-
-      // userCompanies.value = allEmployees;
-
-      //console.log(userCompanies.value);
     })
     .catch((err) => {
       console.log(err);
@@ -150,6 +126,5 @@ const cards = [
     icon: BanknotesIcon,
     amount: minSalary,
   },
-  // More items...
 ];
 </script>

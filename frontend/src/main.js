@@ -13,21 +13,13 @@ import {LoadingPlugin} from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/css/index.css';
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-
 import setupInterceptors from './services/setupInterceptors';
 
 setupInterceptors();
-//import setup from './plugins/axios'
-//setup();
-//import auth from './plugins/auth'
-const app = createApp(App)
-//import './services/axios'
 
-app.use(pinia)
-//app.use(auth)
-app.use(LoadingPlugin, {
-      // options
-    // Pass props by their camelCased names
+const app = createApp(App)
+
+app.use(pinia).use(LoadingPlugin, {
     canCancel: false, // default false
     color: "#4338ca",
     loader: "spinner",
@@ -38,9 +30,5 @@ app.use(LoadingPlugin, {
     zIndex: 999,
 }, {
     // slots
-});
-app.use(VueTailwindDatepicker)
-app.use(router)
-app.use(VueAxios, axios)
-app.use(SmartTable)
+}).use(VueTailwindDatepicker).use(router).use(VueAxios, axios).use(SmartTable)
 app.mount('#app')
