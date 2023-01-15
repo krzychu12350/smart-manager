@@ -77,10 +77,11 @@
                       active && 'bg-gray-100 text-gray-900',
                     ]"
                   >
-                    <img
-                      src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      alt=""
-                      class="h-6 w-6 flex-none rounded-full"
+                    <vue-avatar
+                      :username="person.name + person.surname"
+                      :size="40"
+                      border-radius="50%"
+                      :lighten="200"
                     />
                     <span class="ml-3 flex-auto truncate"
                       >{{ person.name }} {{ person.surname }}</span
@@ -100,11 +101,13 @@
               class="hidden h-96 w-1/2 flex-none flex-col divide-y divide-gray-100 overflow-y-auto sm:flex"
             >
               <div class="flex-none p-6 text-center">
-                <img
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                  alt=""
-                  class="mx-auto h-16 w-16 rounded-full"
+                <vue-avatar
+                  :username="activeOption.name + activeOption.surname"
+                  :size="40"
+                  border-radius="50%"
+                  :lighten="200"
                 />
+
                 <h2 class="mt-3 font-semibold text-gray-900">
                   {{ activeOption.name }} {{ activeOption.surname }}
                 </h2>
@@ -177,6 +180,8 @@ import UserDataService from "@/services/UserDataService";
 import useEventsBus from "@/composables/eventBus";
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "../../stores/useAuth";
+import VueAvatar from "@webzlodimir/vue-avatar";
+import "@webzlodimir/vue-avatar/dist/style.css";
 const { bus, emit } = useEventsBus();
 const recent = [];
 /*

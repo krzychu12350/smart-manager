@@ -262,8 +262,8 @@
       <section
         aria-labelledby="timeline-title"
         id="employee-section"
-        v-else
         class="lg:col-start-3 lg:col-span-1"
+        v-else
       >
         <div class="sm:flex sm:items-center mb-4">
           <div class="sm:flex-auto">
@@ -273,7 +273,7 @@
             </p>
           </div>
         </div>
-        <div class="grid grid-cols-4 gap-4">
+        <div class="grid md:grid-cols-12 lg :grid-cols-12 2xl:grid-cols-4 gap-4">
           <div v-for="company in userCompanies" class="bg-white shadow sm:rounded-lg">
             <div class="px-4 py-5 sm:px-6">
               <div class="flex justify-between">
@@ -318,7 +318,7 @@
                   </dd>
                 </div>
                 <div class="sm:col-span-2">
-                  <dt class="text-sm font-medium text-gray-500">About</dt>
+                  <dt class="text-sm font-medium text-gray-500">About company</dt>
                   <dd class="mt-1 text-sm text-gray-900">
                     {{ company.description }}
                   </dd>
@@ -349,6 +349,21 @@ const isOwner = userData.value.is_owner;
 const userId = userData.value.user_id;
 const userCompanies = ref();
 const employeeCounter = ref(0);
+
+function getUserDetails() {
+  UserDataService.get(userId)
+    .then((res) => {
+      userCompanies.value = res.data.employee.companies;
+      console.log(userCompanies.value);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+onMounted(() => {
+  getUserDetails();
+});
 
 const transactions = [
   {

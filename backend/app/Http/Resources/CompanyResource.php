@@ -21,8 +21,6 @@ class CompanyResource extends JsonResource
             'industry' => $this->industry,
             'description' => $this->description,
             'created_at' => (string)$this->created_at,
-            'updated_at' => (string)$this->updated_at,
-            'positions' => $this->positions,
         ];
     }
 }

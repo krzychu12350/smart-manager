@@ -10,10 +10,19 @@
         <div class="flex items-center space-x-5">
           <div class="flex-shrink-0">
             <div class="relative">
+              <!--
               <img
                 class="h-16 w-16 rounded-full"
                 src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80"
                 alt=""
+              />
+              -->
+              <vue-avatar
+                class=""
+                :username="userData.user_name + userData.user_surname"
+                :size="70"
+                border-radius="50%"
+                :lighten="200"
               />
               <span
                 class="absolute inset-0 shadow-inner rounded-full"
@@ -228,7 +237,8 @@ import Dashboard from "../components/DashboardBaseComponent.vue";
 import EditExistingCompanyModalComponent from "@/components/user-dashboard/modals/EditExistingCompanyModalComponent.vue";
 import EditExistingUserModalComponent from "../components/user-dashboard/modals/EditExistingUserModalComponent.vue";
 import { PencilIcon } from "@heroicons/vue/24/outline";
-
+import VueAvatar from "@webzlodimir/vue-avatar";
+import "@webzlodimir/vue-avatar/dist/style.css";
 /*
 import
   Menu,

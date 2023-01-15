@@ -63,11 +63,18 @@
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="flex items-center">
                     <div class="flex-shrink-0 h-10 w-10">
-                      <!-- <img class="h-10 w-10 rounded-full" :src="person.image" alt="" />-->
+                      <!-- <img class="h-10 w-10 rounded-full" :src="person.image" alt="" />
                       <img
                         class="h-10 w-10 rounded-full"
                         src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60"
                         alt=""
+                      />-->
+                      <vue-avatar
+                        class=""
+                        :username="employee.name + employee.surname"
+                        :size="40"
+                        border-radius="50%"
+                        :lighten="200"
                       />
                     </div>
                     <div class="ml-4">
@@ -195,6 +202,8 @@ import PaginationEmployeesComponent from "@/components/employees/PaginationEmplo
 import { TailwindPagination } from "laravel-vue-pagination";
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "../../stores/useAuth";
+import VueAvatar from "@webzlodimir/vue-avatar";
+import "@webzlodimir/vue-avatar/dist/style.css";
 
 const router = useRouter();
 const { emit, bus } = useEventsBus();

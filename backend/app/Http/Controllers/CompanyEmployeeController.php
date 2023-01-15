@@ -19,7 +19,7 @@ class CompanyEmployeeController extends Controller
     {
         return response()->json([
             'status' => true,
-            'employees' => new UserCollection($company->employees()->paginate(2))
+            'employees' => new UserCollection($company->employees()->paginate(8))
         ], 200);
     }
 

@@ -208,7 +208,7 @@ const navigation = ref([
     name: "Dashboard",
     href: "/",
     icon: HomeIcon,
-    current: true,
+    current: false,
     is_onwner_logged_in: true,
   },
   {
