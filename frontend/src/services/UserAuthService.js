@@ -1,5 +1,4 @@
 import api from "./api";
-import TokenService from "./TokenService";
 
 class UserAuthService {
     async login(user) {
@@ -7,9 +6,6 @@ class UserAuthService {
             email: user.email,
             password: user.password
         });
-        //if (response.data.authorization.access_token)
-            //console.log(response);
-            //console.log(response.data.authorization.access_token)
         return response.data;
     }
 

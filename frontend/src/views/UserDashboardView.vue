@@ -163,7 +163,7 @@
                 <div class="sm:col-span-1">
                   <dt class="text-sm font-medium text-gray-500">Foundation year</dt>
                   <dd class="mt-1 text-sm text-gray-900">
-                    {{ moment(String(companyDataDetails.created_at)).format("YYYY") }}
+                    {{ moment(new Date(companyDataDetails.created_at)).format("YYYY") }}
                   </dd>
                 </div>
                 <div class="sm:col-span-1">
@@ -196,13 +196,13 @@ import EditExistingUserModalComponent from "../components/user-dashboard/modals/
 import { PencilIcon } from "@heroicons/vue/24/outline";
 import VueAvatar from "@webzlodimir/vue-avatar";
 import "@webzlodimir/vue-avatar/dist/style.css";
-
 import ComapnyDataService from "../services/ComapnyDataService";
 import UserDataService from "../services/UserDataService";
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "../stores/useAuth";
 import useEventsBus from "@/composables/eventBus";
 import moment from "moment";
+
 const userStore = useAuthStore();
 const { userData } = storeToRefs(userStore);
 const isOwner = userData.value.is_owner;
@@ -217,7 +217,6 @@ function getUserDetails() {
   UserDataService.get(userId)
     .then((res) => {
       userDataDetails.value = res.data.employee;
-      console.log(userDataDetails.value);
     })
     .catch((err) => {
       console.log(err);
@@ -228,7 +227,6 @@ function getComapnyDetails() {
   ComapnyDataService.get(userCompanyId.value)
     .then((res) => {
       companyDataDetails.value = res.data.company;
-      console.log(companyDataDetails.value);
     })
     .catch((err) => {});
 }

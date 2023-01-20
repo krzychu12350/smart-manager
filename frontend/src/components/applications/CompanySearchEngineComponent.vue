@@ -207,6 +207,8 @@ const applyToCompany = (companyId) => {
     .catch((error) => {
       console.log(error);
     });
+
+  emit("refreshApplicationsTable");
 };
 
 const companies = ref([]);

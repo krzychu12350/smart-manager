@@ -53,19 +53,15 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted, reactive } from "vue";
+import { ref, onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "../../stores/useAuth";
 import UserDataService from "@/services/UserDataService";
-import { useRouter } from "vue-router";
 import { InboxIcon, UsersIcon, BanknotesIcon } from "@heroicons/vue/24/outline";
 
-const router = useRouter();
 const userStore = useAuthStore();
 const { userData } = storeToRefs(userStore);
-const isOwner = userData.value.is_owner;
 const userCompanyId = userData.value.user_company_id;
-const userCompanies = ref();
 let employeeCounter = ref(0);
 let applicationsCounter = ref(0);
 let maxSalary = ref(0);
@@ -75,19 +71,6 @@ onMounted(() => {
   UserDataService.getAll()
     .then((res) => {
       const allEmployees = res.data.employees;
-
-      const companyEmployeess = allEmployees.map((e) => {
-        e.companies.map((c) => {
-          if (e.is_owner === 0 && c.id === userCompanyId) {
-            employeeCounter.value += 1;
-          }
-        });
-        e.applications.map((a) => {
-          if (a.company_id === userCompanyId) {
-            applicationsCounter.value += 1;
-          }
-        });
-      });
 
       const companyEmployees = allEmployees.filter(function (e) {
         return e.is_owner === 0 && e.companies.some((c) => c.id === userCompanyId);

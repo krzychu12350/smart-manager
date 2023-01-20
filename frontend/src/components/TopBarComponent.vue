@@ -16,7 +16,6 @@
           class="bg-white p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           <span class="sr-only">View notifications</span>
-          <BellIcon class="h-6 w-6" aria-hidden="true" />
         </button>
 
         <!-- Profile dropdown -->
@@ -28,16 +27,13 @@
               <span class="sr-only">Open user menu</span>
 
               <vue-avatar
-                class=""
-                :username="user.user_name + user.user_surname"
+                v-bind:username="userName"
                 :size="40"
                 border-radius="50%"
                 :lighten="200"
               />
             </MenuButton>
-            <div class="flex items-center mx-2">
-              {{ user.user_name }} {{ user.user_surname }}
-            </div>
+            <div class="flex items-center mx-2">{{ userName }}</div>
           </div>
           <transition
             enter-active-class="transition ease-out duration-100"
@@ -78,18 +74,10 @@
     </div>
   </header>
 </template>
-<script>
-import {
-  CalendarIcon,
-  ChartBarIcon,
-  FolderIcon,
-  HomeIcon,
-  InboxIcon,
-  UsersIcon,
-  MagnifyingGlassIcon,
-  Bars3BottomRightIcon,
-} from "@heroicons/vue/24/outline";
+<script setup>
+import { Bars3BottomRightIcon } from "@heroicons/vue/24/outline";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
+import { ref } from "vue";
 import VueAvatar from "@webzlodimir/vue-avatar";
 import "@webzlodimir/vue-avatar/dist/style.css";
 import { storeToRefs } from "pinia";
@@ -97,42 +85,16 @@ import { useAuthStore } from "../stores/useAuth";
 import { useRouter } from "vue-router";
 import useEventsBus from "@/composables/eventBus";
 
-export default {
-  components: {
-    Menu,
-    MenuButton,
-    MenuItem,
-    MenuItems,
-    MagnifyingGlassIcon,
-    Bars3BottomRightIcon,
-    VueAvatar,
-  },
-  setup() {
-    const userStore = useAuthStore();
-    const { userData } = storeToRefs(userStore);
-    const router = useRouter();
-    const { emit } = useEventsBus();
-    const user = userData.value;
-    return {
-      emit,
-      user,
-    };
-  },
-  data() {
-    return {
-      companies: [],
-      loading: false,
-    };
-  },
-  mounted() {
-    const userStore = useAuthStore();
-  },
-  methods: {
-    handleLogout() {
-      useAuthStore()
-        .logout()
-        .then(() => this.$router.push("/login"));
-    },
-  },
-};
+const userStore = useAuthStore();
+const { userData } = storeToRefs(userStore);
+const router = useRouter();
+const { emit } = useEventsBus();
+const user = userData.value;
+const userName = ref(user.user_name + " " + user.user_surname);
+
+async function handleLogout() {
+  useAuthStore()
+    .logout()
+    .then(() => router.push("/login"));
+}
 </script>

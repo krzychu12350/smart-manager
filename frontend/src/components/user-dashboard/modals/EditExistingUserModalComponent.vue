@@ -173,34 +173,24 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, inject } from "vue";
-import {
-  Dialog,
-  DialogOverlay,
-  DialogTitle,
-  TransitionChild,
-  TransitionRoot,
-} from "@headlessui/vue";
-import { ExclamationTriangleIcon, XMarkIcon } from "@heroicons/vue/24/outline";
+import { ref, watch, inject } from "vue";
+import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from "@headlessui/vue";
+import { XMarkIcon } from "@heroicons/vue/24/outline";
 import useEventsBus from "../../../composables/eventBus";
 import * as yup from "yup";
 import ToastService from "@/services/ToastService";
-import { Form, Field, ErrorMessage, useForm } from "vee-validate";
-import { useRouter } from "vue-router";
-import { useErrorStore } from "../../../stores/useError";
+import { Form, Field, ErrorMessage } from "vee-validate";
 import UserDataService from "../../../services/UserDataService";
 
 const currentUserData = ref();
 
 let open = ref(false);
-const empId = ref(0);
 const { bus, emit } = useEventsBus();
 
 function toggleModal() {
   open.value = !open.value;
 }
 
-let test = "";
 // Initial values
 let formValues = {};
 
@@ -219,10 +209,6 @@ watch(
 );
 
 const $loading = inject("$loading");
-const fullPage = ref(true);
-
-const router = useRouter();
-const error = useErrorStore();
 
 const onSubmit = async (employeeUpdatedData) => {
   const loader = $loading.show();

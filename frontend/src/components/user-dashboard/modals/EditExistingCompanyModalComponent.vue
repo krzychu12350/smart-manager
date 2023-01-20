@@ -177,18 +177,12 @@
 
 <script setup>
 import { ref, watch, inject } from "vue";
-import {
-  Dialog,
-  DialogOverlay,
-  DialogTitle,
-  TransitionChild,
-  TransitionRoot,
-} from "@headlessui/vue";
-import { ExclamationTriangleIcon, XMarkIcon } from "@heroicons/vue/24/outline";
+import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from "@headlessui/vue";
+import { XMarkIcon } from "@heroicons/vue/24/outline";
 import useEventsBus from "../../../composables/eventBus";
 import * as yup from "yup";
 import ToastService from "@/services/ToastService";
-import { Form, Field, ErrorMessage, useForm } from "vee-validate";
+import { Form, Field, ErrorMessage } from "vee-validate";
 import { useRouter } from "vue-router";
 import { useErrorStore } from "../../../stores/useError";
 import ComapnyDataService from "@/services/ComapnyDataService";
@@ -199,7 +193,6 @@ const fullPage = ref(true);
 const currentCompanyData = ref();
 
 let open = ref(false);
-const empId = ref(0);
 const { bus, emit } = useEventsBus();
 
 function toggleModal() {

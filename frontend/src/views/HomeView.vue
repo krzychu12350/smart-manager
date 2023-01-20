@@ -108,7 +108,6 @@ function getUserDetails() {
   UserDataService.get(userId)
     .then((res) => {
       userCompanies.value = res.data.employee.companies;
-      console.log(userCompanies.value);
     })
     .catch((err) => {
       console.log(err);

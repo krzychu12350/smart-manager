@@ -178,21 +178,13 @@
 
 <script setup>
 import { ref, watch, inject } from "vue";
-import {
-  Dialog,
-  DialogOverlay,
-  DialogTitle,
-  TransitionChild,
-  TransitionRoot,
-} from "@headlessui/vue";
-import { ExclamationTriangleIcon, XMarkIcon } from "@heroicons/vue/24/outline";
+import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from "@headlessui/vue";
+import { XMarkIcon } from "@heroicons/vue/24/outline";
 import useEventsBus from "@/composables/eventBus";
 import * as yup from "yup";
 import UserDataService from "@/services/UserDataService";
 import ToastService from "@/services/ToastService";
 import { Form, Field, ErrorMessage } from "vee-validate";
-import { useRouter } from "vue-router";
-import { useErrorStore } from "../../../stores/useError";
 
 let open = ref(false);
 const empData = ref({});
@@ -204,7 +196,7 @@ function toggleModal() {
 
 watch(
   () => bus.value.get("showEditingExistingEmployeeModal"),
-  (val, open) => {
+  (val) => {
     empData.value = val[0].employee;
     toggleModal();
     // Initial values
@@ -218,10 +210,6 @@ watch(
 );
 
 const $loading = inject("$loading");
-const fullPage = ref(true);
-
-const router = useRouter();
-const error = useErrorStore();
 
 const onSubmit = async (newUserData) => {
   const loader = $loading.show();

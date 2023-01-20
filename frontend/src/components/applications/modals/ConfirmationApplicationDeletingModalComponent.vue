@@ -94,7 +94,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, inject } from "vue";
+import { ref, watch, inject } from "vue";
 import {
   Dialog,
   DialogOverlay,
@@ -132,7 +132,7 @@ const deleteApplication = async (id) => {
 
 watch(
   () => bus.value.get("showApplicationDeletingConfirmationModal"),
-  (val, open) => {
+  (val) => {
     appId.value = val[0].applicationId;
     toggleModal();
   }

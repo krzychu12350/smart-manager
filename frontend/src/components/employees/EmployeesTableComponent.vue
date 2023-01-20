@@ -142,9 +142,8 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, watch } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { PencilIcon, TrashIcon, CalculatorIcon } from "@heroicons/vue/24/outline";
-import { useRouter } from "vue-router";
 import useEventsBus from "@/composables/eventBus";
 import ComapnyDataService from "@/services/ComapnyDataService";
 import AddingEmployeeToCompanyComponent from "./modals/AddingEmployeeToCompanyComponent.vue";
@@ -155,7 +154,6 @@ import { useAuthStore } from "../../stores/useAuth";
 import VueAvatar from "@webzlodimir/vue-avatar";
 import "@webzlodimir/vue-avatar/dist/style.css";
 
-const router = useRouter();
 const { emit, bus } = useEventsBus();
 const userStore = useAuthStore();
 const { userData } = storeToRefs(userStore);

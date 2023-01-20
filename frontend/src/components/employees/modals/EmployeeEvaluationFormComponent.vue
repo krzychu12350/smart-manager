@@ -1510,28 +1510,18 @@
 
 <script setup>
 import { ref, watch, inject } from "vue";
-import {
-  Dialog,
-  DialogOverlay,
-  DialogTitle,
-  TransitionChild,
-  TransitionRoot,
-} from "@headlessui/vue";
-import { ExclamationTriangleIcon, XMarkIcon } from "@heroicons/vue/24/outline";
+import { Dialog, DialogOverlay, TransitionChild, TransitionRoot } from "@headlessui/vue";
+import { XMarkIcon } from "@heroicons/vue/24/outline";
 import useEventsBus from "@/composables/eventBus";
-import UserDataService from "@/services/UserDataService";
-import ToastService from "@/services/ToastService";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "../../../stores/useAuth";
 import PdfDataService from "@/services/PdfDataService";
-import api from "@/services/api";
 import VueAvatar from "@webzlodimir/vue-avatar";
 import "@webzlodimir/vue-avatar/dist/style.css";
 
 const $loading = inject("$loading");
-const fullPage = ref(true);
 
 const userStore = useAuthStore();
 const { userData } = storeToRefs(userStore);
@@ -1541,7 +1531,7 @@ const loggedInOwner = userData.value;
 let open = ref(false);
 const employee = ref({});
 
-const { bus, emit } = useEventsBus();
+const { bus } = useEventsBus();
 
 function toggleModal() {
   open.value = !open.value;

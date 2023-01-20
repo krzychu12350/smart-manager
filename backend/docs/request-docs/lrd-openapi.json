@@ -603,9 +603,9 @@
                                         "format": "object"
                                     },
                                     "password": {
-                                        "type": "object",
+                                        "type": "string",
                                         "nullable": false,
-                                        "format": "object"
+                                        "format": "string"
                                     }
                                 }
                             }
@@ -713,9 +713,9 @@
                                         "format": "object"
                                     },
                                     "password": {
-                                        "type": "object",
+                                        "type": "string",
                                         "nullable": false,
-                                        "format": "object"
+                                        "format": "string"
                                     }
                                 }
                             }
@@ -1104,19 +1104,19 @@
                                 "type": "object",
                                 "properties": {
                                     "name": {
-                                        "type": "object",
+                                        "type": "string",
                                         "nullable": false,
-                                        "format": "object"
+                                        "format": "string"
                                     },
                                     "surname": {
-                                        "type": "object",
+                                        "type": "string",
                                         "nullable": false,
-                                        "format": "object"
+                                        "format": "string"
                                     },
                                     "password": {
-                                        "type": "object",
+                                        "type": "string",
                                         "nullable": false,
-                                        "format": "object"
+                                        "format": "string"
                                     },
                                     "email": {
                                         "type": "object",
@@ -1328,24 +1328,24 @@
                                 "type": "object",
                                 "properties": {
                                     "name": {
-                                        "type": "object",
+                                        "type": "string",
                                         "nullable": false,
-                                        "format": "object"
+                                        "format": "string"
                                     },
                                     "city": {
-                                        "type": "object",
+                                        "type": "string",
                                         "nullable": false,
-                                        "format": "object"
+                                        "format": "string"
                                     },
                                     "industry": {
-                                        "type": "object",
+                                        "type": "string",
                                         "nullable": false,
-                                        "format": "object"
+                                        "format": "string"
                                     },
                                     "description": {
-                                        "type": "object",
+                                        "type": "string",
                                         "nullable": false,
-                                        "format": "object"
+                                        "format": "string"
                                     }
                                 }
                             }
@@ -1717,24 +1717,24 @@
                                 "type": "object",
                                 "properties": {
                                     "name": {
-                                        "type": "object",
+                                        "type": "string",
                                         "nullable": false,
-                                        "format": "object"
+                                        "format": "string"
                                     },
                                     "city": {
-                                        "type": "object",
+                                        "type": "string",
                                         "nullable": false,
-                                        "format": "object"
+                                        "format": "string"
                                     },
                                     "industry": {
-                                        "type": "object",
+                                        "type": "string",
                                         "nullable": false,
-                                        "format": "object"
+                                        "format": "string"
                                     },
                                     "description": {
-                                        "type": "object",
+                                        "type": "string",
                                         "nullable": false,
-                                        "format": "object"
+                                        "format": "string"
                                     }
                                 }
                             }
@@ -1832,6 +1832,94 @@
             }
         },
         "api/companies/{company}/users": {
+            "get": {
+                "description": "",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "api/companies/{company}/users/{user}": {
             "delete": {
                 "description": "",
                 "parameters": [],
@@ -1923,116 +2011,7 @@
                         "application/json": {
                             "schema": {
                                 "type": "object",
-                                "properties": {
-                                    "user": {
-                                        "type": "integer",
-                                        "nullable": false,
-                                        "format": "integer"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Unprocessable Entity",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "requestBody": {
-                    "description": "Request body",
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "user": {
-                                        "type": "integer",
-                                        "nullable": false,
-                                        "format": "integer"
-                                    }
-                                }
+                                "properties": []
                             }
                         }
                     }
@@ -2129,99 +2108,7 @@
                         "application/json": {
                             "schema": {
                                 "type": "object",
-                                "properties": {
-                                    "user": {
-                                        "type": "integer",
-                                        "nullable": false,
-                                        "format": "integer"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "get": {
-                "description": "",
-                "parameters": [],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Unprocessable Entity",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "default": {
-                        "description": "Unexpected error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object"
-                                }
+                                "properties": []
                             }
                         }
                     }
@@ -2322,99 +2209,99 @@
                                 "type": "object",
                                 "properties": {
                                     "employee_id": {
-                                        "type": "integer",
+                                        "type": "object",
                                         "nullable": false,
-                                        "format": "integer"
+                                        "format": "object"
                                     },
                                     "job_knowledge": {
-                                        "type": "integer",
+                                        "type": "object",
                                         "nullable": false,
-                                        "format": "integer"
+                                        "format": "object"
                                     },
                                     "productivity": {
-                                        "type": "integer",
+                                        "type": "object",
                                         "nullable": false,
-                                        "format": "integer"
+                                        "format": "object"
                                     },
                                     "work_quality": {
-                                        "type": "integer",
+                                        "type": "object",
                                         "nullable": false,
-                                        "format": "integer"
+                                        "format": "object"
                                     },
                                     "technical_skills": {
-                                        "type": "integer",
+                                        "type": "object",
                                         "nullable": false,
-                                        "format": "integer"
+                                        "format": "object"
                                     },
                                     "work_consistency": {
-                                        "type": "integer",
+                                        "type": "object",
                                         "nullable": false,
-                                        "format": "integer"
+                                        "format": "object"
                                     },
                                     "enthusiasm": {
-                                        "type": "integer",
+                                        "type": "object",
                                         "nullable": false,
-                                        "format": "integer"
+                                        "format": "object"
                                     },
                                     "cooperation": {
-                                        "type": "integer",
+                                        "type": "object",
                                         "nullable": false,
-                                        "format": "integer"
+                                        "format": "object"
                                     },
                                     "attitude": {
-                                        "type": "integer",
+                                        "type": "object",
                                         "nullable": false,
-                                        "format": "integer"
+                                        "format": "object"
                                     },
                                     "initiative": {
-                                        "type": "integer",
+                                        "type": "object",
                                         "nullable": false,
-                                        "format": "integer"
+                                        "format": "object"
                                     },
                                     "work_relations": {
-                                        "type": "integer",
+                                        "type": "object",
                                         "nullable": false,
-                                        "format": "integer"
+                                        "format": "object"
                                     },
                                     "creativity": {
-                                        "type": "integer",
+                                        "type": "object",
                                         "nullable": false,
-                                        "format": "integer"
+                                        "format": "object"
                                     },
                                     "punctuality": {
-                                        "type": "integer",
+                                        "type": "object",
                                         "nullable": false,
-                                        "format": "integer"
+                                        "format": "object"
                                     },
                                     "attendance": {
-                                        "type": "integer",
+                                        "type": "object",
                                         "nullable": false,
-                                        "format": "integer"
+                                        "format": "object"
                                     },
                                     "dependability": {
-                                        "type": "integer",
+                                        "type": "object",
                                         "nullable": false,
-                                        "format": "integer"
+                                        "format": "object"
                                     },
                                     "communication_skills": {
-                                        "type": "integer",
+                                        "type": "object",
                                         "nullable": false,
-                                        "format": "integer"
+                                        "format": "object"
                                     },
                                     "overall_rating": {
-                                        "type": "integer",
+                                        "type": "object",
                                         "nullable": false,
-                                        "format": "integer"
+                                        "format": "object"
                                     },
                                     "reviewer_id": {
-                                        "type": "integer",
+                                        "type": "object",
                                         "nullable": false,
-                                        "format": "integer"
+                                        "format": "object"
                                     },
                                     "company_id": {
-                                        "type": "integer",
+                                        "type": "object",
                                         "nullable": false,
-                                        "format": "integer"
+                                        "format": "object"
                                     },
                                     "reviewer_comment": {
                                         "type": "string",
@@ -2527,14 +2414,14 @@
                                         "format": "integer"
                                     },
                                     "date_from": {
-                                        "type": "string",
+                                        "type": "object",
                                         "nullable": false,
-                                        "format": "string"
+                                        "format": "object"
                                     },
                                     "date_to": {
-                                        "type": "string",
+                                        "type": "object",
                                         "nullable": false,
-                                        "format": "string"
+                                        "format": "object"
                                     }
                                 }
                             }
@@ -2635,43 +2522,7 @@
                         "application/json": {
                             "schema": {
                                 "type": "object",
-                                "properties": {
-                                    "name": {
-                                        "type": "string",
-                                        "nullable": false,
-                                        "format": "string"
-                                    },
-                                    "surname": {
-                                        "type": "string",
-                                        "nullable": false,
-                                        "format": "string"
-                                    },
-                                    "position": {
-                                        "type": "string",
-                                        "nullable": false,
-                                        "format": "string"
-                                    },
-                                    "salary": {
-                                        "type": "integer",
-                                        "nullable": false,
-                                        "format": "integer"
-                                    },
-                                    "email": {
-                                        "type": "object",
-                                        "nullable": false,
-                                        "format": "object"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "nullable": false,
-                                        "format": "string"
-                                    },
-                                    "is_owner": {
-                                        "type": "boolean",
-                                        "nullable": false,
-                                        "format": "boolean"
-                                    }
-                                }
+                                "properties": []
                             }
                         }
                     }

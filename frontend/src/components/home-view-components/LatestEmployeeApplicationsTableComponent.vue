@@ -80,21 +80,16 @@
 
 <script setup>
 import { ref, reactive, onMounted, watch, inject } from "vue";
-import { PencilIcon, TrashIcon } from "@heroicons/vue/24/outline";
-import { useRouter } from "vue-router";
 import useEventsBus from "@/composables/eventBus";
 import ApplicationDataService from "../../services/ApplicationDataService";
 import { useAuthStore } from "../../stores/useAuth";
 import { storeToRefs } from "pinia";
-import ApplicationActionMenuComponent from "../applications/ApplicationActionMenuComponent.vue";
 import ToastService from "../../services/ToastService";
 import moment from "moment";
 
 const $loading = inject("$loading");
-const fullPage = ref(true);
 
-const router = useRouter();
-const { emit, bus } = useEventsBus();
+const { bus } = useEventsBus();
 
 const userStore = useAuthStore();
 const { userData } = storeToRefs(userStore);
@@ -102,7 +97,6 @@ const user = userData.value;
 const userCompanyId = user.user_company_id;
 
 const applications = ref([]);
-const pagination = ref({});
 let filterName = ref("");
 
 const getAllApplications = async (page = 1) => {
@@ -144,7 +138,7 @@ onMounted(() => {
 
 watch(
   () => bus.value.get("refreshApplicationTable"),
-  (data) => {
+  () => {
     getAllApplications();
   }
 );
@@ -152,7 +146,6 @@ watch(
 watch(
   () => bus.value.get("updateApplicationStatus"),
   async (data) => {
-    const applicationId = data[0].applicationId;
     const messageFromAPI = await updateApplicationStatus(data[0].applicationId, {
       status: data[0].status,
     });

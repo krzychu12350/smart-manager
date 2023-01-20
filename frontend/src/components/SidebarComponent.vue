@@ -206,8 +206,6 @@ watch(
   () => bus.value.get("showSidebar"),
   (val, open) => {
     showSidebar();
-
-    const [sidebarCollapsedBus] = val ?? [];
   }
 );
 

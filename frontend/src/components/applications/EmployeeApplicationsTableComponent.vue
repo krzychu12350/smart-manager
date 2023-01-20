@@ -141,6 +141,7 @@ import ApplicationActionMenuComponent from "./ApplicationActionMenuComponent.vue
 import ToastService from "../../services/ToastService";
 import moment from "moment";
 
+const { bus } = useEventsBus();
 const userStore = useAuthStore();
 const { userData } = storeToRefs(userStore);
 const user = userData.value;
@@ -172,4 +173,11 @@ const statusStyles = reactive({
 onMounted(() => {
   getAllUserApplications();
 });
+
+watch(
+  () => bus.value.get("refreshApplicationsTable"),
+  () => {
+    getAllUserApplications();
+  }
+);
 </script>

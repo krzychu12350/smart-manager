@@ -1,13 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import LoginView from '../views/Authentication/LoginView.vue'
 import EmployeeRegisterView from '../views/Authentication/EmployeeRegisterView.vue'
 import OwnerRegisterView from '@/views/Authentication/OwnerRegisterView.vue'
 import RequestPasswordResetView from '@/views/Authentication/RequestPasswordResetView.vue'
 import UpdatePasswordResetView from '@/views/Authentication/UpdatePasswordResetView.vue'
 import UserDashboardView from '@/views/UserDashboardView.vue'
 import ApplicationsManagementView from '@/views/ApplicationsManagementView.vue'
-import CreatingNewCompanyView from '@/views/CreatingNewCompanyView.vue'
-import { storeToRefs } from "pinia";
 import { useAuthStore } from "../stores/useAuth";
 
 const router = createRouter({
@@ -66,8 +63,6 @@ const router = createRouter({
       path: "/admin/applications",
       component: ApplicationsManagementView,
     },
- 
-   
   ]
 })
 

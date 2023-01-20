@@ -18,7 +18,6 @@ export const useAuthStore = defineStore("auth", {
     },
     
     async login(credentials) {
-      //await axios.get("sanctum/csrf-cookie");
       const response = await UserAuthService.login(credentials);
       if (response) {
         const token = `Bearer ${response.authorization.access_token}`;
@@ -42,8 +41,8 @@ export const useAuthStore = defineStore("auth", {
     async logout() {
       const response = await UserAuthService.logout();
       if (response) {
+        TokenService.removeUserAccessToken();
         ToastService.showToast(response.message)
-        localStorage.removeItem("token");
         this.$reset();
         this.loggedIn = false;
       }

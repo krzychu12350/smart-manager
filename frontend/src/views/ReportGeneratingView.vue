@@ -113,7 +113,6 @@ onMounted(() => {
   UserDataService.get(loggedInOwner.user_id)
     .then((res) => {
       ownerCompanies.value = res.data.employee.companies;
-      console.log(ownerCompanies.value);
     })
     .catch((err) => {
       console.log(err);
@@ -127,7 +126,6 @@ const onSubmit = async (newUserData) => {
     date_from: dateInterval.value[0],
     date_to: dateInterval.value[1],
   });
-  console.log(requestPayload.value);
 
   PdfDataService.getSalaryReport(requestPayload.value)
     .then((response) => {
