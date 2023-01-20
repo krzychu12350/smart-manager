@@ -1,9 +1,10 @@
 <h1 align="center">Smart Manager</h1>
 <p align="center">
 <img src="./readme/images/logo.png">
- <figcaption align="center">The progressive web application built with Laravel and Vue.js</figcaption>
 </p>
-
+<p align="center">
+	  <em>The progressive web application built with Laravel and Vue.js</em>
+</p>
 
 ## Table of Contents
 * [About Smart Manager](#about-smart-manager)
@@ -136,93 +137,96 @@ to allow application connect with database and operate with a SMTP server allowi
 ## Screenshots
 
 
-<p>
-    <img src="./readme/images/1.png"  alt="Owner dashboard view"/>
-    <figcaption align="center">Owner dashboard view</figcaption>
+<p align="center">
+    <img src="./readme/images/1.png"  alt="Owner dashboard view" title="This is a Title"/>
 </p>
+<p align="center">
+	  <em>This syntax adds two variables together</em>
+</p>
+
 
 <p>
     <img src="./readme/images/2.png"  alt="Employee management view of the company"/>
-    <figcaption align="center">
-      Employee management view of the company
-    </figcaption>
+</p>
+<p align="center">
+	  <em> Employee management view of the company</em>
 </p>
 
 <p>
     <img src="./readme/images/3.png"  alt="View of managing applications submitted to the company"/>
-    <figcaption align="center">
-      View of managing applications submitted to the company
-    </figcaption>
+</p>
+<p align="center">
+	  <em>View of managing applications submitted to the company</em>
 </p>
 
 <p>
     <img src="./readme/images/4.png"  alt="Salary report generation view"/>
-    <figcaption align="center">
-      Salary report generation view
-    </figcaption>
+</p>
+<p align="center">
+	  <em>Salary report generation view</em>
 </p>
 
 <p>
     <img src="./readme/images/5.png"  alt="View of owner and company data management"/>
-    <figcaption align="center">
-      View of owner and company data management
-    </figcaption>
+</p>
+<p align="center">
+	  <em>View of owner and company data management</em>
 </p>
 
 <p>
     <img src="./readme/images/6.png"  alt="View of the search engine of candidates for employees"/>
-    <figcaption align="center">
-      View of the search engine of candidates for employees
-    </figcaption>
+</p>
+<p align="center">
+	  <em>View of the search engine of candidates for employees</em>
 </p>
 
 <p>
     <img src="./readme/images/7.png"  alt="Login view"/>
-    <figcaption align="center">
-      Login view
-    </figcaption>
+</p>
+<p align="center">
+	  <em>Login view</em>
 </p>
 
 <p>
     <img src="./readme/images/8.png"  alt="Registration view"/>
-    <figcaption align="center">
-      Registration view
-    </figcaption>
+</p>
+<p align="center">
+	  <em>Registration view</em>
 </p>
 
 <p>
     <img src="./readme/images/9.png"  alt="Company creation view"/>
-    <figcaption align="center">
-      Company creation view
-    </figcaption>
+</p>
+<p align="center">
+	  <em>Company creation view</em>
 </p>
 
 <p>
     <img src="./readme/images/10.png"  alt="Employee dashboard view"/>
-    <figcaption align="center">
-      Employee dashboard view
-    </figcaption>
+</p>
+<p align="center">
+	  <em>Employee dashboard view</em>
 </p>
 
 <p>
     <img src="./readme/images/11.png"  alt="Employee data management view"/>
-    <figcaption align="center">  
-      Employee data management view
-    </figcaption>
+</p>
+<p align="center">
+	  <em>Employee data management view</em>
 </p>
 
 <p>
     <img src="./readme/images/12.png"  alt="View of submitted applications and adding submission of new job applications"/>
-    <figcaption align="center">  
-      View of submitted applications and adding submission of new job applications
-    </figcaption>
+</p>
+<p align="center">
+	  <em>View of submitted applications and adding submission of new job applications</em>
 </p>
 
 <p>
     <img src="./readme/images/pwa.png"  alt="Smart Manager running as PWA"/>
-    <figcaption align="center">  
-      Smart Manager running as PWA
-    </figcaption>
+</p>
+<p align="center">
+	  <em>Smart Manager running as PWA</em>
 </p>
 
 ## Database
