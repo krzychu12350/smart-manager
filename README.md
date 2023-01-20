@@ -16,7 +16,7 @@
 * [Database](#database)
 * [API Documentation](#api-documentation)
 * [Example users already existing in the database](#example-users-already-existing-in-the-database)
-
+* [License](#license)
 
 ## About Smart Manager
 
