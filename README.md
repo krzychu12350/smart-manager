@@ -20,7 +20,7 @@
 
 ## About Smart Manager
 
-The application allows you to manage an enterprise and its employees. The application features users with the roles of owner and employee. The application makes it easier for business owners to recruit new employees, allows them to manage their staff, and also supports the automation of financial processes in the business. In the application, a user with the role of employee can manage his data, as well as apply for jobs to various companies.
+The application allows you to manage a company and its employees. The application features users with the roles of owner and employee. The application makes it easier for business owners to recruit new employees, allows them to manage their staff, and also supports the automation of financial processes in the business. In the application, a user with the role of employee can manage his data, as well as apply for jobs to various companies.
 
 ## Tech Stack
 **Client**<br>
