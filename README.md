@@ -25,7 +25,7 @@ The application allows you to manage an enterprise and its employees. The applic
 ## Tech Stack
 **Client**<br>
 
-<img src="https://skillicons.dev/icons?i=html,css,bootstrap,vue,vite" /> 
+<img src="https://skillicons.dev/icons?i=tailwind,vue,vite" /> 
 
 **Server**<br>
 
