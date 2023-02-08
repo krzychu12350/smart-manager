@@ -141,7 +141,7 @@ to allow application connect with database and operate with a SMTP server allowi
     <img src="./readme/images/1.png"  alt="Owner dashboard view" title="This is a Title"/>
 </p>
 <p align="center">
-	  <em>This syntax adds two variables together</em>
+	  <em>View of the owner's dashboard</em>
 </p>
 
 
